@@ -1,4 +1,4 @@
-# Waku Vibe Template
+# Waku Chat POC 
 
 This is a project template for vibe coding with Waku in nim. 
 
