@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package umbra.common_frames;
+
+message ContentFrame {
+    uint32 domain = 1;
+    uint32 tag = 2;
+    bytes bytes = 3;
+}
