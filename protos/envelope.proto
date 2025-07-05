@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package umbra.envelope;
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Payload Framing Messages
+///////////////////////////////////////////////////////////////////////////////
+
+message UmbraEnvelopeV1 {
+    
+    string conversation_hint = 1;
+    uint64 salt = 2;           
+    
+    bytes payload = 5;
+}
