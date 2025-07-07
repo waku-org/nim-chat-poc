@@ -33,13 +33,13 @@ type
 
 
 type
-  Client* = object
+  Client* = ref object
     ident: Identity
     key_store: Table[string, KeyEntry]         # Keyed by HexEncoded Public Key
     conversations: Table[string, ConvoWrapper] # Keyed by conversation ID
 
 
-proc process_invite*(self: Client, invite: InvitePrivateV1)
+proc process_invite*(self: var Client, invite: InvitePrivateV1)
 
 
 #################################################
@@ -72,6 +72,11 @@ proc getClientAddr*(self: Client): string =
 proc default_inbox_conversation_id*(self: Client): string =
   ## Returns the default inbox address for the client.
   result = conversation_id_for(self.ident.getPubkey())
+
+
+proc getConversations*(self: Client): Table[string, ConvoWrapper] =
+  ## Returns the conversations table for the client.
+  result = self.conversations
 
 #################################################
 # Methods
@@ -115,7 +120,11 @@ proc createPrivateConvo*(self: Client, intro_bundle: IntroBundle): TransportMess
   let dst_convo_topic = topic_inbox(dest_pubkey.get_addr())
 
   let invite = InvitePrivateV1(
-    participants: @[self.ident.getAddr(), dest_pubkey.get_addr()],
+    initiator: @(self.ident.getPubkey().toRawCompressed()),
+    initiator_ephemeral: @[0, 0], # TODO: Add ephemeral
+    participant: @(dest_pubkey.toRawCompressed()),
+    participant_ephemeral_id: intro_bundle.ephemeral_id,
+    discriminator: "test"
   )
   let env = wrap_env(encrypt(InboxV1Frame(invite_private_v1: invite,
       recipient: "")), convo_id)
@@ -171,5 +180,24 @@ proc recv*(self: var Client, transport_message: TransportMessage): seq[
 
 
 
-proc process_invite*(self: Client, invite: InvitePrivateV1) =
+proc process_invite*(self: var Client, invite: InvitePrivateV1) =
   debug "Callback Invoked", invite = invite
+
+  # Does this match one of my accounts??
+
+  let convo = initPrivateV1(
+      self.ident,
+      PublicKey.fromRaw(invite.initiator).get(),
+      # PublicKey.fromRaw(invite.initiator_ephemeral).get(),
+        # invite.participant_ephemeral_id,
+    invite.discriminator,
+  )
+
+  info "Creating PrivateV1 conversation", topic = convo.get_topic
+  self.conversations[convo.get_topic()] = ConvoWrapper(
+    convo_type: PrivateV1Type,
+    privateV1: convo
+  )
+
+  echo self.conversations
+

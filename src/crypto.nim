@@ -6,7 +6,7 @@ export secp256k1
 
 
 type KeyPair* = SkKeyPair
-
+type PublicKey* = SkPublicKey
 
 
 proc encrypt_plain*[T: EncryptableTypes](frame: T): EncryptedPayload =

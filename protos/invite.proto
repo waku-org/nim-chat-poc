@@ -3,5 +3,9 @@ syntax = "proto3";
 package umbra.invite;
 
 message InvitePrivateV1 {
-    repeated string participants = 1;
+    bytes initiator = 1;
+    bytes initiator_ephemeral = 2;
+    bytes participant = 3;
+    int32 participant_ephemeral_id= 4;
+    string discriminator = 5;
 }
