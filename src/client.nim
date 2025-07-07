@@ -106,7 +106,19 @@ proc createIntroBundle*(self: var Client): IntroBundle =
     ephemeral: @(ephemeral_keypair.pubkey.toRawCompressed()),
   )
 
-proc createPrivateConvo*(self: Client, intro_bundle: IntroBundle): TransportMessage =
+proc createPrivateConversation*(self: var Client, participant: PublicKey,
+    discriminator: string = "default") =
+  ## Creates a private conversation with the given participant and discriminator.
+  let convo = initPrivateV1(self.ident, participant, discriminator)
+
+  info "Creating PrivateV1 conversation", topic = convo.get_topic
+  self.conversations[convo.get_topic()] = ConvoWrapper(
+    convo_type: PrivateV1Type,
+    privateV1: convo
+  )
+
+
+proc handleIntro*(self: var Client, intro_bundle: IntroBundle): TransportMessage =
   ## Creates a private conversation with the given Invitebundle.
 
 
@@ -129,17 +141,7 @@ proc createPrivateConvo*(self: Client, intro_bundle: IntroBundle): TransportMess
   let env = wrap_env(encrypt(InboxV1Frame(invite_private_v1: invite,
       recipient: "")), convo_id)
 
-  # Create a new conversation
-  # let convo_id = self.ident.getAddr() & "-" & raya_bundle.ident.toHexCompressed()
-  # let new_convo = Conversation(id: convo_id, participants: @[self.ident,
-  #     Identity(name: "Raya", keypair: SkKeyPair.fromRawCompressed(
-  #     raya_bundle.ident))])
-
-  # Add the conversation to the client's store
-  # self.addConversation(new_convo)
-
-  # Return the invite (or any other relevant data)
-  # return new_convo
+  createPrivateConversation(self, dest_pubkey)
 
   return sendTo(dst_convo_topic, encode(env))
 
@@ -180,24 +182,12 @@ proc recv*(self: var Client, transport_message: TransportMessage): seq[
 
 
 
-proc process_invite*(self: var Client, invite: InvitePrivateV1) =
+proc processInvite*(self: var Client, invite: InvitePrivateV1) =
   debug "Callback Invoked", invite = invite
 
-  # Does this match one of my accounts??
+  createPrivateConversation(self, PublicKey.fromRaw(
+      invite.initiator).get(),
+    invite.discriminator)
 
-  let convo = initPrivateV1(
-      self.ident,
-      PublicKey.fromRaw(invite.initiator).get(),
-      # PublicKey.fromRaw(invite.initiator_ephemeral).get(),
-        # invite.participant_ephemeral_id,
-    invite.discriminator,
-  )
 
-  info "Creating PrivateV1 conversation", topic = convo.get_topic
-  self.conversations[convo.get_topic()] = ConvoWrapper(
-    convo_type: PrivateV1Type,
-    privateV1: convo
-  )
-
-  echo self.conversations
 

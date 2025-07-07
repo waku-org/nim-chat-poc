@@ -17,7 +17,7 @@ proc demo() =
   let raya_bundle = raya.createIntroBundle()
 
   # Create Conversation
-  let invite = saro.createPrivateConvo(raya_bundle)
+  let invite = saro.handleIntro(raya_bundle)
   invite.log()
   let msgs = raya.recv(invite)
 
