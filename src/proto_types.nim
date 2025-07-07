@@ -40,6 +40,7 @@ type
   IntroBundle {.proto3.} = object
     ident* {.fieldNumber: 1.}: seq[byte]
     ephemeral* {.fieldNumber: 2.}: seq[byte]
+    ephemeral_id* {.fieldNumber: 3.}: int32
 
 
 export IntroBundle
@@ -50,7 +51,7 @@ type
     topic* {.fieldNumber: 1.}: string
     payload* {.fieldNumber: 2.}: seq[byte]
 
-
+# Place holder for a transport channel
 proc sendTo*(topic: string, payload: seq[byte]): TransportMessage =
   result = TransportMessage(topic: topic, payload: payload)
 
