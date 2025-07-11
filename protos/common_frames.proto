@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package umbra.common_frames;
+package wap.common_frames;
 
 message ContentFrame {
     uint32 domain = 1;

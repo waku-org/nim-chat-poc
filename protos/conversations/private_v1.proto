@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package umbra.convos.private_v1;
+package wap.convos.private_v1;
 
 import "common_frames.proto";
 

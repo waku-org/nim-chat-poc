@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package umbra.invite;
+package wap.invite;
 
 message InvitePrivateV1 {
     bytes initiator = 1;

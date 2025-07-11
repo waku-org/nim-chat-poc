@@ -158,9 +158,9 @@ proc get_conversation(self: Client,
 proc recv*(self: var Client, transport_message: TransportMessage): seq[
     TransportMessage] =
   ## Reveives a incomming payload, decodes it, and processes it.
-  let res_env = decode(transport_message.payload, UmbraEnvelopeV1)
+  let res_env = decode(transport_message.payload, WapEnvelopeV1)
   if res_env.isErr:
-    raise newException(ValueError, "Failed to decode UmbraEnvelopeV1: " & res_env.error)
+    raise newException(ValueError, "Failed to decode WapEnvelopeV1: " & res_env.error)
   let env = res_env.get()
 
   let res_convo = self.get_conversation(env.conversation_hint)

@@ -22,11 +22,11 @@ proc initInbox*(inbox_addr: string, invite_callback: InviteCallback): Inbox =
 proc encrypt*(frame: InboxV1Frame): EncryptedPayload =
   return encrypt_plain(frame)
 
-proc wrap_env*(payload: EncryptedPayload, convo_id: string): UmbraEnvelopeV1 =
+proc wrap_env*(payload: EncryptedPayload, convo_id: string): WapEnvelopeV1 =
   let bytes = encode(payload)
   let salt = generateSalt()
 
-  return UmbraEnvelopeV1(
+  return WapEnvelopeV1(
     payload: bytes,
     salt: salt,
     conversation_hint: convo_id,
