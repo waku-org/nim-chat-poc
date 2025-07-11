@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package umbra.encryption;
+package wap.encryption;
 
 
 // TODO: This also encompasses plaintexts, is there a better name?
