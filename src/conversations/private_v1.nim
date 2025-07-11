@@ -4,7 +4,6 @@ import ../utils
 
 import std/[sequtils, strutils]
 import std/algorithm
-import blake2
 import sugar
 
 type
@@ -27,7 +26,7 @@ proc derive_topic(participants: seq[PublicKey], discriminator: string): string =
   addrs.add(discriminator)
   let raw = addrs.join("|")
 
-  return "/convo/private/" & getBlake2b(raw, 18, "")
+  return "/convo/private/" & utils.hash_func(raw)
 
 
 
