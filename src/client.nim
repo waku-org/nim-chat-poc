@@ -121,14 +121,12 @@ proc createPrivateConversation*(self: var Client, participant: PublicKey,
 proc handleIntro*(self: var Client, intro_bundle: IntroBundle): TransportMessage =
   ## Creates a private conversation with the given Invitebundle.
 
-
-
   let res_pubkey = SkPublicKey.fromRaw(intro_bundle.ident)
   if res_pubkey.isErr:
     raise newException(ValueError, "Invalid public key in intro bundle.")
   let dest_pubkey = res_pubkey.get()
-  let convo_id = "/convo/inbox/" & dest_pubkey.getAddr()
 
+  let convo_id = conversation_id_for(dest_pubkey)
   let dst_convo_topic = topic_inbox(dest_pubkey.get_addr())
 
   let invite = InvitePrivateV1(

@@ -34,11 +34,11 @@ proc wrap_env*(payload: EncryptedPayload, convo_id: string): WapEnvelopeV1 =
 
 proc conversation_id_for*(pubkey: SkPublicKey): string =
   ## Generates a conversation ID based on the public key.
-  return "/convo/inbox/" & pubkey.get_addr()
+  return "/convo/inbox/v1" & pubkey.get_addr()
 
 # TODO derive this from instance of Inbox
 proc topic_inbox*(client_addr: string): string =
-  return "/inbox/v1/" & client_addr
+  return "/inbox/" & client_addr
 
 
 proc handle_incomming_frame*(self: Inbox, topic: string, bytes: seq[
