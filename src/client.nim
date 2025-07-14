@@ -82,13 +82,6 @@ proc getConversations*(self: Client): Table[string, ConvoWrapper] =
 # Methods
 #################################################
 
-# proc addConversation*(c: var Client, convo: Conversation) =
-#   if not c.conversations.hasKey(convo.getConvoId()):
-#     c.conversations[convo.getConvoId()] = convo
-#   else:
-#     echo "Conversation with ID ", convo.getConvoId(), " already exists."
-
-
 proc createIntroBundle*(self: var Client): IntroBundle =
   ## Generates an IntroBundle for the client, which includes
   ## the required information to send a message.
