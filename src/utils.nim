@@ -2,6 +2,7 @@ import waku/waku_core
 import std/[random, times]
 import crypto
 import blake2
+import strutils
 
 proc getTimestamp*(): Timestamp =
     result = waku_core.getNanosecondTime(getTime().toUnix())
@@ -21,4 +22,9 @@ proc get_addr*(pubkey: SkPublicKey): string =
     result = hash_func(pubkey.toHexCompressed())
 
 
-
+proc bytesToHex*(bytes: openarray[byte], lowercase: bool = false): string =
+  ## Convert bytes to hex string with case option
+  result = ""
+  for b in bytes:
+    let hex = b.toHex(2)
+    result.add(if lowercase: hex.toLower() else: hex)
