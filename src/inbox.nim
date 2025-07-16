@@ -2,8 +2,8 @@ import crypto
 import proto_types
 import utils
 import dev
-
 import chronicles
+import results
 
 
 type InviteCallback* = proc(invite: InvitePrivateV1): void
@@ -32,7 +32,7 @@ proc wrap_env*(payload: EncryptedPayload, convo_id: string): WapEnvelopeV1 =
     conversation_hint: convo_id,
   )
 
-proc conversation_id_for*(pubkey: SkPublicKey): string =
+proc conversation_id_for*(pubkey: PublicKey): string =
   ## Generates a conversation ID based on the public key.
   return "/convo/inbox/v1" & pubkey.get_addr()
 

@@ -14,7 +14,7 @@ import chronicles
 
 type KeyEntry* = object
   keytype: string
-  keypair: SkKeyPair
+  privateKey: PrivateKey
   timestamp: int64
 
 
@@ -87,16 +87,16 @@ proc createIntroBundle*(self: var Client): IntroBundle =
   ## the required information to send a message.
 
   # Create Ephemeral keypair, save it in the key store
-  let ephemeral_keypair = generate_keypair()
-  self.key_store[ephemeral_keypair.pubkey.toHexCompressed()] = KeyEntry(
+  let ephemeral_key = generate_key()
+  self.key_store[ephemeral_key.getPublickey().bytes().bytesToHex()] = KeyEntry(
     keytype: "ephemeral",
-    keypair: ephemeral_keypair,
+    privateKEy: ephemeral_key,
     timestamp: getTime().toUnix(),
   )
 
   result = IntroBundle(
-    ident: @(self.ident.getPubkey().toRawCompressed()),
-    ephemeral: @(ephemeral_keypair.pubkey.toRawCompressed()),
+    ident: @(self.ident.getPubkey().bytes()),
+    ephemeral: @(ephemeral_key.getPublicKey().bytes()),
   )
 
 proc createPrivateConversation*(self: var Client, participant: PublicKey,
@@ -114,7 +114,7 @@ proc createPrivateConversation*(self: var Client, participant: PublicKey,
 proc handleIntro*(self: var Client, intro_bundle: IntroBundle): TransportMessage =
   ## Creates a private conversation with the given Invitebundle.
 
-  let res_pubkey = SkPublicKey.fromRaw(intro_bundle.ident)
+  let res_pubkey = loadPublicKeyFromBytes(intro_bundle.ident)
   if res_pubkey.isErr:
     raise newException(ValueError, "Invalid public key in intro bundle.")
   let dest_pubkey = res_pubkey.get()
@@ -123,9 +123,9 @@ proc handleIntro*(self: var Client, intro_bundle: IntroBundle): TransportMessage
   let dst_convo_topic = topic_inbox(dest_pubkey.get_addr())
 
   let invite = InvitePrivateV1(
-    initiator: @(self.ident.getPubkey().toRawCompressed()),
+    initiator: @(self.ident.getPubkey().bytes()),
     initiator_ephemeral: @[0, 0], # TODO: Add ephemeral
-    participant: @(dest_pubkey.toRawCompressed()),
+    participant: @(dest_pubkey.bytes()),
     participant_ephemeral_id: intro_bundle.ephemeral_id,
     discriminator: "test"
   )
@@ -176,7 +176,7 @@ proc recv*(self: var Client, transport_message: TransportMessage): seq[
 proc processInvite*(self: var Client, invite: InvitePrivateV1) =
   debug "Callback Invoked", invite = invite
 
-  createPrivateConversation(self, PublicKey.fromRaw(
+  createPrivateConversation(self, loadPublicKeyFromBytes(
       invite.initiator).get(),
     invite.discriminator)
 

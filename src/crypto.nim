@@ -1,12 +1,11 @@
 import proto_types
 
-import secp256k1
+import crypto/ecdh
 import std/[sysrand]
-export secp256k1
+import results
 
-
-type KeyPair* = SkKeyPair
-type PublicKey* = SkPublicKey
+export PublicKey, PrivateKey, bytes, createRandomKey, loadPrivateKeyFromBytes, loadPublicKeyFromBytes,
+       getPublicKey, Dh, Result
 
 
 proc encrypt_plain*[T: EncryptableTypes](frame: T): EncryptedPayload =
@@ -23,11 +22,6 @@ proc decrypt_plain*[T: EncryptableTypes](ciphertext: Plaintext, t: typedesc[
 
   result = ok(obj.get())
 
-proc generate_keypair*(): KeyPair =
-  var rng: Rng = urandom
-  let res = SkKeyPair.random(rng)
-  if res.isErr:
-    raise newException(ValueError, "Failed to generate keypair: ")
-
-  result = res.get()
+proc generate_key*(): PrivateKey =
+  createRandomKey().get()
 

@@ -21,10 +21,15 @@ proc createRandomKey*(): Result[PrivateKey, string] =
     return err("Failed to create HmacDrbgContext with system randomness")
   ok(PrivateKey(bytes: Curve25519Key.random(rng[])))
 
-proc loadKeyFromBytes*(bytes: openArray[byte]): Result[PrivateKey, string] =
+proc loadPrivateKeyFromBytes*(bytes: openArray[byte]): Result[PrivateKey, string] =
   if bytes.len != Curve25519KeySize:
     return err("Private key size must be 32 bytes")
   ok(PrivateKey(bytes: intoCurve25519Key(bytes)))
+
+proc loadPublicKeyFromBytes*(bytes: openArray[byte]): Result[PublicKey, string] =
+  if bytes.len != Curve25519KeySize:
+    return err("Public key size must be 32 bytes")
+  ok(PublicKey(bytes: intoCurve25519Key(bytes)))
 
 
 proc getPublicKey*(privateKey: PrivateKey): PublicKey =

@@ -1,12 +1,13 @@
 
 import crypto
 import utils
+import results
 
 
 type
   Identity* = object
     name: string
-    keypair: KeyPair
+    privateKey: PrivateKey
 
 
 #################################################
@@ -14,17 +15,17 @@ type
 #################################################
 
 proc createIdentity*(name: string): Identity =
-  let keypair = generate_keypair()
-  result = Identity(name: name, keypair: keypair)
+  let privKey = createRandomKey().get()
+  result = Identity(name: name, privateKey: privKey)
 
 
 #################################################
 # Parameter Access
 #################################################
 
+proc getPubkey*(self: Identity): PublicKey =
+  result = self.privateKey.getPublicKey()
+
 proc getAddr*(self: Identity): string =
-  result = get_addr(self.keypair.pubkey)
+  result = get_addr(self.getPubKey())
 
-
-proc getPubkey*(self: Identity): SkPublicKey =
-  result = self.keypair.pubkey
