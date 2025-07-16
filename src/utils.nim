@@ -21,10 +21,14 @@ proc get_addr*(pubkey: SkPublicKey): string =
     # TODO: Needs Spec
     result = hash_func(pubkey.toHexCompressed())
 
+proc bytesToHex*[T](bytes: openarray[T], lowercase: bool = false): string =
+    ## Convert bytes to hex string with case option
+    result = ""
+    for b in bytes:
+        let hex = b.toHex(2)
+        result.add(if lowercase: hex.toLower() else: hex)
 
-proc bytesToHex*(bytes: openarray[byte], lowercase: bool = false): string =
-  ## Convert bytes to hex string with case option
-  result = ""
-  for b in bytes:
-    let hex = b.toHex(2)
-    result.add(if lowercase: hex.toLower() else: hex)
+proc get_addr*(pubkey: PublicKey): string =
+    # TODO: Needs Spec
+    result = hash_func(pubkey.bytes().bytesToHex())
+
