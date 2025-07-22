@@ -8,6 +8,11 @@ srcDir        = "src"
 bin           = @["waku_vibe_template"]
 
 
+# Basic build task
+task initialize, "Initialize the project after cloning":
+  exec "./initialize.sh"
+
+
 # Dependencies
 
 requires "nim >= 2.2.4"
