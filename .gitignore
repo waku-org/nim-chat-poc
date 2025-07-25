@@ -1,2 +1,4 @@
 /waku_vibe_template
 /waku_vibe_template.dSYM
+/nim_chat_poc
+*.dSYM

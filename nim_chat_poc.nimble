@@ -5,7 +5,7 @@ author        = "jazzz"
 description   = "An example of the chat sdk in Nim"
 license       = "MIT"
 srcDir        = "src"
-bin           = @["waku_vibe_template"]
+bin           = @["nim_chat_poc"]
 
 
 # Basic build task
