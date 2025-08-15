@@ -7,19 +7,10 @@ import strutils
 proc getTimestamp*(): Timestamp =
     result = waku_core.getNanosecondTime(getTime().toUnix())
 
-proc generateSalt*(): uint64 =
-    randomize()
-    result = 0
-    for i in 0 ..< 8:
-        result = result or (uint64(rand(255)) shl (i * 8))
 
 proc hash_func*(s: string): string =
     # This should be Blake2s but it does not exist so substituting with Blake2b
     result = getBlake2b(s, 4, "")
-
-proc get_addr*(pubkey: SkPublicKey): string =
-    # TODO: Needs Spec
-    result = hash_func(pubkey.toHexCompressed())
 
 proc bytesToHex*[T](bytes: openarray[T], lowercase: bool = false): string =
     ## Convert bytes to hex string with case option
@@ -32,3 +23,8 @@ proc get_addr*(pubkey: PublicKey): string =
     # TODO: Needs Spec
     result = hash_func(pubkey.bytes().bytesToHex())
 
+proc toBytes*(s: string): seq[byte] =
+    result = cast[seq[byte]](s)
+
+proc toUtfString*(b: seq[byte]): string =
+    result = cast[string](b)

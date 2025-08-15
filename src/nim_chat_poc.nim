@@ -1,67 +1,48 @@
+import chronos
+import chronicles
+import client
+import waku_client
 
-import
-  chronicles,
-  chronos,
-  strformat
+proc initLogging() =
+  when defined(chronicles_runtime_filtering):
+    setLogLevel(LogLevel.Debug)
+    discard setTopicState("waku filter", chronicles.Normal, LogLevel.Error)
+    discard setTopicState("waku relay", chronicles.Normal, LogLevel.Error)
+    discard setTopicState("chat client", chronicles.Enabled, LogLevel.Debug)
 
-import
-  waku_client
+proc main() {.async.} =
 
+  # Create Configurations
+  var cfg_saro = DefaultConfig()
+  var cfg_raya = DefaultConfig()
 
-proc handleMessages(pubsubTopic: string, message: seq[byte]): Future[
-    void] {.gcsafe, raises: [Defect].} =
-  info "ClientRecv", pubTopic = pubsubTopic, msg = message
+  # Cross pollinate Peers
+  cfg_saro.staticPeers.add(cfg_raya.getMultiAddr())
+  cfg_raya.staticPeers.add(cfg_saro.getMultiAddr())
 
-proc demoSendLoop(client: WakuClient): Future[void] {.async.} =
-  for i in 1..10:
-    await sleepAsync(20.seconds)
-    discard client.sendMessage(&"Message:{i}")
+  info "CFG", cfg = cfg_raya
+  info "CFG", cfg = cfg_saro
 
-proc main(): Future[void] {.async.} =
-  echo "Starting POC"
-  let cfg = DefaultConfig()
-  let client = initWakuClient(cfg, @[PayloadHandler(handleMessages)])
-  asyncSpawn client.start()
+  # Start Clients
+  var saro = newClient("Saro", cfg_saro)
+  await saro.start()
 
-  await demoSendLoop(client)
+  var raya = newClient("Raya", cfg_raya)
+  await raya.start()
 
-  echo "End of POC"
+  await sleepAsync(5000)
+
+  # Perform OOB Introduction: Raya -> Saro
+  let raya_bundle = raya.createIntroBundle()
+  discard await saro.newPrivateConversation(raya_bundle)
+
+  # Let messages process
+  await sleepAsync(400000)
+
+  saro.stop()
+  raya.stop()
 
 when isMainModule:
+  initLogging()
   waitFor main()
-
-# import client
-# import chronicles
-# import proto_types
-
-# proc log(transport_message: TransportMessage) =
-#   ## Log the transport message
-#   info "Transport Message:", topic = transport_message.topic,
-#       payload = transport_message.payload
-
-# proc demo() =
-
-#   # Initalize Clients
-#   var saro = initClient("Saro")
-#   var raya = initClient("Raya")
-
-#   # # Exchange Contact Info
-#   let raya_bundle = raya.createIntroBundle()
-
-#   # Create Conversation
-#   let invite = saro.createPrivateConvo(raya_bundle)
-#   invite.log()
-#   let msgs = raya.recv(invite)
-
-#   # raya.convos()[0].sendText("Hello Saro, this is Raya!")
-
-
-# when isMainModule:
-#   echo("Starting ChatPOC...")
-
-#   try:
-#     demo()
-#   except Exception as e:
-#     error "Crashed ", error = e.msg
-
-#   echo("Finished...")
+  notice "Shutdown"

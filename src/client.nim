@@ -1,16 +1,26 @@
-import tables
-import identity
-import crypto
-import proto_types
-import std/times
-import utils
-import dev
-import inbox
 
-import conversations/private_v1
+import # Foreign
+  chronicles,
+  chronos,
+  json,
+  std/sequtils,
+  strformat,
+  strutils,
+  tables
 
-import secp256k1
-import chronicles
+import #local
+  conversations/private_v1,
+  crypto,
+  identity,
+  inbox,
+  proto_types,
+  types,
+  utils,
+  waku_client
+
+
+logScope:
+  topics = "chat client"
 
 type KeyEntry* = object
   keytype: string
@@ -18,9 +28,9 @@ type KeyEntry* = object
   timestamp: int64
 
 
-type SupportedConvoTypes* = Inbox | PrivateV1
-
 type
+  SupportedConvoTypes* = Inbox | PrivateV1
+
   ConvoType* = enum
     InboxV1Type, PrivateV1Type
 
@@ -31,56 +41,38 @@ type
     of PrivateV1Type:
       privateV1*: PrivateV1
 
-
-type
-  Client* = ref object
-    ident: Identity
-    key_store: Table[string, KeyEntry]         # Keyed by HexEncoded Public Key
-    conversations: Table[string, ConvoWrapper] # Keyed by conversation ID
-
-
-proc process_invite*(self: var Client, invite: InvitePrivateV1)
+type Client* = ref object
+  ident: Identity
+  ds*: WakuClient
+  key_store: Table[string, KeyEntry]         # Keyed by HexEncoded Public Key
+  conversations: Table[string, ConvoWrapper] # Keyed by conversation ID
+  inboundQueue: QueueRef
+  isRunning: bool
 
 
-#################################################
-# Constructors
-#################################################
+proc newClient*(name: string, cfg: WakuConfig): Client =
+  let waku = initWakuClient(cfg)
 
-proc initClient*(name: string): Client =
-
-
+  var q = QueueRef(queue: newAsyncQueue[ChatPayload](10))
   var c = Client(ident: createIdentity(name),
+                 ds: waku,
                  key_store: initTable[string, KeyEntry](),
-                 conversations: initTable[string, ConvoWrapper]())
+                 conversations: initTable[string, ConvoWrapper](),
+                 inboundQueue: q,
+                 isRunning: false)
 
-  let default_inbox = initInbox(c.ident.getAddr(), proc(
-        x: InvitePrivateV1) = c.process_invite(x))
-
+  let default_inbox = initInbox(c.ident.getAddr())
   c.conversations[conversation_id_for(c.ident.getPubkey(
     ))] = ConvoWrapper(convo_type: InboxV1Type, inboxV1: default_inbox)
 
+
+  notice "Client started", client = c.ident.getId(),
+      default_inbox = default_inbox
   result = c
-
-
-#################################################
-# Parameter Access
-#################################################
-
-proc getClientAddr*(self: Client): string =
-  result = self.ident.getAddr()
 
 proc default_inbox_conversation_id*(self: Client): string =
   ## Returns the default inbox address for the client.
   result = conversation_id_for(self.ident.getPubkey())
-
-
-proc getConversations*(self: Client): Table[string, ConvoWrapper] =
-  ## Returns the conversations table for the client.
-  result = self.conversations
-
-#################################################
-# Methods
-#################################################
 
 proc createIntroBundle*(self: var Client): IntroBundle =
   ## Generates an IntroBundle for the client, which includes
@@ -90,8 +82,8 @@ proc createIntroBundle*(self: var Client): IntroBundle =
   let ephemeral_key = generate_key()
   self.key_store[ephemeral_key.getPublickey().bytes().bytesToHex()] = KeyEntry(
     keytype: "ephemeral",
-    privateKEy: ephemeral_key,
-    timestamp: getTime().toUnix(),
+    privateKey: ephemeral_key,
+    timestamp: getTimestamp()
   )
 
   result = IntroBundle(
@@ -99,20 +91,28 @@ proc createIntroBundle*(self: var Client): IntroBundle =
     ephemeral: @(ephemeral_key.getPublicKey().bytes()),
   )
 
-proc createPrivateConversation*(self: var Client, participant: PublicKey,
-    discriminator: string = "default") =
-  ## Creates a private conversation with the given participant and discriminator.
-  let convo = initPrivateV1(self.ident, participant, discriminator)
+  notice "IntroBundleCreated", client = self.ident.getId(),
+      pubBytes = result.ident
 
-  info "Creating PrivateV1 conversation", topic = convo.get_topic
-  self.conversations[convo.get_topic()] = ConvoWrapper(
+proc createPrivateConversation(client: Client, participant: PublicKey,
+    discriminator: string = "default"): Option[ChatError] =
+  # Creates a private conversation with the given participant and discriminator.
+  let convo = initPrivateV1(client.ident, participant, discriminator)
+
+  notice "Creating PrivateV1 conversation", topic = convo.getConvoId()
+  client.conversations[convo.getConvoId()] = ConvoWrapper(
     convo_type: PrivateV1Type,
     privateV1: convo
   )
 
+  return some(convo.getConvoId())
 
-proc handleIntro*(self: var Client, intro_bundle: IntroBundle): TransportMessage =
+proc newPrivateConversation*(client: Client,
+    intro_bundle: IntroBundle): Future[Option[ChatError]] {.async.} =
   ## Creates a private conversation with the given Invitebundle.
+
+  notice "New PRIVATE Convo ", clientId = client.ident.getId(),
+      fromm = intro_bundle.ident.mapIt(it.toHex(2)).join("")
 
   let res_pubkey = loadPublicKeyFromBytes(intro_bundle.ident)
   if res_pubkey.isErr:
@@ -123,7 +123,7 @@ proc handleIntro*(self: var Client, intro_bundle: IntroBundle): TransportMessage
   let dst_convo_topic = topic_inbox(dest_pubkey.get_addr())
 
   let invite = InvitePrivateV1(
-    initiator: @(self.ident.getPubkey().bytes()),
+    initiator: @(client.ident.getPubkey().bytes()),
     initiator_ephemeral: @[0, 0], # TODO: Add ephemeral
     participant: @(dest_pubkey.bytes()),
     participant_ephemeral_id: intro_bundle.ephemeral_id,
@@ -132,11 +132,32 @@ proc handleIntro*(self: var Client, intro_bundle: IntroBundle): TransportMessage
   let env = wrap_env(encrypt(InboxV1Frame(invite_private_v1: invite,
       recipient: "")), convo_id)
 
-  createPrivateConversation(self, dest_pubkey)
+  let convo = createPrivateConversation(client, dest_pubkey)
+  # TODO: Subscribe to new content topic
 
-  return sendTo(dst_convo_topic, encode(env))
+  await client.ds.sendPayload(dst_convo_topic, env)
+  return none(ChatError)
 
-proc get_conversation(self: Client,
+proc acceptPrivateInvite(client: Client,
+    invite: InvitePrivateV1): Option[ChatError] =
+
+
+  notice "ACCEPT PRIVATE Convo ", clientId = client.ident.getId(),
+      fromm = invite.initiator.mapIt(it.toHex(2)).join("")
+
+  let res_pubkey = loadPublicKeyFromBytes(invite.initiator)
+  if res_pubkey.isErr:
+    raise newException(ValueError, "Invalid public key in intro bundle.")
+  let dest_pubkey = res_pubkey.get()
+
+  let convo = createPrivateConversation(client, dest_pubkey)
+  # TODO: Subscribe to new content topic
+
+  result = none(ChatError)
+
+
+
+proc getConversationFromHint(self: Client,
     conversation_hint: string): Result[Option[ConvoWrapper], string] =
 
   # TODO: Implementing Hinting
@@ -146,39 +167,121 @@ proc get_conversation(self: Client,
     ok(some(self.conversations[conversation_hint]))
 
 
-proc recv*(self: var Client, transport_message: TransportMessage): seq[
-    TransportMessage] =
+proc handleInboxFrame(client: Client, frame: InboxV1Frame) =
+  case getKind(frame):
+  of type_InvitePrivateV1:
+    notice "Receive PrivateInvite", client = client.ident.getId(),
+        frame = frame.invite_private_v1
+    discard client.acceptPrivateInvite(frame.invite_private_v1)
+
+  of type_Note:
+    notice "Receive Note", text = frame.note.text
+
+proc handlePrivateFrame(client: Client, convo: PrivateV1, bytes: seq[byte]) =
+  let enc = decode(bytes, EncryptedPayload).get()       # TODO: handle result
+  let frame = convo.decrypt(enc) # TODO: handle result
+
+  case frame.getKind():
+  of type_ContentFrame:
+    notice "Got Mail", client = client.ident.getId(),
+        text = frame.content.bytes.toUtfString()
+  of type_Placeholder:
+    notice "Got Placeholder", client = client.ident.getId(),
+        text = frame.placeholder.counter
+
+proc parseMessage(client: Client, msg: ChatPayload) =
   ## Reveives a incomming payload, decodes it, and processes it.
-  let res_env = decode(transport_message.payload, WapEnvelopeV1)
+  info "Parse", clientId = client.ident.getId(), msg = msg,
+      contentTopic = msg.contentTopic
+
+  let res_env = decode(msg.bytes, WapEnvelopeV1)
   if res_env.isErr:
-    raise newException(ValueError, "Failed to decode WapEnvelopeV1: " & res_env.error)
+    raise newException(ValueError, "Failed to decode WsapEnvelopeV1: " & res_env.error)
   let env = res_env.get()
 
-  let res_convo = self.get_conversation(env.conversation_hint)
+  let res_convo = client.getConversationFromHint(env.conversation_hint)
   if res_convo.isErr:
     raise newException(ValueError, "Failed to get conversation: " &
         res_convo.error)
 
-  let convo = res_convo.get()
-  if not convo.isSome:
-    debug "No conversation found", hint = env.conversation_hint
+  let resWrappedConvo = res_convo.get()
+  if not resWrappedConvo.isSome:
+    let k = toSeq(client.conversations.keys()).join(", ")
+    warn "No conversation found", client = client.ident.getId(),
+        hint = env.conversation_hint, knownIds = k
     return
 
-  let inbox = convo.get().inboxV1
+  let wrappedConvo = resWrappedConvo.get()
 
-  let res = inbox.handle_incomming_frame(transport_message.topic, env.payload)
-  if res.isErr:
-    warn "Failed to handle incoming frame: ", error = res.error
-  return @[]
+  case wrappedConvo.convo_type:
+    of InboxV1Type:
+      let enc = decode(env.payload, EncryptedPayload).get() # TODO: handle result
+      let resFrame = inbox.decrypt(enc) # TODO: handle result
+      if resFrame.isErr:
+        error "Decrypt failed", error = resFrame.error()
+        raise newException(ValueError, "Failed to Decrypt MEssage: " &
+            resFrame.error)
+
+      client.handleInboxFrame(resFrame.get())
+
+    of PrivateV1Type:
+      client.handlePrivateFrame(wrapped_convo.private_v1, env.payload)
+
+proc messageQueueConsumer(client: Client) {.async.} =
+  ## Main message processing loop
+  info "Message listener started"
+
+  while client.isRunning:
+    # Wait for next message (this will suspend the coroutine)
+    let message = await client.inboundQueue.queue.get()
+
+    notice "Inbound Message Received", client = client.ident.getId(),
+        contentTopic = message.contentTopic, len = message.bytes.len()
+    try:
+      # Parse and handle the message
+      client.parseMessage(message)
+
+    except CatchableError as e:
+      error "Error in message listener", err = e.msg,
+          pubsub = message.pubsubTopic, contentTopic = message.contentTopic
+      # Continue running even if there's an error
+
+proc addMessage*(client: Client, convo: PrivateV1,
+    text: string = "") {.async.} =
+
+  let message = PrivateV1Frame(content: ContentFrame(domain: 0, tag: 1,
+      bytes: text.toBytes()))
+
+  await convo.sendMessage(client.ds, message)
+
+proc simulateMessages(client: Client){.async.} =
+
+  while client.conversations.len() <= 1:
+    await sleepAsync(4000)
+
+  notice "Starting Message Simulation", client = client.ident.getId()
+  for a in 1..5:
+    await sleepAsync(4000)
+
+    notice "Send to"
+    for convoWrapper in client.conversations.values():
+      if convoWrapper.convo_type == PrivateV1Type:
+        await client.addMessage(convoWrapper.privateV1, fmt"message: {a}")
 
 
+proc start*(client: Client) {.async.} =
+  # Start the message listener in the backgrounds
+  client.ds.addDispatchQueue(client.inboundQueue)
+  asyncSpawn client.ds.start()
 
-proc processInvite*(self: var Client, invite: InvitePrivateV1) =
-  debug "Callback Invoked", invite = invite
+  client.isRunning = true
 
-  createPrivateConversation(self, loadPublicKeyFromBytes(
-      invite.initiator).get(),
-    invite.discriminator)
+  asyncSpawn client.messageQueueConsumer()
+  asyncSpawn client.simulateMessages()
 
+  notice "Client start complete"
 
-
+proc stop*(client: Client) =
+  ## Stop the client
+  client.isRunning = false
+  notice "Client stopped"

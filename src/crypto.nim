@@ -19,7 +19,6 @@ proc decrypt_plain*[T: EncryptableTypes](ciphertext: Plaintext, t: typedesc[
   let obj = decode(ciphertext.payload, T)
   if obj.isErr:
     return err("Protobuf decode failed: " & obj.error)
-
   result = ok(obj.get())
 
 proc generate_key*(): PrivateKey =

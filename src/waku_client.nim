@@ -2,11 +2,12 @@ import
   chronicles,
   chronos,
   confutils,
-  eth/keys,
   eth/p2p/discoveryv5/enr,
   libp2p/crypto/crypto,
+  libp2p/peerid,
   std/random,
   stew/byteutils,
+  std/sequtils,
   strformat,
   waku/[
     common/logging,
@@ -19,64 +20,78 @@ import
     waku_filter_v2/client,
   ]
 
-import utils
+import utils, proto_types
+
+logScope:
+  topics = "chat waku"
+
+type ChatPayload* = object
+  pubsubTopic*: PubsubTopic
+  contentTopic*: string
+  timestamp*: Timestamp
+  bytes*: seq[byte]
+
+proc toChatPayload*(msg: WakuMessage, pubsubTopic: PubsubTopic): ChatPayload =
+  result = ChatPayload(pubsubTopic: pubsubTopic, contentTopic: msg.contentTopic,
+      timestamp: msg.timestamp, bytes: msg.payload)
+
 
 
 const
-  StaticPeer = "/ip4/64.225.80.192/tcp/30303/p2p/16Uiu2HAmNaeL4p3WEYzC9mgXBmBWSgWjPHRvatZTXnp8Jgv3iKsb"
+  # Placeholder
   FilterContentTopic = ContentTopic("/chatsdk/test/proto")
 
 
-type PayloadHandler* = proc(pubsubTopic: string, message: seq[byte]): Future[void] {.
-    gcsafe, raises: [Defect]
-  .}
+type QueueRef* = ref object
+  queue*: AsyncQueue[ChatPayload]
+
 
 type WakuConfig* = object
+  nodekey: crypto.PrivateKey
   port*: uint16
   clusterId*: uint16
   shardId*: seq[uint16] ## @[0'u16]
   pubsubTopic*: string
+  staticPeers*: seq[string]
+
+proc getMultiAddr*(cfg: WakuConfig): string =
+  # TODO: Handle bad PubKey
+  var peerId = PeerId.init(cfg.nodekey.getPublicKey().get())[] #16Uiu2HAmNaeL4p3WEYzC9mgXBmBWSgWjPHRvatZTXnp8Jgv3iKsb
+
+  # TODO: format IP address
+  result = fmt"/ip4/127.0.0.1/tcp/{cfg.port}/p2p/{peerId}"
+
 
 type
   WakuClient* = ref object
     cfg: WakuConfig
     node*: WakuNode
-    handlers: seq[PayloadHandler]
+    dispatchQueues: seq[QueueRef]
+    staticPeerList: seq[string]
 
 
 proc DefaultConfig*(): WakuConfig =
-
+  let nodeKey = crypto.PrivateKey.random(Secp256k1, crypto.newRng()[])[]
   let clusterId = 1'u16
   let shardId = 3'u16
   var port: uint16 = 50000'u16 + uint16(rand(200))
 
-  result = WakuConfig(port: port, clusterId: clusterId, shardId: @[shardId],
-      pubsubTopic: &"/waku/2/rs/{clusterId}/{shardId}")
+  result = WakuConfig(nodeKey: nodeKey, port: port, clusterId: clusterId,
+      shardId: @[shardId], pubsubTopic: &"/waku/2/rs/{clusterId}/{shardId}",
+          staticPeers: @[])
 
+proc sendPayload*(client: WakuClient, contentTopic: string,
+    env: WapEnvelopeV1) {.async.} =
+  let bytes = encode(env)
 
-proc sendMessage*(client: WakuClient, payload: string): Future[void] {.async.} =
-  let bytes = payload.toBytes
-
-  var msg = WakuMessage(
-    payload: bytes,
-    contentTopic: FilterContentTopic,
-    ephemeral: true,
-    version: 0,
-    timestamp: getTimestamp()
-  )
-
-  let pubMsg = WakuMessage(payload: bytes)
+  let msg = WakuMessage(contentTopic: contentTopic, payload: bytes)
   let res = await client.node.publish(some(PubsubTopic(client.cfg.pubsubTopic)), msg)
   if res.isErr:
     error "Failed to Publish", err = res.error,
         pubsubTopic = client.cfg.pubsubTopic
 
-  info "SendMessage", payload = payload, pubsubTopic = client.cfg.pubsubTopic, msg = msg
-
 proc buildWakuNode(cfg: WakuConfig): WakuNode =
-
   let
-    nodeKey = crypto.PrivateKey.random(Secp256k1, crypto.newRng()[])[]
     ip = parseIpAddress("0.0.0.0")
     flags = CapabilitiesBitfield.init(relay = true)
 
@@ -84,7 +99,7 @@ proc buildWakuNode(cfg: WakuConfig): WakuNode =
     error "Relay shards initialization failed", error = error
     quit(QuitFailure)
 
-  var enrBuilder = EnrBuilder.init(nodeKey)
+  var enrBuilder = EnrBuilder.init(cfg.nodeKey)
   enrBuilder.withWakuRelaySharding(relayShards).expect(
     "Building ENR with relay sharding failed"
   )
@@ -98,7 +113,7 @@ proc buildWakuNode(cfg: WakuConfig): WakuNode =
       recordRes.get()
 
   var builder = WakuNodeBuilder.init()
-  builder.withNodeKey(nodeKey)
+  builder.withNodeKey(cfg.nodeKey)
   builder.withRecord(record)
   builder.withNetworkConfigurationDetails(ip, Port(cfg.port)).tryGet()
   let node = builder.build().tryGet()
@@ -107,54 +122,37 @@ proc buildWakuNode(cfg: WakuConfig): WakuNode =
 
   result = node
 
-proc messageHandler(client: WakuClient, pubsubTopic: PubsubTopic,
-    message: WakuMessage
-) {.async, gcsafe.} =
-  let payloadStr = string.fromBytes(message.payload)
-  notice "message received",
-    payload = payloadStr,
-    pubsubTopic = pubsubTopic,
-    contentTopic = message.contentTopic,
-    timestamp = message.timestamp
-
-
-  for handler in client.handlers:
-    discard handler(pubsubTopic, message.payload)
-
 
 proc taskKeepAlive(client: WakuClient) {.async.} =
-  let peer = parsePeerInfo(StaticPeer).get()
   while true:
-    notice "maintaining subscription"
-    # First use filter-ping to check if we have an active subscription
-    let pingRes = await client.node.wakuFilterClient.ping(peer)
-    if pingRes.isErr():
-      # No subscription found. Let's subscribe.
-      notice "no subscription found. Sending subscribe request"
+    for peerStr in client.staticPeerList:
+      let peer = parsePeerInfo(peerStr).get()
 
-      let subscribeRes = await client.node.wakuFilterClient.subscribe(
-        peer, client.cfg.pubsubTopic, @[FilterContentTopic]
-      )
+      debug "maintaining subscription"
+      # First use filter-ping to check if we have an active subscription
+      let pingRes = await client.node.wakuFilterClient.ping(peer)
+      if pingRes.isErr():
+        # No subscription found. Let's subscribe.
+        warn "no subscription found. Sending subscribe request"
 
-      if subscribeRes.isErr():
-        notice "subscribe request failed. Quitting.", err = subscribeRes.error
-        break
+        # TODO: Use filter. Removing this stops relay from working so keeping for now
+        let subscribeRes = await client.node.wakuFilterClient.subscribe(
+          peer, client.cfg.pubsubTopic, @[FilterContentTopic]
+        )
+
+        if subscribeRes.isErr():
+          error "subscribe request failed. Quitting.", err = subscribeRes.error
+          break
+        else:
+          debug "subscribe request successful."
       else:
-        notice "subscribe request successful."
-    else:
-      notice "subscription found."
+        debug "subscription found."
 
     await sleepAsync(60.seconds) # Subscription maintenance interval
 
-
-proc taskPublishDemo(client: WakuClient){.async.} =
-  for i in 0 ..< 15:
-    await client.sendMessage("Hello")
-    await sleepAsync(30.seconds) # Subscription maintenance interval
-
 proc start*(client: WakuClient) {.async.} =
   setupLog(logging.LogLevel.NOTICE, logging.LogFormat.TEXT)
-
+  await client.node.mountFilter()
   await client.node.mountFilterClient()
 
   await client.node.start()
@@ -167,16 +165,26 @@ proc start*(client: WakuClient) {.async.} =
   let subscription: SubscriptionEvent = (kind: PubsubSub, topic:
     client.cfg.pubsubTopic)
 
-  let msg_handler = proc(pubsubTopic: PubsubTopic,
-      message: WakuMessage) {.async, gcsafe.} = discard client.messageHandler(
-      pubsubTopic, message)
+  proc handler(topic: PubsubTopic, msg: WakuMessage): Future[void] {.async, gcsafe.} =
+    let payloadStr = string.fromBytes(msg.payload)
+    debug "message received",
+      pubsubTopic = topic,
+      contentTopic = msg.contentTopic
 
-  let res = subscribe(client.node, subscription, msg_handler)
+    let payload = msg.toChatPayload(topic)
+
+    for queueRef in client.dispatchQueues:
+      await queueRef.queue.put(payload)
+
+  let res = subscribe(client.node, subscription, handler)
   if res.isErr:
     error "Subscribe failed", err = res.error
 
-  await allFutures(taskKeepAlive(client), taskPublishDemo(client))
+  await allFutures(taskKeepAlive(client))
 
-proc initWakuClient*(cfg: WakuConfig, handlers: seq[
-    PayloadHandler]): WakuClient =
-  result = WakuClient(cfg: cfg, node: buildWakuNode(cfg), handlers: handlers)
+proc initWakuClient*(cfg: WakuConfig): WakuClient =
+  result = WakuClient(cfg: cfg, node: buildWakuNode(cfg), dispatchQueues: @[],
+      staticPeerList: cfg.staticPeers)
+
+proc addDispatchQueue*(client: var WakuClient, queue: QueueRef) =
+  client.dispatchQueues.add(queue)
