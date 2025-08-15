@@ -19,7 +19,7 @@ proc initInbox*(inbox_addr: string): Inbox =
 proc encrypt*(frame: InboxV1Frame): EncryptedPayload =
   return encrypt_plain(frame)
 
-proc decrypt*(encbytes: EncryptedPayload): Result[InboxV1Frame, string] =
+proc decrypt*(inbox: Inbox, encbytes: EncryptedPayload): Result[InboxV1Frame, string] =
   let res_frame = decrypt_plain(encbytes.plaintext, InboxV1Frame)
   if res_frame.isErr:
     error "Failed to decrypt frame: ", err = res_frame.error
