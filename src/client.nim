@@ -158,11 +158,8 @@ proc newPrivateConversation*(client: Client,
   notice "New PRIVATE Convo ", clientId = client.getId(),
       fromm = introBundle.ident.mapIt(it.toHex(2)).join("")
 
-  let pubkeyResult = loadPublicKeyFromBytes(introBundle.ident)
-  if pubkeyResult.isErr:
+  let destPubkey = loadPublicKeyFromBytes(introBundle.ident).valueOr:
     raise newException(ValueError, "Invalid public key in intro bundle.")
-  let destPubkey = pubkeyResult.get()
-
 
   let convoId = conversationIdFor(destPubkey)
   let destConvoTopic = topicInbox(destPubkey.getAddr())
@@ -190,10 +187,8 @@ proc acceptPrivateInvite(client: Client,
   notice "ACCEPT PRIVATE Convo ", clientId = client.getId(),
       fromm = invite.initiator.mapIt(it.toHex(2)).join("")
 
-  let pubkeyResult = loadPublicKeyFromBytes(invite.initiator)
-  if pubkeyResult.isErr:
+  let destPubkey = loadPublicKeyFromBytes(invite.initiator).valueOr:
     raise newException(ValueError, "Invalid public key in intro bundle.")
-  let destPubkey = pubkeyResult.get()
 
   discard createPrivateConversation(client, destPubkey)
   # TODO: Subscribe to new content topic
@@ -205,9 +200,18 @@ proc acceptPrivateInvite(client: Client,
 # Payload Handling
 #################################################
 
-proc handleInboxFrame(client: Client, frame: InboxV1Frame) =
+proc handleInboxFrame(client: Client, convo: Inbox, bytes: seq[byte]) =
   ## Dispatcher for Incoming `InboxV1Frames`.
   ## Calls further processing depending on the kind of frame.
+
+  let enc = decode(bytes, EncryptedPayload).valueOr:
+    raise newException(ValueError, "Failed to decode payload")
+
+  let frame = convo.decrypt(enc).valueOr:
+    error "Decrypt failed", error = error
+    raise newException(ValueError, "Failed to Decrypt MEssage: " &
+        error)
+
   case getKind(frame):
   of typeInvitePrivateV1:
     notice "Receive PrivateInvite", client = client.getId(),
@@ -217,7 +221,6 @@ proc handleInboxFrame(client: Client, frame: InboxV1Frame) =
   of typeNote:
     notice "Receive Note", text = frame.note.text
 
-# TODO: These handle function need symmetry, currently have different signatures
 proc handlePrivateFrame(client: Client, convo: PrivateV1, bytes: seq[byte]) =
   ## Dispatcher for Incoming `PrivateV1Frames`.
   ## Calls further processing depending on the kind of frame.
@@ -237,38 +240,27 @@ proc parseMessage(client: Client, msg: ChatPayload) =
   info "Parse", clientId = client.getId(), msg = msg,
       contentTopic = msg.contentTopic
 
-  let resEnv = decode(msg.bytes, WapEnvelopeV1)
-  if resEnv.isErr:
-    raise newException(ValueError, "Failed to decode WapEnvelopeV1: " & resEnv.error)
-  let env = resEnv.get()
+  let envelope = decode(msg.bytes, WapEnvelopeV1).valueOr:
+    raise newException(ValueError, "Failed to decode WapEnvelopeV1: " & error)
 
-  let resConvo = client.getConversationFromHint(env.conversationHint)
-  if resConvo.isErr:
-    raise newException(ValueError, "Failed to get conversation: " &
-        resConvo.error)
+  let wrappedConvo = block:
+    let opt = client.getConversationFromHint(envelope.conversationHint).valueOr:
+      raise newException(ValueError, "Failed to get conversation: " & error)
 
-  let resWrappedConvo = resConvo.get()
-  if not resWrappedConvo.isSome:
-    let k = toSeq(client.conversations.keys()).join(", ")
-    warn "No conversation found", client = client.getId(),
-        hint = env.conversationHint, knownIds = k
-    return
-
-  let wrappedConvo = resWrappedConvo.get()
+    if opt.isSome():
+      opt.get()
+    else:
+      let k = toSeq(client.conversations.keys()).join(", ")
+      warn "No conversation found", client = client.getId(),
+        hint = envelope.conversationHint, knownIds = k
+      return
 
   case wrappedConvo.convoType:
     of InboxV1Type:
-      let enc = decode(env.payload, EncryptedPayload).get() # TODO: handle result
-      let resFrame = inbox.decrypt(enc) # TODO: handle result
-      if resFrame.isErr:
-        error "Decrypt failed", error = resFrame.error()
-        raise newException(ValueError, "Failed to Decrypt MEssage: " &
-            resFrame.error)
-
-      client.handleInboxFrame(resFrame.get())
+      client.handleInboxFrame(wrappedConvo.inboxV1, envelope.payload)
 
     of PrivateV1Type:
-      client.handlePrivateFrame(wrappedConvo.privateV1, env.payload)
+      client.handlePrivateFrame(wrappedConvo.privateV1, envelope.payload)
 
 proc addMessage*(client: Client, convo: PrivateV1,
     text: string = "") {.async.} =
