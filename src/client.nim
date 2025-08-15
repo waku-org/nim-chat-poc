@@ -74,7 +74,7 @@ proc newClient*(name: string, cfg: WakuConfig): Client =
     ))] = ConvoWrapper(convo_type: InboxV1Type, inboxV1: default_inbox)
 
 
-  notice "Client started", client = c.getId(),
+  notice "Client started", client = c.ident.getId(),
       default_inbox = default_inbox
   result = c
 
@@ -83,7 +83,7 @@ proc newClient*(name: string, cfg: WakuConfig): Client =
 #################################################
 
 proc getId(client: Client): string =
-  result = client.getId()
+  result = client.ident.getId()
 
 proc default_inbox_conversation_id*(self: Client): string =
   ## Returns the default inbox address for the client.
