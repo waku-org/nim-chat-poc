@@ -29,3 +29,6 @@ proc getPubkey*(self: Identity): PublicKey =
 proc getAddr*(self: Identity): string =
   result = get_addr(self.getPubKey())
 
+
+proc getId*(self: Identity): string =
+  result = self.name

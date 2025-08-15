@@ -4,6 +4,7 @@
 import protobuf_serialization # This import is needed or th macro will not work
 import protobuf_serialization/proto_parser
 import results
+import std/random
 
 export protobuf_serialization
 
@@ -11,11 +12,16 @@ import_proto3 "../protos/inbox.proto"
 # import_proto3 "../protos/invite.proto"    // Import3 follows protobuf includes so this will result in a redefinition error
 import_proto3 "../protos/encryption.proto"
 import_proto3 "../protos/envelope.proto"
+# import_proto3 "../protos/common_frames.proto"
+
+import_proto3 "../protos/private_v1.proto"
 
 type EncryptableTypes = InboxV1Frame | EncryptedPayload
 
+export ContentFrame
 export EncryptedPayload
 export InboxV1Frame
+export PrivateV1Frame
 
 export EncryptableTypes
 
@@ -45,14 +51,57 @@ type
 
 export IntroBundle
 
+proc generateSalt*(): uint64 =
+  randomize()
+  result = 0
+  for i in 0 ..< 8:
+    result = result or (uint64(rand(255)) shl (i * 8))
+
+
+proc toEnvelope*(payload: EncryptedPayload, convo_id: string): WapEnvelopeV1 =
+  let bytes = encode(payload)
+  let salt = generateSalt()
+
+  # TODO: Implement hinting
+  return WapEnvelopeV1(
+    payload: bytes,
+    salt: salt,
+    conversation_hint: convo_id,
+  )
+
+###########################################################
+# nim-serialize-protobuf does not support oneof fields.
+# As a stop gap each object using oneof fields, needs
+# a implementation to look up the type.
+#
+# The valid field is determined by the fields which
+# is not set to the default value
+###########################################################
 
 type
-  TransportMessage {.proto3.} = object
-    topic* {.fieldNumber: 1.}: string
-    payload* {.fieldNumber: 2.}: seq[byte]
+  InboxV1FrameType* = enum
+    type_InvitePrivateV1, type_Note
 
-# Place holder for a transport channel
-proc sendTo*(topic: string, payload: seq[byte]): TransportMessage =
-  result = TransportMessage(topic: topic, payload: payload)
+proc getKind*(obj: InboxV1Frame): InboxV1FrameType =
 
-export TransportMessage
+  if obj.invite_private_v1 != InvitePrivateV1():
+    return type_InvitePrivateV1
+
+  if obj.note != Note():
+    return type_Note
+
+  raise newException(ValueError, "Un handled one of type")
+
+type
+  PrivateV1FrameType* = enum
+    type_ContentFrame, type_Placeholder
+
+proc getKind*(obj: PrivateV1Frame): PrivateV1FrameType =
+
+  if obj.content != ContentFrame():
+    return type_ContentFrame
+
+  if obj.placeholder != Placeholder():
+    return type_Placeholder
+
+  raise newException(ValueError, "Un handled one of type")
