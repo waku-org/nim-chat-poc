@@ -1,3 +1,7 @@
+## Main Entry point to the ChatSDK.
+## Clients are the primary manager of sending and receiving 
+## messages, and managing conversations.
+
 
 import # Foreign
   chronicles,
@@ -59,6 +63,7 @@ type Client* = ref object
 #################################################
 
 proc newClient*(name: string, cfg: WakuConfig): Client =
+  ## Creates new instance of a `Client` with a given `WakuConfig`
   let waku = initWakuClient(cfg)
 
   var q = QueueRef(queue: newAsyncQueue[ChatPayload](10))
@@ -130,7 +135,10 @@ proc createIntroBundle*(self: var Client): IntroBundle =
 
 proc createPrivateConversation(client: Client, participant: PublicKey,
     discriminator: string = "default"): Option[ChatError] =
-  # Creates a private conversation with the given participant and discriminator.
+  ## Creates a private conversation with the given participant and discriminator.
+  ## Discriminator allows multiple conversations to exist between the same
+  ## participants.
+
   let convo = initPrivateV1(client.ident, participant, discriminator)
 
   notice "Creating PrivateV1 conversation", topic = convo.getConvoId()
@@ -143,7 +151,8 @@ proc createPrivateConversation(client: Client, participant: PublicKey,
 
 proc newPrivateConversation*(client: Client,
     intro_bundle: IntroBundle): Future[Option[ChatError]] {.async.} =
-  ## Creates a private conversation with the given Invitebundle.
+  ## Creates a private conversation with the given `IntroBundle`.
+  ## `IntroBundles` are provided out-of-band.
 
   notice "New PRIVATE Convo ", clientId = client.getId(),
       fromm = intro_bundle.ident.mapIt(it.toHex(2)).join("")
@@ -174,7 +183,7 @@ proc newPrivateConversation*(client: Client,
 
 proc acceptPrivateInvite(client: Client,
     invite: InvitePrivateV1): Option[ChatError] =
-
+  ## Allows Recipients to join the conversation.
 
   notice "ACCEPT PRIVATE Convo ", clientId = client.getId(),
       fromm = invite.initiator.mapIt(it.toHex(2)).join("")
@@ -195,6 +204,8 @@ proc acceptPrivateInvite(client: Client,
 #################################################
 
 proc handleInboxFrame(client: Client, frame: InboxV1Frame) =
+  ## Dispatcher for Incoming `InboxV1Frames`.
+  ## Calls further processing depending on the kind of frame.
   case getKind(frame):
   of type_InvitePrivateV1:
     notice "Receive PrivateInvite", client = client.getId(),
@@ -204,7 +215,10 @@ proc handleInboxFrame(client: Client, frame: InboxV1Frame) =
   of type_Note:
     notice "Receive Note", text = frame.note.text
 
+# TODO: These handle function need symmetry, currently have different signatures
 proc handlePrivateFrame(client: Client, convo: PrivateV1, bytes: seq[byte]) =
+  ## Dispatcher for Incoming `PrivateV1Frames`.
+  ## Calls further processing depending on the kind of frame.
   let enc = decode(bytes, EncryptedPayload).get()       # TODO: handle result
   let frame = convo.decrypt(enc) # TODO: handle result
 
@@ -217,13 +231,13 @@ proc handlePrivateFrame(client: Client, convo: PrivateV1, bytes: seq[byte]) =
         text = frame.placeholder.counter
 
 proc parseMessage(client: Client, msg: ChatPayload) =
-  ## Reveives a incomming payload, decodes it, and processes it.
+  ## Receives a incoming payload, decodes it, and processes it.
   info "Parse", clientId = client.getId(), msg = msg,
       contentTopic = msg.contentTopic
 
   let res_env = decode(msg.bytes, WapEnvelopeV1)
   if res_env.isErr:
-    raise newException(ValueError, "Failed to decode WsapEnvelopeV1: " & res_env.error)
+    raise newException(ValueError, "Failed to decode WapEnvelopeV1: " & res_env.error)
   let env = res_env.get()
 
   let res_convo = client.getConversationFromHint(env.conversation_hint)
@@ -256,7 +270,7 @@ proc parseMessage(client: Client, msg: ChatPayload) =
 
 proc addMessage*(client: Client, convo: PrivateV1,
     text: string = "") {.async.} =
-
+  ## Test Function to send automatic messages. to be removed.
   let message = PrivateV1Frame(content: ContentFrame(domain: 0, tag: 1,
       bytes: text.toBytes()))
 
@@ -272,23 +286,22 @@ proc messageQueueConsumer(client: Client) {.async.} =
   info "Message listener started"
 
   while client.isRunning:
-    # Wait for next message (this will suspend the coroutine)
     let message = await client.inboundQueue.queue.get()
 
     notice "Inbound Message Received", client = client.getId(),
         contentTopic = message.contentTopic, len = message.bytes.len()
     try:
-      # Parse and handle the message
       client.parseMessage(message)
 
     except CatchableError as e:
       error "Error in message listener", err = e.msg,
           pubsub = message.pubsubTopic, contentTopic = message.contentTopic
-      # Continue running even if there's an error
 
 
 proc simulateMessages(client: Client){.async.} =
+  ## Test Task to generate messages after initialization. To be removed.
 
+  # TODO: FutureBug - This should wait for a privateV1 conversation.
   while client.conversations.len() <= 1:
     await sleepAsync(4000)
 
@@ -296,7 +309,6 @@ proc simulateMessages(client: Client){.async.} =
   for a in 1..5:
     await sleepAsync(4000)
 
-    notice "Send to"
     for convoWrapper in client.conversations.values():
       if convoWrapper.convo_type == PrivateV1Type:
         await client.addMessage(convoWrapper.privateV1, fmt"message: {a}")
@@ -306,7 +318,7 @@ proc simulateMessages(client: Client){.async.} =
 #################################################
 
 proc start*(client: Client) {.async.} =
-  # Start the message listener in the backgrounds
+  ## Start `Client` and listens for incoming messages.
   client.ds.addDispatchQueue(client.inboundQueue)
   asyncSpawn client.ds.start()
 
@@ -318,6 +330,6 @@ proc start*(client: Client) {.async.} =
   notice "Client start complete"
 
 proc stop*(client: Client) =
-  ## Stop the client
+  ## Stop the client.
   client.isRunning = false
   notice "Client stopped"
