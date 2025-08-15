@@ -66,9 +66,12 @@ proc newClient*(name: string, cfg: WakuConfig): Client =
     ))] = ConvoWrapper(convo_type: InboxV1Type, inboxV1: default_inbox)
 
 
-  notice "Client started", client = c.ident.getId(),
+  notice "Client started", client = c.getId(),
       default_inbox = default_inbox
   result = c
+
+proc getId(client: Client): string =
+  result = client.getId()
 
 proc default_inbox_conversation_id*(self: Client): string =
   ## Returns the default inbox address for the client.
@@ -91,7 +94,7 @@ proc createIntroBundle*(self: var Client): IntroBundle =
     ephemeral: @(ephemeral_key.getPublicKey().bytes()),
   )
 
-  notice "IntroBundleCreated", client = self.ident.getId(),
+  notice "IntroBundleCreated", client = self.getId(),
       pubBytes = result.ident
 
 proc createPrivateConversation(client: Client, participant: PublicKey,
@@ -111,7 +114,7 @@ proc newPrivateConversation*(client: Client,
     intro_bundle: IntroBundle): Future[Option[ChatError]] {.async.} =
   ## Creates a private conversation with the given Invitebundle.
 
-  notice "New PRIVATE Convo ", clientId = client.ident.getId(),
+  notice "New PRIVATE Convo ", clientId = client.getId(),
       fromm = intro_bundle.ident.mapIt(it.toHex(2)).join("")
 
   let res_pubkey = loadPublicKeyFromBytes(intro_bundle.ident)
@@ -142,7 +145,7 @@ proc acceptPrivateInvite(client: Client,
     invite: InvitePrivateV1): Option[ChatError] =
 
 
-  notice "ACCEPT PRIVATE Convo ", clientId = client.ident.getId(),
+  notice "ACCEPT PRIVATE Convo ", clientId = client.getId(),
       fromm = invite.initiator.mapIt(it.toHex(2)).join("")
 
   let res_pubkey = loadPublicKeyFromBytes(invite.initiator)
@@ -170,7 +173,7 @@ proc getConversationFromHint(self: Client,
 proc handleInboxFrame(client: Client, frame: InboxV1Frame) =
   case getKind(frame):
   of type_InvitePrivateV1:
-    notice "Receive PrivateInvite", client = client.ident.getId(),
+    notice "Receive PrivateInvite", client = client.getId(),
         frame = frame.invite_private_v1
     discard client.acceptPrivateInvite(frame.invite_private_v1)
 
@@ -183,15 +186,15 @@ proc handlePrivateFrame(client: Client, convo: PrivateV1, bytes: seq[byte]) =
 
   case frame.getKind():
   of type_ContentFrame:
-    notice "Got Mail", client = client.ident.getId(),
+    notice "Got Mail", client = client.getId(),
         text = frame.content.bytes.toUtfString()
   of type_Placeholder:
-    notice "Got Placeholder", client = client.ident.getId(),
+    notice "Got Placeholder", client = client.getId(),
         text = frame.placeholder.counter
 
 proc parseMessage(client: Client, msg: ChatPayload) =
   ## Reveives a incomming payload, decodes it, and processes it.
-  info "Parse", clientId = client.ident.getId(), msg = msg,
+  info "Parse", clientId = client.getId(), msg = msg,
       contentTopic = msg.contentTopic
 
   let res_env = decode(msg.bytes, WapEnvelopeV1)
@@ -207,7 +210,7 @@ proc parseMessage(client: Client, msg: ChatPayload) =
   let resWrappedConvo = res_convo.get()
   if not resWrappedConvo.isSome:
     let k = toSeq(client.conversations.keys()).join(", ")
-    warn "No conversation found", client = client.ident.getId(),
+    warn "No conversation found", client = client.getId(),
         hint = env.conversation_hint, knownIds = k
     return
 
@@ -235,7 +238,7 @@ proc messageQueueConsumer(client: Client) {.async.} =
     # Wait for next message (this will suspend the coroutine)
     let message = await client.inboundQueue.queue.get()
 
-    notice "Inbound Message Received", client = client.ident.getId(),
+    notice "Inbound Message Received", client = client.getId(),
         contentTopic = message.contentTopic, len = message.bytes.len()
     try:
       # Parse and handle the message
@@ -259,7 +262,7 @@ proc simulateMessages(client: Client){.async.} =
   while client.conversations.len() <= 1:
     await sleepAsync(4000)
 
-  notice "Starting Message Simulation", client = client.ident.getId()
+  notice "Starting Message Simulation", client = client.getId()
   for a in 1..5:
     await sleepAsync(4000)
 
