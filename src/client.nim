@@ -22,6 +22,11 @@ import #local
 logScope:
   topics = "chat client"
 
+#################################################
+# Definitions
+#################################################
+
+
 type KeyEntry* = object
   keytype: string
   privateKey: PrivateKey
@@ -49,6 +54,9 @@ type Client* = ref object
   inboundQueue: QueueRef
   isRunning: bool
 
+#################################################
+# Constructors
+#################################################
 
 proc newClient*(name: string, cfg: WakuConfig): Client =
   let waku = initWakuClient(cfg)
@@ -70,12 +78,30 @@ proc newClient*(name: string, cfg: WakuConfig): Client =
       default_inbox = default_inbox
   result = c
 
+#################################################
+# Parameter Access
+#################################################
+
 proc getId(client: Client): string =
   result = client.getId()
 
 proc default_inbox_conversation_id*(self: Client): string =
   ## Returns the default inbox address for the client.
   result = conversation_id_for(self.ident.getPubkey())
+
+proc getConversationFromHint(self: Client,
+    conversation_hint: string): Result[Option[ConvoWrapper], string] =
+
+  # TODO: Implementing Hinting
+  if not self.conversations.hasKey(conversation_hint):
+    ok(none(ConvoWrapper))
+  else:
+    ok(some(self.conversations[conversation_hint]))
+
+
+#################################################
+# Functional
+#################################################
 
 proc createIntroBundle*(self: var Client): IntroBundle =
   ## Generates an IntroBundle for the client, which includes
@@ -96,6 +122,11 @@ proc createIntroBundle*(self: var Client): IntroBundle =
 
   notice "IntroBundleCreated", client = self.getId(),
       pubBytes = result.ident
+
+
+#################################################
+# Conversation Initiation
+#################################################
 
 proc createPrivateConversation(client: Client, participant: PublicKey,
     discriminator: string = "default"): Option[ChatError] =
@@ -159,16 +190,9 @@ proc acceptPrivateInvite(client: Client,
   result = none(ChatError)
 
 
-
-proc getConversationFromHint(self: Client,
-    conversation_hint: string): Result[Option[ConvoWrapper], string] =
-
-  # TODO: Implementing Hinting
-  if not self.conversations.hasKey(conversation_hint):
-    ok(none(ConvoWrapper))
-  else:
-    ok(some(self.conversations[conversation_hint]))
-
+#################################################
+# Payload Handling
+#################################################
 
 proc handleInboxFrame(client: Client, frame: InboxV1Frame) =
   case getKind(frame):
@@ -230,6 +254,19 @@ proc parseMessage(client: Client, msg: ChatPayload) =
     of PrivateV1Type:
       client.handlePrivateFrame(wrapped_convo.private_v1, env.payload)
 
+proc addMessage*(client: Client, convo: PrivateV1,
+    text: string = "") {.async.} =
+
+  let message = PrivateV1Frame(content: ContentFrame(domain: 0, tag: 1,
+      bytes: text.toBytes()))
+
+  await convo.sendMessage(client.ds, message)
+
+
+#################################################
+# Async Tasks
+#################################################
+
 proc messageQueueConsumer(client: Client) {.async.} =
   ## Main message processing loop
   info "Message listener started"
@@ -249,13 +286,6 @@ proc messageQueueConsumer(client: Client) {.async.} =
           pubsub = message.pubsubTopic, contentTopic = message.contentTopic
       # Continue running even if there's an error
 
-proc addMessage*(client: Client, convo: PrivateV1,
-    text: string = "") {.async.} =
-
-  let message = PrivateV1Frame(content: ContentFrame(domain: 0, tag: 1,
-      bytes: text.toBytes()))
-
-  await convo.sendMessage(client.ds, message)
 
 proc simulateMessages(client: Client){.async.} =
 
@@ -271,6 +301,9 @@ proc simulateMessages(client: Client){.async.} =
       if convoWrapper.convo_type == PrivateV1Type:
         await client.addMessage(convoWrapper.privateV1, fmt"message: {a}")
 
+#################################################
+# Control Functions
+#################################################
 
 proc start*(client: Client) {.async.} =
   # Start the message listener in the backgrounds
