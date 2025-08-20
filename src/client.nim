@@ -77,7 +77,7 @@ proc newClient*(name: string, cfg: WakuConfig): Client {.raises: [IOError,
 # Parameter Access
 #################################################
 
-proc getId(client: Client): string =
+proc getId*(client: Client): string =
   result = client.ident.getId()
 
 proc identity*(client: Client): Identity =
@@ -128,11 +128,11 @@ proc createIntroBundle*(self: var Client): IntroBundle =
 #################################################
 
 proc addConversation*(client: Client, convo: Conversation) =
-  notice "Creating conversation", topic = convo.id()
+  notice "Creating conversation", client = client.getId(), topic = convo.id()
   client.conversations[convo.id()] = convo
 
 proc getConversation*(client: Client, convoId: string): Conversation =
-  notice "Get conversation", convoId = convoId
+  notice "Get conversation", client = client.getId(), convoId = convoId
   result = client.conversations[convoId]
 
 proc newPrivateConversation*(client: Client,
@@ -140,7 +140,7 @@ proc newPrivateConversation*(client: Client,
   ## Creates a private conversation with the given `IntroBundle`.
   ## `IntroBundles` are provided out-of-band.
 
-  notice "New PRIVATE Convo ", clientId = client.getId(),
+  notice "New PRIVATE Convo ", client = client.getId(),
       fromm = introBundle.ident.mapIt(it.toHex(2)).join("")
 
   let destPubkey = loadPublicKeyFromBytes(introBundle.ident).valueOr:
@@ -243,7 +243,8 @@ proc simulateMessages(client: Client){.async.} =
 
     for conversation in client.conversations.values():
       if conversation of PrivateV1:
-        await client.addMessage(PrivateV1(conversation), fmt"message: {a}")
+        await client.addMessage(PrivateV1(conversation),
+            fmt"message: {a} from:{client.getId()}")
 
 #################################################
 # Control Functions
@@ -259,9 +260,9 @@ proc start*(client: Client) {.async.} =
   asyncSpawn client.messageQueueConsumer()
   asyncSpawn client.simulateMessages()
 
-  notice "Client start complete"
+  notice "Client start complete", client = client.getId()
 
 proc stop*(client: Client) =
   ## Stop the client.
   client.isRunning = false
-  notice "Client stopped"
+  notice "Client stopped", client = client.getId()
