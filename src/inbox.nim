@@ -1,20 +1,30 @@
 import
   chronicles,
   chronos,
-  results
+  results,
+  strformat
 
 import
+  conversation,
+  conversations/private_v1,
+  conversation_store,
   crypto,
   proto_types,
   utils
 
 type
-  Inbox* = object
+  Inbox* = ref object of Conversation
+    pubkey: PublicKey
     inbox_addr: string
 
-proc initInbox*(inbox_addr: string): Inbox =
+
+proc `$`*(conv: Inbox): string =
+  fmt"Inbox: addr->{conv.inbox_addr}"
+
+
+proc initInbox*(pubkey: PublicKey): Inbox =
   ## Initializes an Inbox object with the given address and invite callback.
-  return Inbox(inbox_addr: inbox_addr)
+  return Inbox(pubkey: pubkey)
 
 proc encrypt*(frame: InboxV1Frame): EncryptedPayload =
   return encrypt_plain(frame)
@@ -43,3 +53,41 @@ proc conversation_id_for*(pubkey: PublicKey): string =
 # TODO derive this from instance of Inbox
 proc topic_inbox*(client_addr: string): string =
   return "/inbox/" & client_addr
+
+method id*(convo: Inbox): string =
+  return conversation_id_for(convo.pubkey)
+
+
+#################################################
+# Conversation Creation
+#################################################
+
+proc createPrivateV1FromInvite*[T: ConversationStore](client: T,
+    invite: InvitePrivateV1) =
+
+  let destPubkey = loadPublicKeyFromBytes(invite.initiator).valueOr:
+    raise newException(ValueError, "Invalid public key in intro bundle.")
+
+  let convo = initPrivateV1(client.identity(), destPubkey, "default")
+
+  notice "Creating PrivateV1 conversation", topic = convo.getConvoId()
+  client.addConversation(convo)
+
+proc handleFrame*[T: ConversationStore](convo: Inbox, client: T, bytes: seq[byte]) =
+  ## Dispatcher for Incoming `InboxV1Frames`.
+  ## Calls further processing depending on the kind of frame.
+
+  let enc = decode(bytes, EncryptedPayload).valueOr:
+    raise newException(ValueError, "Failed to decode payload")
+
+  let frame = convo.decrypt(enc).valueOr:
+    error "Decrypt failed", error = error
+    raise newException(ValueError, "Failed to Decrypt MEssage: " &
+        error)
+
+  case getKind(frame):
+  of typeInvitePrivateV1:
+    createPrivateV1FromInvite(client, frame.invitePrivateV1)
+
+  of typeNote:
+    notice "Receive Note", text = frame.note.text
