@@ -7,6 +7,8 @@ import std/algorithm
 import sugar
 
 import ../[
+  conversation,
+  conversation_store,
   crypto,
   identity,
   proto_types,
@@ -14,8 +16,10 @@ import ../[
   waku_client
 ]
 
+
+
 type
-  PrivateV1* = object
+  PrivateV1* = ref object of Conversation
     # Placeholder for PrivateV1 conversation type
     owner: Identity
     topic: string
@@ -70,3 +74,20 @@ proc sendMessage*(self: PrivateV1, ds: WakuClient,
 
   discard ds.sendPayload(self.getTopic(), encryptedBytes.toEnvelope(
       self.getConvoId()))
+
+method id*(self: PrivateV1): string =
+  return getConvoIdRaw(self.participants, self.discriminator)
+
+proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
+    bytes: seq[byte]) =
+  ## Dispatcher for Incoming `PrivateV1Frames`.
+  ## Calls further processing depending on the kind of frame.
+
+  let enc = decode(bytes, EncryptedPayload).get()       # TODO: handle result
+  let frame = convo.decrypt(enc) # TODO: handle result
+
+  case frame.getKind():
+  of typeContentFrame:
+    notice "Got Mail", text = frame.content.bytes.toUtfString()
+  of typePlaceholder:
+    notice "Got Placeholder", text = frame.placeholder.counter
