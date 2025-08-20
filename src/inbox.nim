@@ -12,6 +12,9 @@ import
   proto_types,
   utils
 
+logScope:
+  topics = "chat inbox"
+
 type
   Inbox* = ref object of Conversation
     pubkey: PublicKey
@@ -70,7 +73,8 @@ proc createPrivateV1FromInvite*[T: ConversationStore](client: T,
 
   let convo = initPrivateV1(client.identity(), destPubkey, "default")
 
-  notice "Creating PrivateV1 conversation", topic = convo.getConvoId()
+  notice "Creating PrivateV1 conversation", client = client.getId(),
+      topic = convo.getConvoId()
   client.addConversation(convo)
 
 proc handleFrame*[T: ConversationStore](convo: Inbox, client: T, bytes: seq[byte]) =
@@ -81,7 +85,7 @@ proc handleFrame*[T: ConversationStore](convo: Inbox, client: T, bytes: seq[byte
     raise newException(ValueError, "Failed to decode payload")
 
   let frame = convo.decrypt(enc).valueOr:
-    error "Decrypt failed", error = error
+    error "Decrypt failed", client = client.getId(), error = error
     raise newException(ValueError, "Failed to Decrypt MEssage: " &
         error)
 
@@ -90,4 +94,4 @@ proc handleFrame*[T: ConversationStore](convo: Inbox, client: T, bytes: seq[byte
     createPrivateV1FromInvite(client, frame.invitePrivateV1)
 
   of typeNote:
-    notice "Receive Note", text = frame.note.text
+    notice "Receive Note", client = client.getId(), text = frame.note.text

@@ -88,6 +88,7 @@ proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
 
   case frame.getKind():
   of typeContentFrame:
+    # TODO: Using client.getId() results in an error in this context
     notice "Got Mail", text = frame.content.bytes.toUtfString()
   of typePlaceholder:
     notice "Got Placeholder", text = frame.placeholder.counter
