@@ -1,10 +1,10 @@
 import std/[options, times]
-import conversation
+
+import ./conversations/convo_type
 import crypto
 import identity
 
 type ConvoId = string
-
 
 
 

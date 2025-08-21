@@ -1,8 +1,6 @@
-import conversation_store
-import conversation
-
-import inbox
-import conversations/private_v1
+import ../conversation_store
+import ../conversations
+import ../inbox
 
 
 proc getType(convo: Conversation): ConvoTypes =

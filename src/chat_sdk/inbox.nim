@@ -5,8 +5,8 @@ import
   strformat
 
 import
-  conversation,
-  conversations/private_v1,
+  conversations/convo_type,
+  conversations,
   conversation_store,
   crypto,
   proto_types,
