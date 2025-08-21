@@ -6,15 +6,16 @@ import std/[sequtils, strutils]
 import std/algorithm
 import sugar
 
+import ../conversation_store
+import ../crypto
+import ../delivery/waku_client
+
 import ../[
-  conversation,
-  conversation_store,
-  crypto,
   identity,
   proto_types,
-  utils,
-  waku_client
+  utils
 ]
+import convo_type
 
 
 

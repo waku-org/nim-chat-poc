@@ -1,7 +1,7 @@
 import chronos
 import chronicles
-import client
-import waku_client
+import chat_sdk/client
+import chat_sdk/delivery/waku_client
 
 proc initLogging() =
   when defined(chronicles_runtime_filtering):

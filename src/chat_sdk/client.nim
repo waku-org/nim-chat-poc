@@ -13,18 +13,16 @@ import # Foreign
 
 import #local
   conversation_store,
-  conversation,
-  convo_impl,
+  conversations,
+  conversations/convo_impl,
   crypto,
+  delivery/waku_client,
   identity,
   inbox,
   proto_types,
   types,
-  utils,
-  waku_client
+  utils
 
-import #to be removed
-  conversations/private_v1
 
 logScope:
   topics = "chat client"

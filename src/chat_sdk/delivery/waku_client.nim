@@ -20,7 +20,7 @@ import
     waku_filter_v2/client,
   ]
 
-import utils, proto_types
+import ../utils, ../proto_types
 
 logScope:
   topics = "chat waku"
