@@ -6,6 +6,8 @@
 import # Foreign
   chronicles,
   chronos,
+  sequtils,
+  std/tables,
   std/sequtils,
   strformat,
   strutils,
@@ -31,6 +33,10 @@ logScope:
 # Definitions
 #################################################
 
+type
+  MessageCallback[T] = proc(conversation: Conversation, msg: T): Future[void] {.async.}
+
+
 type KeyEntry* = object
   keyType: string
   privateKey: PrivateKey
@@ -43,6 +49,8 @@ type Client* = ref object
   conversations: Table[string, Conversation] # Keyed by conversation ID
   inboundQueue: QueueRef
   isRunning: bool
+
+  newMessageCallbacks: seq[MessageCallback[string]]
 
 #################################################
 # Constructors
@@ -61,7 +69,8 @@ proc newClient*(name: string, cfg: WakuConfig): Client {.raises: [IOError,
                   keyStore: initTable[string, KeyEntry](),
                   conversations: initTable[string, Conversation](),
                   inboundQueue: q,
-                  isRunning: false)
+                  isRunning: false,
+                  newMessageCallbacks: @[])
 
     let defaultInbox = initInbox(c.ident.getPubkey())
     c.conversations[defaultInbox.id()] = defaultInbox
@@ -71,6 +80,7 @@ proc newClient*(name: string, cfg: WakuConfig): Client {.raises: [IOError,
     result = c
   except Exception as e:
     error "newCLient", err = e.msg
+
 #################################################
 # Parameter Access
 #################################################
@@ -93,6 +103,21 @@ proc getConversationFromHint(self: Client,
     ok(none(Conversation))
   else:
     ok(some(self.conversations[conversationHint]))
+
+
+proc listConversations*(client: Client): seq[Conversation] =
+  result = toSeq(client.conversations.values())
+
+#################################################
+# Callback Handling
+#################################################
+
+proc onNewMessage*(client: Client, callback: MessageCallback[string]) =
+  client.newMessageCallbacks.add(callback)
+
+proc notifyNewMessage(client: Client, convo: Conversation, msg: string) =
+  for cb in client.newMessageCallbacks:
+    discard cb(convo, msg)
 
 
 #################################################
@@ -196,16 +221,6 @@ proc parseMessage(client: Client, msg: ChatPayload) {.raises: [ValueError,
   except Exception as e:
     error "HandleFrame Failed", error = e.msg
 
-
-proc addMessage*(client: Client, convo: PrivateV1,
-    text: string = "") {.async.} =
-  ## Test Function to send automatic messages. to be removed.
-  let message = PrivateV1Frame(content: ContentFrame(domain: 0, tag: 1,
-      bytes: text.toBytes()))
-
-  await convo.sendMessage(client.ds, message)
-
-
 #################################################
 # Async Tasks
 #################################################
@@ -227,23 +242,6 @@ proc messageQueueConsumer(client: Client) {.async.} =
           pubsub = message.pubsubTopic, contentTopic = message.contentTopic
 
 
-proc simulateMessages(client: Client){.async.} =
-  ## Test Task to generate messages after initialization. To be removed.
-
-  # TODO: FutureBug - This should wait for a privateV1 conversation.
-  while client.conversations.len() <= 1:
-    await sleepAsync(4.seconds)
-
-  notice "Starting Message Simulation", client = client.getId()
-  for a in 1..5:
-    await sleepAsync(4.seconds)
-
-
-    for conversation in client.conversations.values():
-      if conversation of PrivateV1:
-        await client.addMessage(PrivateV1(conversation),
-            fmt"message: {a} from:{client.getId()}")
-
 #################################################
 # Control Functions
 #################################################
@@ -256,7 +254,6 @@ proc start*(client: Client) {.async.} =
   client.isRunning = true
 
   asyncSpawn client.messageQueueConsumer()
-  asyncSpawn client.simulateMessages()
 
   notice "Client start complete", client = client.getId()
 

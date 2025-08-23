@@ -1,5 +1,5 @@
 import waku/waku_core
-import std/[random, times]
+import std/[macros, random, times]
 import crypto
 import blake2
 import strutils
@@ -28,3 +28,11 @@ proc toBytes*(s: string): seq[byte] =
 
 proc toUtfString*(b: seq[byte]): string =
     result = cast[string](b)
+
+macro panic*(reason: string): untyped =
+    result = quote do:
+        let pos = instantiationInfo()
+        echo `reason` & " ($1:$2)" % [
+          pos.filename, $pos.line]
+        echo "traceback:\n", getStackTrace()
+        quit(1)

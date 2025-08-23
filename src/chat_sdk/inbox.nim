@@ -9,6 +9,7 @@ import
   conversations,
   conversation_store,
   crypto,
+  delivery/waku_client,
   proto_types,
   utils
 
@@ -77,7 +78,8 @@ proc createPrivateV1FromInvite*[T: ConversationStore](client: T,
       topic = convo.getConvoId()
   client.addConversation(convo)
 
-proc handleFrame*[T: ConversationStore](convo: Inbox, client: T, bytes: seq[byte]) =
+proc handleFrame*[T: ConversationStore](convo: Inbox, client: T, bytes: seq[
+    byte]) =
   ## Dispatcher for Incoming `InboxV1Frames`.
   ## Calls further processing depending on the kind of frame.
 
@@ -95,3 +97,7 @@ proc handleFrame*[T: ConversationStore](convo: Inbox, client: T, bytes: seq[byte
 
   of typeNote:
     notice "Receive Note", client = client.getId(), text = frame.note.text
+
+
+method sendMessage*(convo: Inbox, ds: WakuClient, text: string) {.async.} =
+  warn "Cannot send message to Inbox"
