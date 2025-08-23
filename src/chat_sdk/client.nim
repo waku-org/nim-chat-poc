@@ -35,6 +35,7 @@ logScope:
 
 type
   MessageCallback[T] = proc(conversation: Conversation, msg: T): Future[void] {.async.}
+  NewConvoCallback = proc(conversation: Conversation): Future[void] {.async.}
 
 
 type KeyEntry* = object
@@ -51,6 +52,7 @@ type Client* = ref object
   isRunning: bool
 
   newMessageCallbacks: seq[MessageCallback[string]]
+  newConvoCallbacks: seq[NewConvoCallback]
 
 #################################################
 # Constructors
@@ -70,7 +72,8 @@ proc newClient*(name: string, cfg: WakuConfig): Client {.raises: [IOError,
                   conversations: initTable[string, Conversation](),
                   inboundQueue: q,
                   isRunning: false,
-                  newMessageCallbacks: @[])
+                  newMessageCallbacks: @[],
+                  newConvoCallbacks: @[])
 
     let defaultInbox = initInbox(c.ident.getPubkey())
     c.conversations[defaultInbox.id()] = defaultInbox
@@ -119,6 +122,12 @@ proc notifyNewMessage(client: Client, convo: Conversation, msg: string) =
   for cb in client.newMessageCallbacks:
     discard cb(convo, msg)
 
+proc onNewConversation*(client: Client, callback: NewConvoCallback) =
+  client.newConvoCallbacks.add(callback)
+
+proc notifyNewConversation(client: Client, convo: Conversation) =
+  for cb in client.newConvoCallbacks:
+    discard cb(convo)
 
 #################################################
 # Functional
@@ -153,6 +162,7 @@ proc createIntroBundle*(self: var Client): IntroBundle =
 proc addConversation*(client: Client, convo: Conversation) =
   notice "Creating conversation", client = client.getId(), topic = convo.id()
   client.conversations[convo.id()] = convo
+  client.notifyNewConversation(convo)
 
 proc getConversation*(client: Client, convoId: string): Conversation =
   notice "Get conversation", client = client.getId(), convoId = convoId

@@ -39,26 +39,21 @@ proc main() {.async.} =
   raya.onNewMessage(proc(convo: Conversation, msg: string) {.async.} =
     echo "           ------>  Raya :: " & msg
     await sleepAsync(10000)
-    await convo.sendMessage(raya.ds, "Pong"))
+    await convo.sendMessage(raya.ds, "Pong")
+  )
+
+  raya.onNewConversation(proc(convo: Conversation) {.async.} =
+    echo "           ------>  Raya :: New Conversation: " & convo.id()
+    await convo.sendMessage(raya.ds, "Hello")
+  )
   await raya.start()
+
 
   await sleepAsync(5000)
 
   # Perform OOB Introduction: Raya -> Saro
   let raya_bundle = raya.createIntroBundle()
   discard await saro.newPrivateConversation(raya_bundle)
-
-  await sleepAsync(5000)
-
-
-  try:
-    for convo in raya.listConversations():
-      notice "            Convo", convo = convo.id()
-      await convo.sendMessage(raya.ds, "Hello")
-    # Let messages process
-
-  except Exception as e:
-    panic("UnCaught Exception"&e.msg)
 
   await sleepAsync(400000)
 
