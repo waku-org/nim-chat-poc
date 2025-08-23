@@ -1,4 +1,9 @@
+import chronos
 import strformat
+import strutils
+
+import ../delivery/waku_client
+import ../utils
 
 type
   ConvoTypes* = enum
@@ -11,6 +16,14 @@ type
 proc `$`(conv: Conversation): string =
   fmt"Convo: {conv.name}"
 
-method id*(self: Conversation): string {.raises: [Defect].} =
-  raise newException(Defect, "Abstract function")
+# TODO: Removing the raises clause and the exception raise causes this
+# error -->     ...src/chat_sdk/client.nim(166, 9) Error: addConversation(client, convo) can raise an unlisted exception: Exception
+# Need better understanding of NIMs Exception model
+method id*(self: Conversation): string {.raises: [Defect, ValueError].} =
+  # TODO: make this a compile time check
+  panic("ProgramError: Missing concrete implementation")
 
+method sendMessage*(convo: Conversation, ds: WakuClient,
+    text: string) {.async, base, gcsafe.} =
+  # TODO: make this a compile time check
+  panic("ProgramError: Missing concrete implementation")

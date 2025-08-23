@@ -2,7 +2,7 @@
 
 import chronicles
 import chronos
-import std/[sequtils, strutils]
+import std/[sequtils, strutils, strformat]
 import std/algorithm
 import sugar
 
@@ -66,11 +66,8 @@ proc initPrivateV1*(owner: Identity, participant: PublicKey,
     discriminator: discriminator
   )
 
-proc sendMessage*(self: PrivateV1, ds: WakuClient,
+proc sendFrame(self: PrivateV1, ds: WakuClient,
     msg: PrivateV1Frame): Future[void]{.async.} =
-  notice "SENDING MSG", fromm = self.owner.getId(),
-      participants = self.participants, msg = msg
-
   let encryptedBytes = EncryptedPayload(plaintext: Plaintext(payload: encode(msg)))
 
   discard ds.sendPayload(self.getTopic(), encryptedBytes.toEnvelope(
@@ -87,9 +84,26 @@ proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
   let enc = decode(bytes, EncryptedPayload).get()       # TODO: handle result
   let frame = convo.decrypt(enc) # TODO: handle result
 
+  if frame.sender == @(convo.owner.getPubkey().bytes()):
+    notice "Self Message", convo = convo.id()
+    return
+
   case frame.getKind():
   of typeContentFrame:
     # TODO: Using client.getId() results in an error in this context
-    notice "Got Mail", text = frame.content.bytes.toUtfString()
+    client.notifyNewMessage(convo, toUtfString(frame.content.bytes))
+
   of typePlaceholder:
     notice "Got Placeholder", text = frame.placeholder.counter
+
+
+method sendMessage*(convo: PrivateV1, ds: WakuClient, text: string) {.async.} =
+
+  try:
+    let frame = PrivateV1Frame(sender: @(convo.owner.getPubkey().bytes()),
+        content: ContentFrame(domain: 0, tag: 1, bytes: text.toBytes()))
+
+    await convo.sendFrame(ds, frame)
+  except Exception as e:
+    error "Unknown error in PrivateV1:SendMessage"
+

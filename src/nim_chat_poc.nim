@@ -1,7 +1,11 @@
 import chronos
 import chronicles
+import strformat
+
 import chat_sdk/client
+import chat_sdk/conversations
 import chat_sdk/delivery/waku_client
+import chat_sdk/utils
 
 proc initLogging() =
   when defined(chronicles_runtime_filtering):
@@ -25,9 +29,17 @@ proc main() {.async.} =
 
   # Start Clients
   var saro = newClient("Saro", cfg_saro)
+  saro.onNewMessage(proc(convo: Conversation, msg: string) {.async.} =
+    echo "    Saro  <------        :: " & msg
+    await sleepAsync(10000)
+    await convo.sendMessage(saro.ds, "Ping"))
   await saro.start()
 
   var raya = newClient("Raya", cfg_raya)
+  raya.onNewMessage(proc(convo: Conversation, msg: string) {.async.} =
+    echo "           ------>  Raya :: " & msg
+    await sleepAsync(10000)
+    await convo.sendMessage(raya.ds, "Pong"))
   await raya.start()
 
   await sleepAsync(5000)
@@ -36,7 +48,18 @@ proc main() {.async.} =
   let raya_bundle = raya.createIntroBundle()
   discard await saro.newPrivateConversation(raya_bundle)
 
-  # Let messages process
+  await sleepAsync(5000)
+
+
+  try:
+    for convo in raya.listConversations():
+      notice "            Convo", convo = convo.id()
+      await convo.sendMessage(raya.ds, "Hello")
+    # Let messages process
+
+  except Exception as e:
+    panic("UnCaught Exception"&e.msg)
+
   await sleepAsync(400000)
 
   saro.stop()

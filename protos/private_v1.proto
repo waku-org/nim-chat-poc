@@ -12,7 +12,8 @@ message Placeholder {
 }
 
 message PrivateV1Frame {                 
-    string conversation_id = 1;                  
+    string conversation_id = 1;
+    bytes sender = 2;                
 
 	oneof frame_type {
 		common_frames.ContentFrame content = 10;
