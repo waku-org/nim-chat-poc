@@ -99,5 +99,6 @@ proc handleFrame*[T: ConversationStore](convo: Inbox, client: T, bytes: seq[
     notice "Receive Note", client = client.getId(), text = frame.note.text
 
 
-method sendMessage*(convo: Inbox, ds: WakuClient, text: string) {.async.} =
+method sendMessage*(convo: Inbox, ds: WakuClient,
+    content_frame: ContentFrame) {.async.} =
   warn "Cannot send message to Inbox"

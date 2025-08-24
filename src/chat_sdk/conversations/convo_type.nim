@@ -2,6 +2,7 @@ import chronos
 import strformat
 import strutils
 
+import ../proto_types
 import ../delivery/waku_client
 import ../utils
 
@@ -24,6 +25,6 @@ method id*(self: Conversation): string {.raises: [Defect, ValueError].} =
   panic("ProgramError: Missing concrete implementation")
 
 method sendMessage*(convo: Conversation, ds: WakuClient,
-    text: string) {.async, base, gcsafe.} =
+    content_frame: ContentFrame) {.async, base, gcsafe.} =
   # TODO: make this a compile time check
   panic("ProgramError: Missing concrete implementation")
