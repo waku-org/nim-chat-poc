@@ -91,17 +91,18 @@ proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
   case frame.getKind():
   of typeContentFrame:
     # TODO: Using client.getId() results in an error in this context
-    client.notifyNewMessage(convo, toUtfString(frame.content.bytes))
+    client.notifyNewMessage(convo, frame.content)
 
   of typePlaceholder:
     notice "Got Placeholder", text = frame.placeholder.counter
 
 
-method sendMessage*(convo: PrivateV1, ds: WakuClient, text: string) {.async.} =
+method sendMessage*(convo: PrivateV1, ds: WakuClient,
+    content_frame: ContentFrame) {.async.} =
 
   try:
     let frame = PrivateV1Frame(sender: @(convo.owner.getPubkey().bytes()),
-        content: ContentFrame(domain: 0, tag: 1, bytes: text.toBytes()))
+        content: content_frame)
 
     await convo.sendFrame(ds, frame)
   except Exception as e:

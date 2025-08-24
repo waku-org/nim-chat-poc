@@ -51,7 +51,7 @@ type Client* = ref object
   inboundQueue: QueueRef
   isRunning: bool
 
-  newMessageCallbacks: seq[MessageCallback[string]]
+  newMessageCallbacks: seq[MessageCallback[ContentFrame]]
   newConvoCallbacks: seq[NewConvoCallback]
 
 #################################################
@@ -115,12 +115,13 @@ proc listConversations*(client: Client): seq[Conversation] =
 # Callback Handling
 #################################################
 
-proc onNewMessage*(client: Client, callback: MessageCallback[string]) =
+proc onNewMessage*(client: Client, callback: MessageCallback[ContentFrame]) =
   client.newMessageCallbacks.add(callback)
 
-proc notifyNewMessage(client: Client, convo: Conversation, msg: string) =
+proc notifyNewMessage(client: Client, convo: Conversation,
+    content: ContentFrame) =
   for cb in client.newMessageCallbacks:
-    discard cb(convo, msg)
+    discard cb(convo, content)
 
 proc onNewConversation*(client: Client, callback: NewConvoCallback) =
   client.newConvoCallbacks.add(callback)
