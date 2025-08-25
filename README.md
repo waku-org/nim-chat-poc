@@ -3,7 +3,28 @@
 This is a technical proof of consuming the [chat_proto](https://github.com/waku-org/chat_proto/tree/base_types?tab=readme-ov-file) in nim.
 
 
-## Message Flow
+This POC introduces the following Conversation Types:
+- Inbox : Asymmetric channel for receiving invites
+- PrivateV1: 1:1 private messaing with Forward Secrecy and Post compromise security
+
+Messages are delivered over Waku
+
+See [nim_chat_poc](./src/nim_chat_poc.nim) for a client side usage example.
+
+
+## Quick Start
+
+```
+# Build Dependencies and link libraries
+nimble initialize
+
+# Run the default binary
+nimble run
+```
+
+## Details
+
+### Message Flow
 
 To establish a secure conversation, Saro and Raya need to:
 1. Exchange key material
@@ -44,14 +65,7 @@ sequenceDiagram
     C -->> S: Recv M2
  ```
 
-## Running
 
-
-
-```
-# Run the default binary
-nimble run
-```
 
 
 ## Limitations
