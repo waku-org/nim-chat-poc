@@ -61,9 +61,6 @@ proc main() {.async.} =
   cfg_saro.staticPeers.add(cfg_raya.getMultiAddr())
   cfg_raya.staticPeers.add(cfg_saro.getMultiAddr())
 
-  info "CFG", cfg = cfg_raya
-  info "CFG", cfg = cfg_saro
-
   # Start Clients
   var saro = newClient("Saro", cfg_saro)
   saro.onNewMessage(proc(convo: Conversation, msg: ContentFrame) {.async.} =
