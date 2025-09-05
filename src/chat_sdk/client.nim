@@ -6,6 +6,7 @@
 import # Foreign
   chronicles,
   chronos,
+  sds,
   sequtils,
   std/tables,
   std/sequtils,
@@ -34,8 +35,10 @@ logScope:
 #################################################
 
 type
-  MessageCallback[T] = proc(conversation: Conversation, msg: T): Future[void] {.async.}
-  NewConvoCallback = proc(conversation: Conversation): Future[void] {.async.}
+  MessageCallback*[T] = proc(conversation: Conversation, msg: T): Future[void] {.async.}
+  NewConvoCallback* = proc(conversation: Conversation): Future[void] {.async.}
+  ReadReceiptCallback* = proc(conversation: Conversation,
+      msgId: string): Future[void] {.async.}
 
 
 type KeyEntry* = object
@@ -53,6 +56,7 @@ type Client* = ref object
 
   newMessageCallbacks: seq[MessageCallback[ContentFrame]]
   newConvoCallbacks: seq[NewConvoCallback]
+  readReceiptCallbacks: seq[ReadReceiptCallback]
 
 #################################################
 # Constructors
@@ -64,6 +68,8 @@ proc newClient*(name: string, cfg: WakuConfig): Client {.raises: [IOError,
   try:
     let waku = initWakuClient(cfg)
 
+    let rm = newReliabilityManager().valueOr:
+      raise newException(ValueError, fmt"SDS InitializationError")
 
     var q = QueueRef(queue: newAsyncQueue[ChatPayload](10))
     var c = Client(ident: createIdentity(name),
@@ -130,6 +136,14 @@ proc notifyNewConversation(client: Client, convo: Conversation) =
   for cb in client.newConvoCallbacks:
     discard cb(convo)
 
+proc onReadReceipt*(client: Client, callback: ReadReceiptCallback) =
+  client.readReceiptCallbacks.add(callback)
+
+proc notifyReadReceipt(client: Client, convo: Conversation,
+    messageId: MessageId) =
+  for cb in client.readReceiptCallbacks:
+    discard cb(convo, messageId)
+
 #################################################
 # Functional
 #################################################
@@ -144,7 +158,7 @@ proc createIntroBundle*(self: var Client): IntroBundle =
   self.keyStore[ephemeralKey.getPublicKey().bytes().bytesToHex()] = KeyEntry(
     keyType: "ephemeral",
     privateKey: ephemeralKey,
-    timestamp: getTimestamp()
+    timestamp: getCurrentTimestamp()
   )
 
   result = IntroBundle(
@@ -189,11 +203,19 @@ proc newPrivateConversation*(client: Client,
     participant: @(destPubkey.bytes()),
     participantEphemeralId: introBundle.ephemeralId,
     discriminator: "test"
-  )
+    )
+
+
+
   let env = wrapEnv(encrypt(InboxV1Frame(invitePrivateV1: invite,
       recipient: "")), convoId)
 
-  let convo = initPrivateV1(client.identity(), destPubkey, "default")
+  let deliveryAckCb = proc(
+        conversation: Conversation,
+      msgId: string): Future[void] {.async.} =
+    client.notifyReadReceipt(conversation, msgId)
+
+  let convo = initPrivateV1(client.identity(), destPubkey, "default", deliveryAckCb)
   client.addConversation(convo)
 
   # TODO: Subscribe to new content topic

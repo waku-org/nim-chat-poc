@@ -4,11 +4,11 @@ import crypto
 import blake2
 import strutils
 
-proc getTimestamp*(): Timestamp =
+proc getCurrentTimestamp*(): Timestamp =
     result = waku_core.getNanosecondTime(getTime().toUnix())
 
 
-proc hash_func*(s: string): string =
+proc hash_func*(s: string | seq[byte]): string =
     # This should be Blake2s but it does not exist so substituting with Blake2b
     result = getBlake2b(s, 4, "")
 

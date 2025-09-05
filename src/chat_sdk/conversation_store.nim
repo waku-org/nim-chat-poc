@@ -4,6 +4,7 @@ import ./conversations/convo_type
 import crypto
 import identity
 import proto_types
+import types
 
 type ConvoId = string
 
@@ -16,3 +17,5 @@ type
 
     proc notifyNewMessage(self: Self, convo: Conversation,
         content: ContentFrame)
+    proc notifyReadReceipt(self: Self, convo: Conversation,
+        msgId: MessageId)
