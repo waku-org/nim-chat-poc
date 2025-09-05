@@ -12,7 +12,8 @@ import # Foreign
   std/sequtils,
   strformat,
   strutils,
-  tables
+  tables,
+  types
 
 import #local
   conversation_store,
@@ -37,8 +38,8 @@ logScope:
 type
   MessageCallback*[T] = proc(conversation: Conversation, msg: T): Future[void] {.async.}
   NewConvoCallback* = proc(conversation: Conversation): Future[void] {.async.}
-  ReadReceiptCallback* = proc(conversation: Conversation,
-      msgId: string): Future[void] {.async.}
+  DeliveryAckCallback* = proc(conversation: Conversation,
+      msgId: MessageId): Future[void] {.async.}
 
 
 type KeyEntry* = object
@@ -56,7 +57,7 @@ type Client* = ref object
 
   newMessageCallbacks: seq[MessageCallback[ContentFrame]]
   newConvoCallbacks: seq[NewConvoCallback]
-  readReceiptCallbacks: seq[ReadReceiptCallback]
+  deliveryAckCallbacks: seq[DeliveryAckCallback]
 
 #################################################
 # Constructors
@@ -136,12 +137,12 @@ proc notifyNewConversation(client: Client, convo: Conversation) =
   for cb in client.newConvoCallbacks:
     discard cb(convo)
 
-proc onReadReceipt*(client: Client, callback: ReadReceiptCallback) =
-  client.readReceiptCallbacks.add(callback)
+proc onDeliveryAck*(client: Client, callback: DeliveryAckCallback) =
+  client.deliveryAckCallbacks.add(callback)
 
-proc notifyReadReceipt(client: Client, convo: Conversation,
+proc notifyDeliveryAck(client: Client, convo: Conversation,
     messageId: MessageId) =
-  for cb in client.readReceiptCallbacks:
+  for cb in client.deliveryAckCallbacks:
     discard cb(convo, messageId)
 
 #################################################
@@ -213,7 +214,7 @@ proc newPrivateConversation*(client: Client,
   let deliveryAckCb = proc(
         conversation: Conversation,
       msgId: string): Future[void] {.async.} =
-    client.notifyReadReceipt(conversation, msgId)
+    client.notifyDeliveryAck(conversation, msgId)
 
   let convo = initPrivateV1(client.identity(), destPubkey, "default", deliveryAckCb)
   client.addConversation(convo)
