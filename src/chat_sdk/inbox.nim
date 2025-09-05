@@ -75,7 +75,7 @@ proc createPrivateV1FromInvite*[T: ConversationStore](client: T,
   let deliveryAckCb = proc(
         conversation: Conversation,
       msgId: string): Future[void] {.async.} =
-    client.notifyReadReceipt(conversation, msgId)
+    client.notifyDeliveryAck(conversation, msgId)
 
   let convo = initPrivateV1(client.identity(), destPubkey, "default", deliveryAckCb)
   notice "Creating PrivateV1 conversation", client = client.getId(),

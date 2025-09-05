@@ -17,5 +17,5 @@ type
 
     proc notifyNewMessage(self: Self, convo: Conversation,
         content: ContentFrame)
-    proc notifyReadReceipt(self: Self, convo: Conversation,
+    proc notifyDeliveryAck(self: Self, convo: Conversation,
         msgId: MessageId)
