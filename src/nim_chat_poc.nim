@@ -9,7 +9,6 @@ import chat_sdk/utils
 
 import content_types/all
 
-
 const SELF_DEFINED = 99
 
 type ImageFrame {.proto3.} = object
@@ -69,6 +68,11 @@ proc main() {.async.} =
     await convo.sendMessage(saro.ds, initImage(
         "https://waku.org/theme/image/logo-black.svg"))
     )
+
+  saro.onReadReceipt(proc(convo: Conversation, msgId: string) {.async.} =
+    echo "    Saro -- Read Receipt for " & msgId
+  )
+
   await saro.start()
 
   var raya = newClient("Raya", cfg_raya)
@@ -82,6 +86,10 @@ proc main() {.async.} =
     echo "           ------>  Raya :: New Conversation: " & convo.id()
     await convo.sendMessage(raya.ds, initTextFrame("Hello").toContentFrame())
   )
+  raya.onReadReceipt(proc(convo: Conversation, msgId: string) {.async.} =
+    echo "    raya -- Read Receipt for " & msgId
+  )
+
   await raya.start()
 
 

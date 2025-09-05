@@ -72,8 +72,12 @@ proc createPrivateV1FromInvite*[T: ConversationStore](client: T,
   let destPubkey = loadPublicKeyFromBytes(invite.initiator).valueOr:
     raise newException(ValueError, "Invalid public key in intro bundle.")
 
-  let convo = initPrivateV1(client.identity(), destPubkey, "default")
+  let deliveryAckCb = proc(
+        conversation: Conversation,
+      msgId: string): Future[void] {.async.} =
+    client.notifyReadReceipt(conversation, msgId)
 
+  let convo = initPrivateV1(client.identity(), destPubkey, "default", deliveryAckCb)
   notice "Creating PrivateV1 conversation", client = client.getId(),
       topic = convo.getConvoId()
   client.addConversation(convo)

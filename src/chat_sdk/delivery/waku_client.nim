@@ -118,7 +118,7 @@ proc buildWakuNode(cfg: WakuConfig): WakuNode =
   builder.withNetworkConfigurationDetails(ip, Port(cfg.port)).tryGet()
   let node = builder.build().tryGet()
 
-  node.mountMetadata(cfg.clusterId, @[1'u16, 2'u16]).expect("failed to mount waku metadata protocol")
+  node.mountMetadata(cfg.clusterId, cfg.shardId).expect("failed to mount waku metadata protocol")
 
   result = node
 
