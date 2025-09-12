@@ -188,3 +188,10 @@ proc initWakuClient*(cfg: WakuConfig): WakuClient =
 
 proc addDispatchQueue*(client: var WakuClient, queue: QueueRef) =
   client.dispatchQueues.add(queue)
+
+proc getConnectedPeerCount*(client: WakuClient): int =
+  var count = 0
+  for peerId, peerInfo in client.node.peerManager.switch.peerStore.peers:
+    if peerInfo.connectedness == Connected:
+      inc count
+  return count
