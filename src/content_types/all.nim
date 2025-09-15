@@ -19,11 +19,18 @@ export ContentFrame, TextFrame
 
 type ContentTypes = TextFrame
 
+
+const DOMAIN_OWNED = 0
+const TAG_TEXT = 0
+
 # protobuf_serialization does not support enums, so it needs to be manually implemented
 type
   TextEncoding* = enum
     Utf8 = 0
 
+
+  ContentType* = enum
+    text, unknown
 
 
 proc encode*(frame: object): seq[byte] =
@@ -31,14 +38,14 @@ proc encode*(frame: object): seq[byte] =
   result = Protobuf.encode(frame)
 
 
-proc decode*[T: object] (bytes: seq[byte], proto: typedesc[
-    T]): Result[T, string] =
-  ## Encodes the frame into a byte sequence using Protobuf serialization.
+# proc decode*[T: object] (bytes: seq[byte], proto: typedesc[
+#     T]): Result[T, string] =
+#   ## Encodes the frame into a byte sequence using Protobuf serialization.
 
-  try:
-    result = ok(Protobuf.decode(bytes, proto))
-  except ProtobufError as e:
-    result = err("Failed to decode payload: " & e.msg)
+#   try:
+#     result = ok(Protobuf.decode(bytes, proto))
+#   except ProtobufError as e:
+#     result = err("Failed to decode payload: " & e.msg)
 
 
 proc toContentFrame*(frame: TextFrame): ContentFrame =
@@ -53,3 +60,9 @@ proc `$`*(frame: TextFrame): string =
 
   result = fmt"TextFrame(encoding:{TextEncoding(frame.encoding)} text:{frame.text})"
 
+proc contentType*(frame: ContentFrame): ContentType =
+  if DOMAIN_OWNED != frame.domain:
+    return unknown
+
+  if TAG_TEXT == frame.tag:
+    return text 

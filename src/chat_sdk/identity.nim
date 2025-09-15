@@ -6,8 +6,8 @@ import results
 
 type
   Identity* = object
-    name: string
-    privateKey: PrivateKey
+    name*: string
+    privateKey*: PrivateKey   # TODO: protect key exposure
 
 
 #################################################

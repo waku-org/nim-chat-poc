@@ -47,7 +47,7 @@ type QueueRef* = ref object
 
 
 type WakuConfig* = object
-  nodekey: crypto.PrivateKey
+  nodekey*: crypto.PrivateKey  # TODO: protect key exposure 
   port*: uint16
   clusterId*: uint16
   shardId*: seq[uint16] ## @[0'u16]
@@ -64,7 +64,7 @@ proc getMultiAddr*(cfg: WakuConfig): string =
 
 type
   WakuClient* = ref object
-    cfg: WakuConfig
+    cfg*: WakuConfig
     node*: WakuNode
     dispatchQueues: seq[QueueRef]
     staticPeerList: seq[string]
@@ -128,7 +128,7 @@ proc taskKeepAlive(client: WakuClient) {.async.} =
     for peerStr in client.staticPeerList:
       let peer = parsePeerInfo(peerStr).get()
 
-      debug "maintaining subscription"
+      debug "maintaining subscription", peer = peerStr
       # First use filter-ping to check if we have an active subscription
       let pingRes = await client.node.wakuFilterClient.ping(peer)
       if pingRes.isErr():
@@ -141,8 +141,8 @@ proc taskKeepAlive(client: WakuClient) {.async.} =
         )
 
         if subscribeRes.isErr():
-          error "subscribe request failed. Quitting.", err = subscribeRes.error
-          break
+          error "subscribe request failed. Skipping.", err = subscribeRes.error
+          continue
         else:
           debug "subscribe request successful."
       else:

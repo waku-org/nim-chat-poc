@@ -30,7 +30,7 @@ import #local
 
 logScope:
   topics = "chat client"
-
+ 
 #################################################
 # Definitions
 #################################################
@@ -63,17 +63,16 @@ type Client* = ref object
 # Constructors
 #################################################
 
-proc newClient*(name: string, cfg: WakuConfig): Client {.raises: [IOError,
+proc newClient*(name: string, cfg: WakuConfig, ident: Identity): Client {.raises: [IOError,
     ValueError, SerializationError].} =
   ## Creates new instance of a `Client` with a given `WakuConfig`
   try:
     let waku = initWakuClient(cfg)
-
     let rm = newReliabilityManager().valueOr:
       raise newException(ValueError, fmt"SDS InitializationError")
 
     var q = QueueRef(queue: newAsyncQueue[ChatPayload](10))
-    var c = Client(ident: createIdentity(name),
+    var c = Client(ident: ident,
                   ds: waku,
                   keyStore: initTable[string, KeyEntry](),
                   conversations: initTable[string, Conversation](),
