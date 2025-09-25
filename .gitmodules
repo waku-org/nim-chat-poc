@@ -1,3 +1,0 @@
-[submodule "vendor/waku"]
-	path = vendor/waku
-	url = https://jazzz@github.com/jazzz/nwaku
