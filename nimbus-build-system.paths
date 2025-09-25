@@ -1,0 +1,3 @@
+--noNimblePath
+--path:"/Users/jazzz/dev-scratch/nim-chat-poc/vendor/nimbus-build-system"
+--path:"/Users/jazzz/dev-scratch/nim-chat-poc/vendor/waku"

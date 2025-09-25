@@ -1,3 +1,8 @@
 [submodule "vendor/waku"]
 	path = vendor/waku
 	url = https://jazzz@github.com/jazzz/nwaku
+[submodule "vendor/nimbus-build-system"]
+	path = vendor/nimbus-build-system
+	url = https://github.com/status-im/nimbus-build-system.git
+	ignore = untracked
+	branch = master
