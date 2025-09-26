@@ -63,7 +63,7 @@ type Client* = ref object
 # Constructors
 #################################################
 
-proc newClient*(name: string, cfg: WakuConfig, ident: Identity): Client {.raises: [IOError,
+proc newClient*(cfg: WakuConfig, ident: Identity): Client {.raises: [IOError,
     ValueError, SerializationError].} =
   ## Creates new instance of a `Client` with a given `WakuConfig`
   try:

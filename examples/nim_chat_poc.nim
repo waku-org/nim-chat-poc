@@ -62,7 +62,7 @@ proc main() {.async.} =
   cfg_raya.staticPeers.add(cfg_saro.getMultiAddr())
 
   # Start Clients
-  var saro = newClient("Saro", cfg_saro, createIdentity("Saro"))
+  var saro = newClient(cfg_saro, createIdentity("Saro"))
   saro.onNewMessage(proc(convo: Conversation, msg: ContentFrame) {.async.} =
     echo "    Saro  <------        :: " & getContent(msg)
     await sleepAsync(10000)
@@ -76,7 +76,7 @@ proc main() {.async.} =
 
   await saro.start()
 
-  var raya = newClient("Raya", cfg_raya, createIdentity("Raya"))
+  var raya = newClient(cfg_raya, createIdentity("Raya"))
   raya.onNewMessage(proc(convo: Conversation, msg: ContentFrame) {.async.} =
     echo "           ------>  Raya :: " & getContent(msg)
     await sleepAsync(10000)
