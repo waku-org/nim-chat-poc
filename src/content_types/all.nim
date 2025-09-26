@@ -38,14 +38,14 @@ proc encode*(frame: object): seq[byte] =
   result = Protobuf.encode(frame)
 
 
-# proc decode*[T: object] (bytes: seq[byte], proto: typedesc[
-#     T]): Result[T, string] =
-#   ## Encodes the frame into a byte sequence using Protobuf serialization.
+proc decode*[T: object] (bytes: seq[byte], proto: typedesc[
+    T]): Result[T, string] =
+  ## Encodes the frame into a byte sequence using Protobuf serialization.
 
-#   try:
-#     result = ok(Protobuf.decode(bytes, proto))
-#   except ProtobufError as e:
-#     result = err("Failed to decode payload: " & e.msg)
+  try:
+    result = ok(Protobuf.decode(bytes, proto))
+  except ProtobufError as e:
+    result = err("Failed to decode payload: " & e.msg)
 
 
 proc toContentFrame*(frame: TextFrame): ContentFrame =

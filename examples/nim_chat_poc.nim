@@ -6,6 +6,7 @@ import ../src/chat_sdk/client
 import ../src/chat_sdk/conversations
 import ../src/chat_sdk/delivery/waku_client
 import ../src/chat_sdk/utils
+import ../src/chat_sdk/identity
 
 import ../src/content_types/all
 

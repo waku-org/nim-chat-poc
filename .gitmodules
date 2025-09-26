@@ -26,3 +26,6 @@
 	url = https://github.com/narimiran/blake2.git
 	ignore = untracked
 	branch = master
+[submodule "vendor/illwill"]
+	path = vendor/illwill
+	url = https://github.com/johnnovak/illwill.git
