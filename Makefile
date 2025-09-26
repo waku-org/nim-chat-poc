@@ -1,5 +1,6 @@
 export BUILD_SYSTEM_DIR := vendor/nimbus-build-system
-export EXCLUDED_NIM_PACKAGES := vendor/nim-dnsdisc/vendor
+export EXCLUDED_NIM_PACKAGES := vendor/nwaku/vendor/nim-dnsdisc/vendor \
+																vendor/nwaku/vendor/nimbus-build-system
 LINK_PCRE := 0
 FORMAT_MSG := "\\x1B[95mFormatting:\\x1B[39m"
 # we don't want an error here, so we can handle things later, in the ".DEFAULT" target
@@ -60,14 +61,22 @@ NIM_PARAMS := $(NIM_PARAMS) -d:git_version=\"$(GIT_VERSION)\"
 .PHONY: build-waku-librln
 
 build-waku-librln:
-	make -C vendor/nwaku librln
+	@echo "Start building waku librln"
+	$(MAKE) -C vendor/nwaku librln
+	$(eval NIM_PARAMS += --passL:./vendor/nwaku/librln_v0.7.0.a --passL:-lm)
+	@echo "Completed building librln"
+
+build-waku-nat:
+	@echo "Start building waku nat-libs"
+	$(MAKE) -C vendor/nwaku nat-libs
+	@echo "Completed building nat-libs"
 
 ##########
 ## Example ##
 ##########
 .PHONY: waku_example
 
-waku_example: | build-waku-librln nim_chat_poc.nims
+waku_example: | build-waku-librln build-waku-nat nim_chat_poc.nims
 	echo -e $(BUILD_MSG) "build/$@" && \
 	\
 		$(ENV_SCRIPT) nim waku_example $(NIM_PARAMS) nim_chat_poc.nims
