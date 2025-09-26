@@ -2,12 +2,12 @@ import chronos
 import chronicles
 import strformat
 
-import chat_sdk/client
-import chat_sdk/conversations
-import chat_sdk/delivery/waku_client
-import chat_sdk/utils
+import ../src/chat_sdk/client
+import ../src/chat_sdk/conversations
+import ../src/chat_sdk/delivery/waku_client
+import ../src/chat_sdk/utils
 
-import content_types/all
+import ../src/content_types/all
 
 const SELF_DEFINED = 99
 

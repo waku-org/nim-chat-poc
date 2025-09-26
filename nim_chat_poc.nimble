@@ -37,3 +37,7 @@ proc buildBinary(name: string, srcDir = "./", params = "", lang = "c") =
 task waku_example, "Build Waku based simple example":
   let name = "waku_example"
   buildBinary name, "examples/", " -d:chronicles_log_level='TRACE' "
+
+task nim_chat_poc, "Build Waku based simple example":
+  let name = "nim_chat_poc"
+  buildBinary name, "examples/", " -d:chronicles_log_level='TRACE' "

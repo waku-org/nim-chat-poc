@@ -1,6 +1,7 @@
 export BUILD_SYSTEM_DIR := vendor/nimbus-build-system
 export EXCLUDED_NIM_PACKAGES := vendor/nwaku/vendor/nim-dnsdisc/vendor \
-																vendor/nwaku/vendor/nimbus-build-system
+								vendor/nwaku/vendor/nimbus-build-system \
+								vendor/nim-sds/vendor
 LINK_PCRE := 0
 FORMAT_MSG := "\\x1B[95mFormatting:\\x1B[39m"
 # we don't want an error here, so we can handle things later, in the ".DEFAULT" target
@@ -27,7 +28,7 @@ else # "variables.mk" was included. Business as usual until the end of this file
 .PHONY: all update clean
 
 # default target, because it's the first one that doesn't start with '.'
-all: | waku_example
+all: | waku_example nim_chat_poc
 
 test_file := $(word 2,$(MAKECMDGOALS))
 define test_name
@@ -80,6 +81,12 @@ waku_example: | build-waku-librln build-waku-nat nim_chat_poc.nims
 	echo -e $(BUILD_MSG) "build/$@" && \
 	\
 		$(ENV_SCRIPT) nim waku_example $(NIM_PARAMS) nim_chat_poc.nims
+
+nim_chat_poc: | build-waku-librln build-waku-nat nim_chat_poc.nims
+	echo -e $(BUILD_MSG) "build/$@" && \
+	\
+		$(ENV_SCRIPT) nim nim_chat_poc $(NIM_PARAMS) nim_chat_poc.nims
+
 
 endif
 
