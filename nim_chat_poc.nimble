@@ -44,4 +44,4 @@ task nim_chat_poc, "Build Waku based simple example":
 
 task tui, "Build Waku based simple example":
   let name = "tui"
-  buildBinary name, "examples/", " -d:chronicles_log_level='INFO' -d:chronicles_sinks=textlines[file]"
+  buildBinary name, "examples/", " -d:chronicles_enabled=off -d:chronicles_log_level='INFO' -d:chronicles_sinks=textlines[file]"

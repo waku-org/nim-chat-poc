@@ -15,10 +15,9 @@ import chat_sdk/[
   conversations,
   delivery/waku_client,
   links
-  # proto_types
 ]
 
-import ../../src/content_types/all
+import content_types/all
 
 import layout
 import persistence
@@ -109,9 +108,6 @@ proc setupChatSdk(app: ChatApp) =
         "<Unhandled Message Type>"
 
     app.conversations[convo.id()].messages.add(Message(sender: "???", content: contentStr, timestamp: now())) 
-
-    # await sleepAsync(10000)
-    # await convo.sendMessage(client.ds, initTextFrame("Pong").toContentFrame())
   )
 
   app.client.onNewConversation(proc(convo: Conversation) {.async.} =
@@ -119,7 +115,6 @@ proc setupChatSdk(app: ChatApp) =
     info "New Conversation: ", convoId = convo.id()
 
     app.conversations[convo.id()] = ConvoInfo(name: convo.id(), messages: @[], lastMsgTime: now(), isTooLong: false)
-    # await convo.sendMessage(client.ds, initTextFrame("Hello").toContentFrame())
   )
   
   app.client.onDeliveryAck(proc(convo: Conversation, msgId: string) {.async.} =
@@ -341,7 +336,7 @@ proc drawMsgInput( app: ChatApp, layout: Pane) =
   tb.write(paneStart + 1, inputY, " > " & app.inputBuffer, fgWhite)
 
   # Draw cursor
-  let cursorX = paneStart + 3 + app.inputBuffer.len
+  let cursorX = paneStart + 3 + app.inputBuffer.len + 1
   if cursorX < paneStart + layout.width - 1:
     tb.write(cursorX, inputY, "_", fgYellow)
 
@@ -366,7 +361,6 @@ proc drawModal(app: ChatApp, layout: Pane,
     color: ForegroundColor, bg: BackgroundColor = bgBlack) =
 
   var tb = app.tb  
-  # echo "Drawing modal at ", layout
   tb.setForegroundColor(color)
   tb.setBackgroundColor(bg)
   for x in layout.xStart..<layout.xStart+layout.width:
@@ -384,12 +378,12 @@ proc drawModal(app: ChatApp, layout: Pane,
       tb.write(i, y, " ")
 
     # Draw input prompt
-  tb.write(layout.xStart+5, layout.yStart+inputLine, "> " & app.inputBuffer)
+  tb.write(layout.xStart+5, layout.yStart+inputLine, "> " & app.inputInviteBuffer)
 
-  # Draw cursor
-  let cursorX = layout.xStart+5 + app.inputBuffer.len
+  # Draw cursor 
+  let cursorX = layout.xStart+5+1 + app.inputInviteBuffer.len
   if cursorX < terminalWidth() - 1:
-    tb.write(cursorX, layout.yStart+inputLine+2, "_", fgYellow)
+    tb.write(cursorX, layout.yStart+inputLine, "_", fgYellow)
 
   tb.setForegroundColor(fgBlack)
   tb.setBackgroundColor(bgGreen)
@@ -449,11 +443,10 @@ proc handleInput(app:  ChatApp, key: Key) =
     if app.inputBuffer.len > 0:
       app.inputBuffer.setLen(app.inputBuffer.len - 1)
   of Key.Tab:
-    if app.conversations.len > 0:
-      app.inviteModal = not app.inviteModal
+    app.inviteModal = not app.inviteModal
 
-      if app.inviteModal:
-        app.currentInviteLink = app.client.createIntroBundle().toLink()
+    if app.inviteModal:
+      app.currentInviteLink = app.client.createIntroBundle().toLink()
   of Key.Escape, Key.CtrlC:
     quit(0)
   else:
@@ -474,7 +467,7 @@ proc appLoop(app: ChatApp, panes: seq[Pane]) : Future[void] {.async.} =
   illwillInit(fullscreen = false)
   # Clear buffer
   while true:
-    await sleepAsync(50)
+    await sleepAsync(5)
     app.tb.clear()
 
     drawStatusBar(app, panes[0], fgBlack, getIdColor(app.client.getId()))
