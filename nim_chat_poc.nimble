@@ -9,20 +9,19 @@ bin = @["nim_chat_poc"]
 
 # Dependencies
 
-requires "nim >= 2.2.4"
-
-requires "protobuf_serialization"
-requires "secp256k1"
-requires "blake2"
-requires "chronicles"
-requires "libp2p"
-requires "nimchacha20poly1305" # TODO: remove
-requires "confutils"
-requires "eth"
-requires "regex"
-requires "web3"
-requires "https://github.com/jazzz/nim-sds#exports"
-requires "naawaku"
+requires "nim >= 2.2.4",
+  "protobuf_serialization",
+  "secp256k1",
+  "blake2",
+  "chronicles",
+  "libp2p",
+  "nimchacha20poly1305", # TODO: remove
+  "confutils",
+  "eth",
+  "regex",
+  "web3",
+  "https://github.com/jazzz/nim-sds#exports",
+  "waku"
 
 proc buildBinary(name: string, srcDir = "./", params = "", lang = "c") =
   if not dirExists "build":

@@ -4,3 +4,86 @@
 *.dSYM
 nimble.develop
 nimble.paths
+
+
+/nimcache
+
+# Executables shall be put in an ignored build/ directory
+/build
+
+# Nimble packages
+/vendor/.nimble
+
+# Generated Files
+*.generated.nim
+
+# ntags/ctags output
+/tags
+
+# a symlink that can't be added to the repo because of Windows
+/nim_chat_poc.nims
+
+# Ignore dynamic, static libs and libtool archive files
+*.so
+*.dylib
+*.a
+*.la
+*.exe
+*.dll
+
+.DS_Store
+
+# Ignore simulation generated metrics files
+/metrics/prometheus
+/metrics/waku-sim-all-nodes-grafana-dashboard.json
+
+*.log
+/package-lock.json
+/package.json
+node_modules/
+/.update.timestamp
+
+# Ignore Jetbrains IDE files
+.idea/
+
+# ignore vscode files
+.vscode/
+
+# RLN / keystore
+rlnKeystore.json
+*.tar.gz
+
+# Nimbus Build System
+nimbus-build-system.paths
+
+# sqlite db
+*.db
+*.db-shm
+*.db-wal
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+
+/examples/nodejs/build/
+/examples/rust/target/
+
+
+# Coverage
+coverage_html_report/
+*.info
+
+# Wildcard
+*.ignore.*
+
+# Ignore all possible node runner directories
+**/keystore/
+**/rln_tree/
+**/certs/
+
+# simple qt example
+.qmake.stash
+main-qt
+waku_handler.moc.cpp
+
+# Nix build result
+result
