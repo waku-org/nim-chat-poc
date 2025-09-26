@@ -2,3 +2,5 @@
 /waku_vibe_template.dSYM
 /nim_chat_poc
 *.dSYM
+nimble.develop
+nimble.paths

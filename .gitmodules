@@ -6,3 +6,23 @@
 	url = https://github.com/waku-org/nwaku.git
 	ignore = untracked
 	branch = master
+[submodule "vendor/nim-chronos"]
+	path = vendor/nim-chronos
+	url = https://github.com/status-im/nim-chronos.git
+	ignore = untracked
+	branch = master
+[submodule "vendor/nim-chronicles"]
+	path = vendor/nim-chronicles
+	url = https://github.com/status-im/nim-chronicles.git
+	ignore = untracked
+	branch = master
+[submodule "vendor/nim-metrics"]
+	path = vendor/nim-metrics
+	url = https://github.com/status-im/nim-metrics.git
+	ignore = untracked
+	branch = master
+[submodule "vendor/nim-libp2p"]
+	path = vendor/nim-libp2p
+	url = https://github.com/status-im/nim-libp2p.git
+	ignore = untracked
+	branch = master
