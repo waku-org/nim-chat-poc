@@ -10,12 +10,15 @@ import strutils
 import sugar
 import tables
 
-import ../chat_sdk/client
-import ../chat_sdk/conversations
-import ../chat_sdk/delivery/waku_client
-import ../chat_sdk/links
-import ../chat_sdk/proto_types
-import ../content_types/all
+import chat_sdk/[
+  client,
+  conversations,
+  delivery/waku_client,
+  links
+  # proto_types
+]
+
+import ../../src/content_types/all
 
 import layout
 import persistence

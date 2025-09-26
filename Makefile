@@ -28,7 +28,7 @@ else # "variables.mk" was included. Business as usual until the end of this file
 .PHONY: all update clean
 
 # default target, because it's the first one that doesn't start with '.'
-all: | waku_example nim_chat_poc
+all: | waku_example nim_chat_poc tui
 
 test_file := $(word 2,$(MAKECMDGOALS))
 define test_name
@@ -87,6 +87,9 @@ nim_chat_poc: | build-waku-librln build-waku-nat nim_chat_poc.nims
 	\
 		$(ENV_SCRIPT) nim nim_chat_poc $(NIM_PARAMS) nim_chat_poc.nims
 
+tui: | build-waku-librln build-waku-nat nim_chat_poc.nims
+	echo -e $(BUILD_MSG) "build/$@" && \
+	$(ENV_SCRIPT) nim tui $(NIM_PARAMS) --path:src nim_chat_poc.nims
 
 endif
 

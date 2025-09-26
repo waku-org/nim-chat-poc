@@ -40,4 +40,8 @@ task waku_example, "Build Waku based simple example":
 
 task nim_chat_poc, "Build Waku based simple example":
   let name = "nim_chat_poc"
-  buildBinary name, "examples/", " -d:chronicles_log_level='TRACE' "
+  buildBinary name, "examples/", " -d:chronicles_log_level='INFO' "
+
+task tui, "Build Waku based simple example":
+  let name = "tui"
+  buildBinary name, "examples/", " -d:chronicles_log_level='INFO' -d:chronicles_sinks=textlines[file]"

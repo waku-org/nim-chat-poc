@@ -12,9 +12,9 @@ import strformat
 import strutils
 import tables
 
-import ../chat_sdk/crypto/ecdh
-import ../chat_sdk/delivery/waku_client
-import ../chat_sdk/identity
+import chat_sdk/crypto/ecdh
+import chat_sdk/delivery/waku_client
+import chat_sdk/identity
 
 
 const REGISTRATION_DIR = ".registry"
@@ -103,7 +103,7 @@ proc saveCfg(name:string, cfg: Config) =
     staticPeers: cfg.waku.staticPeers
   )
 
-  let json = s.toJson()
+  let json = jsonutils.toJson(s)
 
   try:
     writeFile(joinPath(KEY_DIR, fmt"{name.toLower()}.cfg"), $json)
