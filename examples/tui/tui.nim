@@ -10,13 +10,7 @@ import strutils
 import sugar
 import tables
 
-import chat_sdk/[
-  client,
-  conversations,
-  delivery/waku_client,
-  links
-]
-
+import chat_sdk
 import content_types/all
 
 import layout
@@ -44,6 +38,7 @@ type
 
   ConvoInfo = object
     name: string
+    convo: Conversation
     messages: seq[Message] 
     lastMsgTime*: DateTime
     isTooLong*: bool
@@ -70,57 +65,6 @@ proc `==`(a,b: ConvoInfo):bool =
     true
   else:
     false
-
-#################################################
-# ChatSDK Setup
-#################################################
-
-proc createChatClient(name: string): Future[Client] {.async.} =
-  var cfg = await getCfg(name)
-  for key, val in fetchRegistrations():
-    if key != name:
-      cfg.waku.staticPeers.add(val)
-
-  result = newClient(name, cfg.waku, cfg.ident)
-
-
-proc createInviteLink(app: var ChatApp): string =
-  app.client.createIntroBundle().toLink()
-
-
-proc createConvo(app: ChatApp) {.async.} = 
-  discard await app.client.newPrivateConversation(toBundle(app.inputInviteBuffer.strip()).get())
-
-
-
-proc setupChatSdk(app: ChatApp) =
-
-  let client = app.client
-
-  app.client.onNewMessage(proc(convo: Conversation, msg: ContentFrame) {.async.} =
-    info "New Message: ", convoId = convo.id(), msg= msg
-    app.logMsgs.add(LogEntry(level: "info",ts: now(), msg: "NewMsg"))
-
-    var contentStr = case msg.contentType
-      of text: 
-        decode(msg.bytes, TextFrame).get().text
-      of unknown:
-        "<Unhandled Message Type>"
-
-    app.conversations[convo.id()].messages.add(Message(sender: "???", content: contentStr, timestamp: now())) 
-  )
-
-  app.client.onNewConversation(proc(convo: Conversation) {.async.} =
-    app.logMsgs.add(LogEntry(level: "info",ts: now(), msg: fmt"Adding Convo: {convo.id()}"))
-    info "New Conversation: ", convoId = convo.id()
-
-    app.conversations[convo.id()] = ConvoInfo(name: convo.id(), messages: @[], lastMsgTime: now(), isTooLong: false)
-  )
-  
-  app.client.onDeliveryAck(proc(convo: Conversation, msgId: string) {.async.} =
-    info "DeliveryAck", msgId=msgId
-    app.logMsgs.add(LogEntry(level: "info",ts: now(), msg: fmt"Ack:{msgId}"))
-  )
 
 
 #################################################
@@ -149,6 +93,63 @@ proc getSelectedConvo(app: ChatApp): ptr ConvoInfo =
     return addr app.conversations[app.selectedConv]
 
   return addr app.conversations[app.mostRecentConvos()[0].name]
+
+
+
+#################################################
+# ChatSDK Setup
+#################################################
+
+proc createChatClient(name: string): Future[Client] {.async.} =
+  var cfg = await getCfg(name)
+  for key, val in fetchRegistrations():
+    if key != name:
+      cfg.waku.staticPeers.add(val)
+
+  result = newClient(cfg.waku, cfg.ident)
+
+
+proc createInviteLink(app: var ChatApp): string =
+  app.client.createIntroBundle().toLink()
+
+
+proc createConvo(app: ChatApp) {.async.} = 
+  discard await app.client.newPrivateConversation(toBundle(app.inputInviteBuffer.strip()).get())
+
+proc sendMessage(app: ChatApp, convoInfo: ptr ConvoInfo, msg: string) {.async.} = 
+  convoInfo[].addMessage("You", app.inputBuffer)
+
+  if convoInfo.convo != nil:
+    await convoInfo.convo.sendMessage(app.client.ds, initTextFrame(msg).toContentFrame())
+
+proc setupChatSdk(app: ChatApp) =
+
+  let client = app.client
+
+  app.client.onNewMessage(proc(convo: Conversation, msg: ContentFrame) {.async.} =
+    info "New Message: ", convoId = convo.id(), msg= msg
+    app.logMsgs.add(LogEntry(level: "info",ts: now(), msg: "NewMsg"))
+
+    var contentStr = case msg.contentType
+      of text: 
+        decode(msg.bytes, TextFrame).get().text
+      of unknown:
+        "<Unhandled Message Type>"
+
+    app.conversations[convo.id()].messages.add(Message(sender: "???", content: contentStr, timestamp: now())) 
+  )
+
+  app.client.onNewConversation(proc(convo: Conversation) {.async.} =
+    app.logMsgs.add(LogEntry(level: "info",ts: now(), msg: fmt"Adding Convo: {convo.id()}"))
+    info "New Conversation: ", convoId = convo.id()
+
+    app.conversations[convo.id()] = ConvoInfo(name: convo.id(), convo: convo,  messages: @[], lastMsgTime: now(), isTooLong: false)
+  )
+  
+  app.client.onDeliveryAck(proc(convo: Conversation, msgId: string) {.async.} =
+    info "DeliveryAck", msgId=msgId
+    app.logMsgs.add(LogEntry(level: "info",ts: now(), msg: fmt"Ack:{msgId}"))
+  )
 
 
 #################################################
@@ -414,7 +415,7 @@ proc getNextConv(app: ChatApp): string =
   return convos[min(i+1, convos.len-1)].name
 
 
-proc handleInput(app:  ChatApp, key: Key) =
+proc handleInput(app:  ChatApp, key: Key) {.async.} =
   case key
   of Key.Up:
     app.selectedConv = app.gePreviousConv()
@@ -434,8 +435,9 @@ proc handleInput(app:  ChatApp, key: Key) =
       app.isInviteReady = true
     else:
       if app.inputBuffer.len > 0 and app.conversations.len > 0:
-        var sc = app.getSelectedConvo()
-        sc[].addMessage("You", app.inputBuffer)
+
+        let sc = app.getSelectedConvo() 
+        await app.sendMessage(sc, app.inputBuffer)
 
         app.inputBuffer = ""
         app.messageScrollOffset = 0 # Auto-scroll to bottom
@@ -489,7 +491,7 @@ proc appLoop(app: ChatApp, panes: seq[Pane]) : Future[void] {.async.} =
 
     # Handle input
     let key = getKey()
-    handleInput(app, key)
+    await handleInput(app, key)
 
     if app.isInviteReady:
       discard await app.client.newPrivateConversation(toBundle(app.inputInviteBuffer.strip()).get())
