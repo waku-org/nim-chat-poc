@@ -555,8 +555,15 @@ proc initChatApp(client: Client): Future[ChatApp] {.async.} =
 
 
   # Add some sample conversations with messages
+  var sender = "Nobody"
   var conv1 = ConvoInfo(name: "ReadMe", messages: @[])
-  conv1.addMessage("","Bob", "TODO")
+  conv1.addMessage("",sender, "First start multiple clients and ensure, that he PeerCount is correct (it's listed in the top left corner)")
+  conv1.addMessage("",sender, "Once connected, The sender needs to get the recipients introduction link. The links contains the key material and information required to initialize a conversation. Press `Tab` to generate a link")
+  conv1.addMessage("",sender, "Paste the link from one client into another. This will start the initialization protocol, which will send an invite to the recipient and negotiate a conversation")
+  conv1.addMessage("",sender, "Once established, Applications are notified by a callback that a new conversation has been established, and participants can send messages")
+    
+
+  
   app.conversations[conv1.name] = conv1
 
   return app
