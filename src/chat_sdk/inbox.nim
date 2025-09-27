@@ -11,6 +11,7 @@ import
   crypto,
   delivery/waku_client,
   proto_types,
+  types,
   utils
 
 logScope:
@@ -104,5 +105,6 @@ proc handleFrame*[T: ConversationStore](convo: Inbox, client: T, bytes: seq[
 
 
 method sendMessage*(convo: Inbox, ds: WakuClient,
-    content_frame: ContentFrame) {.async.} =
+    content_frame: ContentFrame) : Future[MessageId] {.async.} =
   warn "Cannot send message to Inbox"
+  result = "program_error"

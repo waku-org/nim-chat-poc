@@ -5,6 +5,7 @@ import strutils
 import ../proto_types
 import ../delivery/waku_client
 import ../utils
+import ../types
 
 type
   ConvoTypes* = enum
@@ -25,6 +26,6 @@ method id*(self: Conversation): string {.raises: [Defect, ValueError].} =
   panic("ProgramError: Missing concrete implementation")
 
 method sendMessage*(convo: Conversation, ds: WakuClient,
-    content_frame: ContentFrame) {.async, base, gcsafe.} =
+    content_frame: ContentFrame) : Future[MessageId] {.async, base, gcsafe.} =
   # TODO: make this a compile time check
   panic("ProgramError: Missing concrete implementation")

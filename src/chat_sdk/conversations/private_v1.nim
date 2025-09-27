@@ -116,7 +116,7 @@ proc initPrivateV1*(owner: Identity, participant: PublicKey,
     raise newException(ValueError, "bad sds channel")
 
 proc sendFrame(self: PrivateV1, ds: WakuClient,
-    msg: PrivateV1Frame): Future[void]{.async.} =
+    msg: PrivateV1Frame):  Future[MessageId]{.async.} =
 
   let frameBytes = encode(msg)
   let msgId = self.calcMsgId(frameBytes)
@@ -129,6 +129,9 @@ proc sendFrame(self: PrivateV1, ds: WakuClient,
 
   discard ds.sendPayload(self.getTopic(), encryptedBytes.toEnvelope(
       self.getConvoId()))
+
+  result = msgId
+  
 
 method id*(self: PrivateV1): string =
   return getConvoIdRaw(self.participants, self.discriminator)
@@ -166,13 +169,13 @@ proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
 
 
 method sendMessage*(convo: PrivateV1, ds: WakuClient,
-    content_frame: ContentFrame) {.async.} =
+    content_frame: ContentFrame) : Future[MessageId] {.async.} =
 
   try:
     let frame = PrivateV1Frame(sender: @(convo.owner.getPubkey().bytes()),
         timestamp: getCurrentTimestamp(), content: content_frame)
 
-    await convo.sendFrame(ds, frame)
+    result = await convo.sendFrame(ds, frame)
   except Exception as e:
     error "Unknown error in PrivateV1:SendMessage"
 

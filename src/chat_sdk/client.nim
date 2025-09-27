@@ -231,8 +231,6 @@ proc newPrivateConversation*(client: Client,
 proc parseMessage(client: Client, msg: ChatPayload) {.raises: [ValueError,
     SerializationError].} =
   ## Receives a incoming payload, decodes it, and processes it.
-  info "Parse", clientId = client.getId(), msg = msg,
-      contentTopic = msg.contentTopic
 
   let envelope = decode(msg.bytes, WapEnvelopeV1).valueOr:
     raise newException(ValueError, "Failed to decode WapEnvelopeV1: " & error)

@@ -35,6 +35,8 @@ type
     sender: string
     content: string
     timestamp: DateTime
+    id: string
+    isAcknowledged: bool
 
   ConvoInfo = object
     name: string
@@ -71,13 +73,15 @@ proc `==`(a,b: ConvoInfo):bool =
 # Data Management
 #################################################
 
-proc addMessage(conv: var ConvoInfo, sender: string, content: string) =
+proc addMessage(conv: var ConvoInfo, messageId: MessageId, sender: string, content: string) =
 
   let now = now()
   conv.messages.add(Message(
     sender: sender,
+    id: messageId,
     content: content,
-    timestamp: now
+    timestamp: now,
+    isAcknowledged: false
   ))
   conv.lastMsgTime = now
 
@@ -117,10 +121,13 @@ proc createConvo(app: ChatApp) {.async.} =
   discard await app.client.newPrivateConversation(toBundle(app.inputInviteBuffer.strip()).get())
 
 proc sendMessage(app: ChatApp, convoInfo: ptr ConvoInfo, msg: string) {.async.} = 
-  convoInfo[].addMessage("You", app.inputBuffer)
 
+  var msgId = ""
   if convoInfo.convo != nil:
-    await convoInfo.convo.sendMessage(app.client.ds, initTextFrame(msg).toContentFrame())
+    msgId = await convoInfo.convo.sendMessage(app.client.ds, initTextFrame(msg).toContentFrame())
+
+  convoInfo[].addMessage(msgId, "You", app.inputBuffer)
+
 
 proc setupChatSdk(app: ChatApp) =
 
@@ -149,6 +156,16 @@ proc setupChatSdk(app: ChatApp) =
   app.client.onDeliveryAck(proc(convo: Conversation, msgId: string) {.async.} =
     info "DeliveryAck", msgId=msgId
     app.logMsgs.add(LogEntry(level: "info",ts: now(), msg: fmt"Ack:{msgId}"))
+
+    var s = ""
+    var msgs = addr app.conversations[convo.id()].messages
+    for i in countdown(msgs[].high, 0):
+      s = fmt"{s},{msgs[i].id}"
+      var m = addr msgs[i]
+
+      if m.id == msgId:
+          m.isAcknowledged = true
+          break  # Stop after 
   )
 
 
@@ -265,11 +282,12 @@ proc drawMsgPane( app: ChatApp, layout: Pane) =
 
       let m = convo.messages[i]
       let timeStr = m.timestamp.format("HH:mm:ss")
-      
+      var deliveryIcon = " "
       var remainingText = m.content
       
       if m.sender == "You":
         tb.setForegroundColor(fgYellow)
+        deliveryIcon = if m.isAcknowledged: "✔" else: "◯"
       else:
         tb.setForegroundColor(fgGreen)
 
@@ -278,7 +296,7 @@ proc drawMsgPane( app: ChatApp, layout: Pane) =
           app.logMsgs.add(LogEntry(level: "info",ts: now(), msg: fmt" TOO LONG: {convo.name}"))
 
           return
-      tb.write(x, y, fmt"[{timeStr}] {m.sender}")
+      tb.write(x, y, fmt"[{timeStr}]  {deliveryIcon}  {m.sender}")
       y = y + 1
 
       while remainingText.len > 0:
@@ -300,11 +318,12 @@ proc drawMsgPane( app: ChatApp, layout: Pane) =
 
       let m = convo.messages[i]
       let timeStr = m.timestamp.format("HH:mm:ss")
-
+      var deliveryIcon = " "
       var remainingText = m.content
 
       if m.sender == "You":
         tb.setForegroundColor(fgYellow)
+        deliveryIcon = if m.isAcknowledged: "✔" else: "◯"
       else:
         tb.setForegroundColor(fgGreen)
 
@@ -322,7 +341,7 @@ proc drawMsgPane( app: ChatApp, layout: Pane) =
         tb.write(x+3, y, line)
         y = y - 1
       
-      tb.write(x, y, fmt"[{timeStr}] {m.sender}")
+      tb.write(x, y, fmt"[{timeStr}]  {deliveryIcon}  {m.sender}")
       y = y - 2
 
 proc drawMsgInput( app: ChatApp, layout: Pane) =
@@ -528,58 +547,9 @@ proc initChatApp(client: Client): Future[ChatApp] {.async.} =
 
 
   # Add some sample conversations with messages
-  var conv1 = ConvoInfo(name: "Alice", messages: @[])
-  conv1.addMessage("36Alice", "Hey there! How are you doing?")
-  conv1.addMessage("35You", "I'm doing well, thanks! Working on a new project.")
-  conv1.addMessage("34Alice", "That sounds exciting! What kind of project?")
-  conv1.addMessage("33You", "A terminal-based chat application in Nim!")
-  conv1.addMessage("32Alice", "Hey there! How are you doing?")
-  conv1.addMessage("31You", "I'm doing well, thanks! Working on a new project.")
-  conv1.addMessage("30Alice", "That sounds exciting! What kind of project?")
-  conv1.addMessage("29You", "A terminal-based chat application in Nim!")
-  conv1.addMessage("28Alice", "Hey there! How are you doing?")
-  conv1.addMessage("27You", "I'm doing well, thanks! Working on a new project.")
-  conv1.addMessage("26Alice", "That sounds exciting! What kind of project?")
-  conv1.addMessage("25You", "A terminal-based chat application in Nim! A terminal-based chat application in Nim! A terminal-based chat application in Nim! A terminal-based chat application in Nim! A terminal-based chat application in Nim! A terminal-based chat application in Nim! A terminal-based chat application in Nim! A terminal-based chat application in Nim! A terminal-based chat application in Nim! A terminal-based chat application in Nim!")
-  conv1.addMessage("24Alice", "Hey there! How are you doing?")
-  conv1.addMessage("23You", "I'm doing well, thanks! Working on a new project.")
-  conv1.addMessage("22Alice", "That sounds exciting! What kind of project?")
-  conv1.addMessage("21You", "A terminal-based chat application in Nim!")
-  conv1.addMessage("20Alice", "Hey there! How are you doing?")
-  conv1.addMessage("19You", "I'm doing well, thanks! Working on a new project.")
-  conv1.addMessage("18Alice", "That sounds exciting! What kind of project?")
-  conv1.addMessage("17You", "A terminal-based chat application in Nim!")
-  conv1.addMessage("16Alice", "Hey there! How are you doing?")
-  conv1.addMessage("15You", "I'm doing well, thanks! Working on a new project.")
-  conv1.addMessage("14Alice", "That sounds exciting! What kind of project?")
-  conv1.addMessage("13You", "A terminal-based chat application in Nim!")
-  conv1.addMessage("12Alice", "Hey there! How are you doing?")
-  conv1.addMessage("11You", "I'm doing well, thanks! Working on a new project.")
-  conv1.addMessage("10Alice", "That sounds exciting! What kind of project?")
-  conv1.addMessage("9You", "The system architecture consists of three main components: the client interface, the processing engine, and the data storage layer. Each component communicates through well-defined APIs that ensure scalability and maintainability. The client interface handles user interactions and validates input data before forwarding requests to the processing engine.")
-  conv1.addMessage("8Alice", "Hey there! How are you doing?")
-  conv1.addMessage("7You", "I'm doing well, thanks! Working on a new project.")
-  conv1.addMessage("6Alice", "That sounds exciting! What kind of project?")
-  conv1.addMessage("5You", "A terminal-based chat application in Nim!")
-  conv1.addMessage("4Alice", "Hey there! How are you doing?")
-  conv1.addMessage("3You", "I'm doing well, thanks! Working on a new project.")
-  conv1.addMessage("2Alice", "That sounds exciting! What kind of project?")
-  conv1.addMessage("1You", "A terminal-based chat application in Nim!")
+  var conv1 = ConvoInfo(name: "ReadMe", messages: @[])
+  conv1.addMessage("","Bob", "TODO")
   app.conversations[conv1.name] = conv1
-
-  var conv2 = ConvoInfo(name: "Bob", messages: @[])
-  conv2.addMessage("Bob", "Did you see the game last night?")
-  conv2.addMessage("You", "The system architecture consists of three main components: the client interface, the processing engine, and the data storage layer. Each component communicates through well-defined APIs that ensure scalability and maintainability. The client interface handles user interactions and validates input data before forwarding requests to the processing engine")
-  conv2.addMessage("Bob", "The home team crushed it! 3-0")
-  app.conversations[conv2.name] = conv2
-
-  var conv3 = ConvoInfo(name: "Development Team", messages: @[])
-  conv3.addMessage("Sarah", "Morning standup in 10 minutes")
-  conv3.addMessage("Mike", "I'll be there. Just finishing up the last bug fix.")
-  conv3.addMessage("You", "On my way!")
-  conv3.addMessage("Sarah", "Great! Let's review the sprint progress today.")
-  app.conversations[conv3.name] = conv3
-
 
   return app
 

@@ -4,11 +4,12 @@ import chat_sdk/[
   delivery/waku_client,
   identity,
   links,
-  proto_types
+  proto_types,
+  types
 
 ]
 
 export client, conversations, waku_client, identity, links
 
 #export specific frames need by applications
-export ContentFrame
+export ContentFrame, MessageId
