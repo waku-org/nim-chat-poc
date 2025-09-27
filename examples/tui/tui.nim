@@ -386,7 +386,9 @@ proc drawModal(app: ChatApp, layout: Pane,
   for x in layout.xStart..<layout.xStart+layout.width:
     for y in layout.yStart..<layout.yStart+layout.height:
       tb.write(x, y, " ", color)
-
+      
+  tb.setForegroundColor(fgBlack)
+  tb.setBackgroundColor(bgGreen)
   tb.write(layout.xStart + 2, layout.yStart + 2, "Paste Invite")
 
   tb.setForegroundColor(fgWhite)
@@ -513,7 +515,13 @@ proc appLoop(app: ChatApp, panes: seq[Pane]) : Future[void] {.async.} =
     await handleInput(app, key)
 
     if app.isInviteReady:
-      discard await app.client.newPrivateConversation(toBundle(app.inputInviteBuffer.strip()).get())
+
+      try:
+        let sanitized = app.inputInviteBuffer.replace(" ", "").replace("\r","")
+        discard await app.client.newPrivateConversation(toBundle(app.inputInviteBuffer.strip()).get())
+
+      except Exception as e:
+        info "bad invite", invite = app.inputInviteBuffer
       app.inputInviteBuffer = ""
       app.isInviteReady = false
 
