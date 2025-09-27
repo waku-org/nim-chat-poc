@@ -66,7 +66,7 @@ proc main() {.async.} =
   saro.onNewMessage(proc(convo: Conversation, msg: ContentFrame) {.async.} =
     echo "    Saro  <------        :: " & getContent(msg)
     await sleepAsync(10000)
-    await convo.sendMessage(saro.ds, initImage(
+    discard await convo.sendMessage(saro.ds, initImage(
         "https://waku.org/theme/image/logo-black.svg"))
     )
 
@@ -80,12 +80,12 @@ proc main() {.async.} =
   raya.onNewMessage(proc(convo: Conversation, msg: ContentFrame) {.async.} =
     echo "           ------>  Raya :: " & getContent(msg)
     await sleepAsync(10000)
-    await convo.sendMessage(raya.ds, initTextFrame("Pong").toContentFrame())
+    discard  await convo.sendMessage(raya.ds, initTextFrame("Pong").toContentFrame())
   )
 
   raya.onNewConversation(proc(convo: Conversation) {.async.} =
     echo "           ------>  Raya :: New Conversation: " & convo.id()
-    await convo.sendMessage(raya.ds, initTextFrame("Hello").toContentFrame())
+    discard await convo.sendMessage(raya.ds, initTextFrame("Hello").toContentFrame())
   )
   raya.onDeliveryAck(proc(convo: Conversation, msgId: string) {.async.} =
     echo "    raya -- Read Receipt for " & msgId
