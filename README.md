@@ -9,17 +9,20 @@ This POC introduces the following Conversation Types:
 
 Messages are delivered over Waku
 
-See [nim_chat_poc](./src/nim_chat_poc.nim) for a client side usage example.
+See [EchoBot](./examples/bot_echo.nim) for a minimal client side usage example.
 
 
 ## Quick Start
 
 ```
 # Build Dependencies and link libraries
-nimble initialize
+make update
 
-# Run the default binary
-nimble run
+# Build executables
+make all
+
+# Run the Text Interface
+./build/tui
 ```
 
 ## Details
@@ -64,8 +67,6 @@ sequenceDiagram
     R ->> C: Send M2
     C -->> S: Recv M2
  ```
-
-
 
 
 ## Limitations
