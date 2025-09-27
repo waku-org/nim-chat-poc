@@ -72,8 +72,8 @@ type
 
 proc DefaultConfig*(): WakuConfig =
   let nodeKey = crypto.PrivateKey.random(Secp256k1, crypto.newRng()[])[]
-  let clusterId = 1'u16
-  let shardId = 3'u16
+  let clusterId = 19'u16
+  let shardId = 0'u16
   var port: uint16 = 50000'u16 + uint16(rand(200))
 
   result = WakuConfig(nodeKey: nodeKey, port: port, clusterId: clusterId,
