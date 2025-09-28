@@ -15,7 +15,7 @@ make update
 make all
 
 # Run the Text Interface
-./build/tui
+./build/tui --name=<unique_id>
 ```
 
 ## Details
