@@ -57,8 +57,12 @@ proc toIdent(s: SavedConfig): Identity =
 proc register(name: string, multiAddr: string) {.async.} =
 
   notice "Registering Account", name=name, maddr=multiAddr
+
+  if not dirExists(REGISTRATION_DIR):
+    createDir(REGISTRATION_DIR)
+
   try:
-    writeFile(joinPath(".registry", fmt"{name.toLower()}.maddr"), multiAddr)
+    writeFile(joinPath(REGISTRATION_DIR, fmt"{name.toLower()}.maddr"), multiAddr)
   except IOError as e:
     echo "Failed to write registration file: ", e.msg
     raise e
@@ -104,6 +108,10 @@ proc saveCfg(name:string, cfg: Config) =
   )
 
   let json = jsonutils.toJson(s)
+
+
+  if not dirExists(KEY_DIR):
+    createDir(KEY_DIR)
 
   try:
     writeFile(joinPath(KEY_DIR, fmt"{name.toLower()}.cfg"), $json)
