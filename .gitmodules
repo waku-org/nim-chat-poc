@@ -31,3 +31,13 @@
 	url = https://github.com/johnnovak/illwill.git
 	ignore = untracked
 	branch = master
+[submodule "vendor/nim_chacha20_poly1305"]
+	path = vendor/nim_chacha20_poly1305
+	url = https://github.com/lantos-lgtm/nim_chacha20_poly1305.git
+	ignore = untracked
+	branch = master
+[submodule "vendor/constantine"]
+	path = vendor/constantine
+	url = https://github.com/mratsim/constantine.git
+	ignore = untracked
+	branch = master
