@@ -1,7 +1,8 @@
 import naxolotl/[
     naxolotl,
     curve25519,
-    types
+    types, 
+    errors
 ]
 
-export naxolotl, curve25519
+export naxolotl, curve25519, NaxolotlError
