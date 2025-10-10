@@ -2,7 +2,9 @@ import curve25519
 import results
 import chronicles
 import nim_chacha20_poly1305/[common,helpers]
-
+import strformat
+import strutils
+import sequtils
 import tables
 
 import chacha
@@ -10,16 +12,7 @@ import types
 import utils
 import errors
 
-# converter toArray*(x: RootKey): array[32, byte] =
-#   array[32,byte](x)
-
-# converter toArray*(x: DhDerivedKey): array[32, byte] =
-#   array[32,byte](x)
-
-
-
 const maxSkip = 10
-
 
 
 type Doubleratchet* = object
@@ -44,14 +37,21 @@ const DomainSepKdfChain = "ChainKey"
 
 
 type DrHeader* = object
-  dhPublic: PublicKey
-  msgNumber: uint32
-  prevChainLength: uint32
+  dhPublic*: PublicKey
+  msgNumber*: uint32
+  prevChainLen*: uint32
 
 
 
 func keyId(dh:PublicKey, recvCount: MsgCount ): KeyId = 
   (dh, recvCount)
+
+func hex(a: openArray[byte]) : string =
+  a.mapIt(&"{it:02X}").join("")
+
+proc `$`*(x: DrHeader): string =
+  "DrHeader(pubKey=" & hex(x.dhPublic) & ", msgNum=" & $x.msgNumber & ", msgNum=" & $x.prevChainLen & ")"
+
 
 #################################################
 # Kdf
@@ -97,9 +97,6 @@ proc dhRatchetRecv(self: var Doubleratchet, remotePublickey: PublicKey ) =
 
   let dhOutputPost = self.dhSelf.dhExchange(self.dhRemote).get()
   (self.rootKey, self.chainKeyRecv) = kdfRoot(self, self.rootKey, dhOutputPost)
-  # let (newRootKey, newChainKeySend) = kdfRoot(self, self.rootKey, dhOutputPost)
-  # self.rootKey = newRootKey
-  # self.chainKeyRecv = newChainKeySend
 
 
 proc skipMessageKeys(self: var Doubleratchet, until: MsgCount): Result[(), string] =
@@ -124,7 +121,7 @@ proc encrypt(self: var Doubleratchet, plaintext: var seq[byte], associatedData: 
   let header = DrHeader(  
                 dhPublic: self.dhSelf.public, #TODO Serialize
                 msgNumber: self.msgCountSend,
-                prevChainLength: self.prevChainLen)
+                prevChainLen: self.prevChainLen)
 
   self.msgCountSend = self.msgCountSend + 1
 
@@ -153,7 +150,7 @@ proc decrypt*(self: var Doubleratchet, header: DrHeader, ciphertext: CipherText,
     msgKey = self.skippedMessageKeys[keyId]
   else:
     if (peerPublic != self.dhRemote):
-      let r = self.skipMessageKeys(header.prevChainLength)
+      let r = self.skipMessageKeys(header.prevChainLen)
       if r.isErr:
         error "skipMessages", error = r.error()
       self.dhRatchetRecv(peerPublic)
@@ -189,8 +186,6 @@ func initDoubleratchet*(sharedSecret: array[32, byte], dhSelf: PrivateKey, dhRem
       msgCountRecv: 0,
       prevChainLen: 0,
       skippedMessageKeys: initTable[(PublicKey, MsgCount), MessageKey]()
-      # chainKeySend: none
-      # chainKeyRecv: none
   )
 
   if isSending:
