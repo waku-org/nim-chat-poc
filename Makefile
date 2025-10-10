@@ -88,7 +88,7 @@ nim_chat_poc: | build-waku-librln build-waku-nat nim_chat_poc.nims
 		$(ENV_SCRIPT) nim nim_chat_poc $(NIM_PARAMS) nim_chat_poc.nims
 
 # Ensure there is a nimble task with a name that matches the target
-tui bot_echo: | build-waku-librln build-waku-nat nim_chat_poc.nims
+tui bot_echo pingpong: | build-waku-librln build-waku-nat nim_chat_poc.nims
 	echo -e $(BUILD_MSG) "build/$@" && \
 	$(ENV_SCRIPT) nim $@ $(NIM_PARAMS) --path:src nim_chat_poc.nims
 

@@ -49,3 +49,7 @@ task tui, "Build Waku based simple example":
 task bot_echo, "Build the EchoBot example":
   let name = "bot_echo"
   buildBinary name, "examples/", "-d:chronicles_log_level='INFO' -d:chronicles_disabled_topics='waku node' "
+
+task pingpong, "Build the Pingpong example":
+  let name = "pingpong"
+  buildBinary name, "examples/", "-d:chronicles_log_level='INFO' -d:chronicles_disabled_topics='waku node' "
