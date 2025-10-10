@@ -21,6 +21,7 @@ import #local
   conversations/convo_impl,
   crypto,
   delivery/waku_client,
+  errors,
   identity,
   inbox,
   proto_types,
@@ -215,7 +216,11 @@ proc newPrivateConversation*(client: Client,
       msgId: string): Future[void] {.async.} =
     client.notifyDeliveryAck(conversation, msgId)
 
-  let convo = initPrivateV1(client.identity(), destPubkey, "default", deliveryAckCb)
+  # TODO: remove placeholder key
+  var key : array[32, byte]
+  key[2]=2
+
+  var convo = initPrivateV1Sender(client.identity(), destPubkey, key, deliveryAckCb)
   client.addConversation(convo)
 
   # TODO: Subscribe to new content topic

@@ -9,7 +9,7 @@ message EncryptedPayload {
 
     oneof encryption {
         encryption.Plaintext plaintext = 1;
-		encryption.Ecies ecies = 2;
+		encryption.Doubleratchet doubleratchet = 2;
     }
 }
 
@@ -17,8 +17,10 @@ message Plaintext {
     bytes payload=1;
 }
 
-message Ecies {
-    bytes encrypted_bytes=1;
-    bytes ephemeral_pubkey = 2;
-    bytes tag = 3;
+message Doubleratchet {
+    bytes dh = 1;       // 32 byte array
+    uint32 msgNum = 2;
+    uint32 prevChainLen = 3;
+    bytes ciphertext = 4;
+    string aux = 5;
 }

@@ -78,7 +78,11 @@ proc createPrivateV1FromInvite*[T: ConversationStore](client: T,
       msgId: string): Future[void] {.async.} =
     client.notifyDeliveryAck(conversation, msgId)
 
-  let convo = initPrivateV1(client.identity(), destPubkey, "default", deliveryAckCb)
+  # TODO: remove placeholder key
+  var key : array[32, byte]
+  key[2]=2
+
+  let convo = initPrivateV1Recipient(client.identity(), destPubkey, key, deliveryAckCb)
   notice "Creating PrivateV1 conversation", client = client.getId(),
       topic = convo.getConvoId()
   client.addConversation(convo)
