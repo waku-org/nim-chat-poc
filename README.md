@@ -20,6 +20,34 @@ make all
 
 ## Details
 
+### Features
+
+Current state of the [ChatSDK FURPS](https://github.com/waku-org/pm/blob/master/FURPS/application/chat_sdk.md)
+
+| ID  | Feature                    | Status | Notes                                                   |
+|-----|----------------------------|--------|---------------------------------------------------------|
+| F1  | Permissionless Accounts    | ✅     |                                                         |
+| F2  | 1:1 Messaging              | ✅     |                                                         |
+| F3  | FS + PCS                   | 🟡     | PCS in place — strong FS needs initial key exchange     |
+| F4  | Delivery Receipts          | ✅     |                                                         |
+| F5  | Basic Content Types        | ✅     | Types need formal definition; plugin system prototyped  |
+| F6  | Default Message Store      | ⚪     |                                                         |
+| F7  | Default Secrets Store      | ⚪     |                                                         |
+| U1  | Non-interactive Initiation | ✅     |                                                         |
+| U2  | Invite Links               | ✅     |                                                         |
+| U3  | 25 Lines of Code           | 🟡     |                                                         |
+| R1  | Dropped Message Detection  | ⚪     |                                                         |
+| P1  | 10K Active Clients         | ⚪     |                                                         |
+| S1  | RLN Compatible             | 🟡     | RLN supported, but not implemented yet                  |
+| S2  | Future Proof               | 🟡     |                                                         |
+| S3  | Go Bindings                | ⚪     |                                                         |
+| S4  | Rust Bindings              | ⚪     |                                                         |
+| +1  | Sender Privacy             | 🟡     | Needs verification                                      |
+| +2  | Membership Privacy         | 🟡     | Needs verification                                      |
+| +3  | User Activity Privacy      | 🟡     | Needs verification                                      |
+| +4  | Nimble Compatible          | ⛔     | Blocked — upstream dependency conflicts     
+
+
 ### Message Flow
 
 To establish a secure conversation, Saro and Raya need to:
