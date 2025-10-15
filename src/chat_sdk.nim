@@ -1,15 +1,17 @@
 import chat_sdk/[
   client,
+  crypto,
   conversations,
   delivery/waku_client,
   identity,
   links,
   proto_types,
   types
-
 ]
 
-export client, conversations, waku_client, identity, links
+export client, conversations, identity, links, waku_client
 
 #export specific frames need by applications
 export ContentFrame, MessageId
+
+export toHex

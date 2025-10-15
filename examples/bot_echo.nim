@@ -11,18 +11,18 @@ import ./tui/persistence # Temporary Workaround for PeerDiscovery
 proc main() {.async.} =
 
   let cfg = await getCfg("EchoBot")
-  # let dsConfig = DefaultConfig()
-  # let ident = createIdentity("EchoBot")
+  let dsConfig = DefaultConfig()
+  let ident = createIdentity("EchoBot")
   var chatClient = newClient(dsConfig, ident)
 
-  chatClient.onNewMessage(proc(convo: Conversation, msg: ContentFrame) {.async.} =
+  chatClient.onNewMessage(proc(convo: Conversation, msg: ReceivedMessage) {.async.} =
     info "New Message: ", convoId = convo.id(), msg= msg
-    await convo.sendMessage(chatClient.ds, msg)
+    discard await convo.sendMessage(chatClient.ds, msg.content)
   )
 
   chatClient.onNewConversation(proc(convo: Conversation) {.async.} =
     info "New Conversation Initiated: ", convoId = convo.id()
-    await convo.sendMessage(chatClient.ds, initTextFrame("Hello!").toContentFrame())
+    discard await convo.sendMessage(chatClient.ds, initTextFrame("Hello!").toContentFrame())
   )
 
   await chatClient.start()

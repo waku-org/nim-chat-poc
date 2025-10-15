@@ -28,7 +28,7 @@ else # "variables.mk" was included. Business as usual until the end of this file
 .PHONY: all update clean
 
 # default target, because it's the first one that doesn't start with '.'
-all: | waku_example nim_chat_poc tui
+all: | waku_example tui bot_echo pingpong
 
 test_file := $(word 2,$(MAKECMDGOALS))
 define test_name
@@ -81,11 +81,6 @@ waku_example: | build-waku-librln build-waku-nat nim_chat_poc.nims
 	echo -e $(BUILD_MSG) "build/$@" && \
 	\
 		$(ENV_SCRIPT) nim waku_example $(NIM_PARAMS) nim_chat_poc.nims
-
-nim_chat_poc: | build-waku-librln build-waku-nat nim_chat_poc.nims
-	echo -e $(BUILD_MSG) "build/$@" && \
-	\
-		$(ENV_SCRIPT) nim nim_chat_poc $(NIM_PARAMS) nim_chat_poc.nims
 
 # Ensure there is a nimble task with a name that matches the target
 tui bot_echo pingpong: | build-waku-librln build-waku-nat nim_chat_poc.nims
