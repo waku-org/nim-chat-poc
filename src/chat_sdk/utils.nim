@@ -1,6 +1,5 @@
 import waku/waku_core
 import std/[macros, random, times]
-import crypto
 import blake2
 import strutils
 
@@ -18,10 +17,6 @@ proc bytesToHex*[T](bytes: openarray[T], lowercase: bool = false): string =
     for b in bytes:
         let hex = b.toHex(2)
         result.add(if lowercase: hex.toLower() else: hex)
-
-proc get_addr*(pubkey: PublicKey): string =
-    # TODO: Needs Spec
-    result = hash_func(pubkey.bytes().bytesToHex())
 
 proc toBytes*(s: string): seq[byte] =
     result = cast[seq[byte]](s)
