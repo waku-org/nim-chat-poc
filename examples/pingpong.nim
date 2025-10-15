@@ -36,7 +36,7 @@ proc main() {.async.} =
 
   var ri = 0
   # Wire Callbacks
-  saro.onNewMessage(proc(convo: Conversation, msg: ContentFrame) {.async.} =
+  saro.onNewMessage(proc(convo: Conversation, msgInfo: MessageInfo, msg: ContentFrame) {.async.} =
     echo "    Saro  <------        :: " & getContent(msg)
     await sleepAsync(5000)
     discard await convo.sendMessage(saro.ds, initTextFrame("Ping").toContentFrame())
@@ -50,8 +50,8 @@ proc main() {.async.} =
 
 
 
-  raya.onNewMessage(proc(convo: Conversation, msg: ContentFrame) {.async.} =
-    echo "           ------>  Raya :: " & getContent(msg)
+  raya.onNewMessage(proc(convo: Conversation, msgInfo: MessageInfo, msg: ContentFrame) {.async.} =
+    echo fmt"           ------>  Raya :: from:{msgInfo.sender.value} " & getContent(msg)
     await sleepAsync(500)
     discard  await convo.sendMessage(raya.ds, initTextFrame("Pong" & $ri).toContentFrame())
     await sleepAsync(800)

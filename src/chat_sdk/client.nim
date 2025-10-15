@@ -24,6 +24,7 @@ import #local
   errors,
   identity,
   inbox,
+  message_info,
   proto_types,
   types,
   utils
@@ -37,7 +38,7 @@ logScope:
 #################################################
 
 type
-  MessageCallback*[T] = proc(conversation: Conversation, msg: T): Future[void] {.async.}
+  MessageCallback* = proc(conversation: Conversation, msgInfo: MessageInfo, msg: ContentFrame): Future[void] {.async.}
   NewConvoCallback* = proc(conversation: Conversation): Future[void] {.async.}
   DeliveryAckCallback* = proc(conversation: Conversation,
       msgId: MessageId): Future[void] {.async.}
@@ -56,7 +57,7 @@ type Client* = ref object
   inboundQueue: QueueRef
   isRunning: bool
 
-  newMessageCallbacks: seq[MessageCallback[ContentFrame]]
+  newMessageCallbacks: seq[MessageCallback]
   newConvoCallbacks: seq[NewConvoCallback]
   deliveryAckCallbacks: seq[DeliveryAckCallback]
 
@@ -122,13 +123,13 @@ proc listConversations*(client: Client): seq[Conversation] =
 # Callback Handling
 #################################################
 
-proc onNewMessage*(client: Client, callback: MessageCallback[ContentFrame]) =
+proc onNewMessage*(client: Client, callback: MessageCallback) =
   client.newMessageCallbacks.add(callback)
 
-proc notifyNewMessage(client: Client, convo: Conversation,
+proc notifyNewMessage*(client: Client,  convo: Conversation, msgInfo: MessageInfo,
     content: ContentFrame) =
   for cb in client.newMessageCallbacks:
-    discard cb(convo, content)
+    discard cb(convo, msgInfo, content)
 
 proc onNewConversation*(client: Client, callback: NewConvoCallback) =
   client.newConvoCallbacks.add(callback)

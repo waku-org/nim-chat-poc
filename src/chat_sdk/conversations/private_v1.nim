@@ -20,6 +20,7 @@ import ../[
   utils
 ]
 import convo_type
+import ../message_info
 
 import ../../naxolotl as nax
  
@@ -202,7 +203,7 @@ proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
   case frame.getKind():
   of typeContentFrame:
     # TODO: Using client.getId() results in an error in this context
-    client.notifyNewMessage(convo, frame.content)
+    client.notifyNewMessage(convo, MessageInfo(sender: Property[PublicKey](value: convo.participant, verifiability: Unverified)), frame.content)
 
   of typePlaceholder:
     notice "Got Placeholder", text = frame.placeholder.counter
