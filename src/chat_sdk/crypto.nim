@@ -26,6 +26,10 @@ proc decrypt_plain*[T: EncryptableTypes](ciphertext: Plaintext, t: typedesc[
 proc generate_key*(): PrivateKey =
   createRandomKey().get()
 
+
+proc toHex*(key: PublicKey): string =
+  bytesToHex(key.bytes())
+  
 proc `$`*(key: PublicKey): string =
-  let byteStr = bytesToHex(key.bytes())
+  let byteStr = toHex(key)
   fmt"{byteStr[0..3]}..{byteStr[^4 .. ^1]}"

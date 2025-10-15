@@ -133,17 +133,17 @@ proc setupChatSdk(app: ChatApp) =
 
   let client = app.client
 
-  app.client.onNewMessage(proc(convo: Conversation, msg: ContentFrame) {.async.} =
+  app.client.onNewMessage(proc(convo: Conversation, msg: ReceivedMessage) {.async.} =
     info "New Message: ", convoId = convo.id(), msg= msg
     app.logMsgs.add(LogEntry(level: "info",ts: now(), msg: "NewMsg"))
 
-    var contentStr = case msg.contentType
+    var contentStr = case msg.content.contentType
       of text: 
-        decode(msg.bytes, TextFrame).get().text
+        decode(msg.content.bytes, TextFrame).get().text
       of unknown:
         "<Unhandled Message Type>"
 
-    app.conversations[convo.id()].messages.add(Message(sender: "???", content: contentStr, timestamp: now())) 
+    app.conversations[convo.id()].messages.add(Message(sender: msg.sender.toHex(), content: contentStr, timestamp: now())) 
   )
 
   app.client.onNewConversation(proc(convo: Conversation) {.async.} =
