@@ -20,10 +20,17 @@ import ../[
   utils
 ]
 import convo_type
-import ../message_info
+import message
 
 import ../../naxolotl as nax
  
+
+type
+  ReceivedPrivateV1Message* = ref object of ReceivedMessage 
+    
+proc initReceivedMessage(sender: PublicKey, timestamp: int64, content: ContentFrame) : ReceivedPrivateV1Message =
+  ReceivedPrivateV1Message(sender:sender, timestamp:timestamp, content:content)
+
 
 type
   PrivateV1* = ref object of Conversation
@@ -203,8 +210,8 @@ proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
   case frame.getKind():
   of typeContentFrame:
     # TODO: Using client.getId() results in an error in this context
-    client.notifyNewMessage(convo, MessageInfo(sender: Property[PublicKey](value: convo.participant, verifiability: Unverified)), frame.content)
-
+    client.notifyNewMessage(convo, initReceivedMessage(convo.participant, frame.timestamp, frame.content))
+    
   of typePlaceholder:
     notice "Got Placeholder", text = frame.placeholder.counter
 
