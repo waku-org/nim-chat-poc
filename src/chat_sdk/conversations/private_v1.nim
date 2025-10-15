@@ -30,7 +30,7 @@ type
     sdsClient: ReliabilityManager
     owner: Identity
     topic: string
-    participants: seq[PublicKey]
+    participant: PublicKey
     discriminator: string
     doubleratchet: naxolotl.Doubleratchet
 
@@ -38,6 +38,8 @@ proc getTopic*(self: PrivateV1): string =
   ## Returns the topic for the PrivateV1 conversation.
   return self.topic
 
+proc allParticipants(self: PrivateV1): seq[PublicKey] =
+  return @[self.owner.getPubkey(), self.participant]
 
 proc getConvoIdRaw(participants: seq[PublicKey],
     discriminator: string): string =
@@ -49,7 +51,7 @@ proc getConvoIdRaw(participants: seq[PublicKey],
   return utils.hash_func(raw)
 
 proc getConvoId*(self: PrivateV1): string =
-  return getConvoIdRaw(self.participants, self.discriminator)
+  return getConvoIdRaw(@[self.owner.getPubkey(), self.participant], self.discriminator)
 
 proc derive_topic(participants: seq[PublicKey], discriminator: string): string =
   ## Derives a topic from the participants' public keys.
@@ -131,7 +133,7 @@ proc initPrivateV1*(owner: Identity, participant: PublicKey, seedKey: array[32, 
     sdsClient: rm,
     owner: owner,
     topic: derive_topic(participants, discriminator),
-    participants: participants,
+    participant: participant,
     discriminator: discriminator,
     doubleratchet: initDoubleratchet(seedKey, owner.privateKey.bytes, participant.bytes, isSender)
   )
@@ -169,7 +171,7 @@ proc sendFrame(self: PrivateV1, ds: WakuClient,
   
 
 method id*(self: PrivateV1): string =
-  return getConvoIdRaw(self.participants, self.discriminator)
+  return getConvoIdRaw(self.allParticipants(), self.discriminator)
 
 proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
     bytes: seq[byte]) =
