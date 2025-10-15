@@ -1,11 +1,13 @@
 import proto_types
 
+import strformat
 import crypto/ecdh
 import std/[sysrand]
 import results
+import utils
 
 export PublicKey, PrivateKey, bytes, createRandomKey, loadPrivateKeyFromBytes, loadPublicKeyFromBytes,
-       getPublicKey, Dh, Result
+       getPublicKey, Dh, Result, get_addr
 
 
 proc encrypt_plain*[T: EncryptableTypes](frame: T): EncryptedPayload =
@@ -24,3 +26,6 @@ proc decrypt_plain*[T: EncryptableTypes](ciphertext: Plaintext, t: typedesc[
 proc generate_key*(): PrivateKey =
   createRandomKey().get()
 
+proc `$`*(key: PublicKey): string =
+  let byteStr = bytesToHex(key.bytes())
+  fmt"{byteStr[0..3]}..{byteStr[^4 .. ^1]}"

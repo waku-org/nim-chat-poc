@@ -2,18 +2,24 @@ import results
 import libp2p/crypto/curve25519
 import bearssl/rand
 
+import ../utils
+
 type PrivateKey* = object
   bytes: Curve25519Key
 
-type PublicKey* = object
-  bytes: Curve25519Key
+# type PublicKey* = object
+#   bytes: Curve25519Key
+
+type PublicKey* = distinct Curve25519Key # TODO: define outside of ECDH
+
+
 
 
 proc bytes*(key: PrivateKey): Curve25519Key =
   return key.bytes
 
-proc bytes*(key: PublicKey): Curve25519Key =
-  return key.bytes
+proc bytes*(key: PublicKey): array[Curve25519KeySize, byte] =
+  cast[array[Curve25519KeySize, byte]](key)
 
 proc createRandomKey*(): Result[PrivateKey, string] =
   let rng = HmacDrbgContext.new()
@@ -29,11 +35,11 @@ proc loadPrivateKeyFromBytes*(bytes: openArray[byte]): Result[PrivateKey, string
 proc loadPublicKeyFromBytes*(bytes: openArray[byte]): Result[PublicKey, string] =
   if bytes.len != Curve25519KeySize:
     return err("Public key size must be 32 bytes")
-  ok(PublicKey(bytes: intoCurve25519Key(bytes)))
+  ok(PublicKey(intoCurve25519Key(bytes)))
 
 
 proc getPublicKey*(privateKey: PrivateKey): PublicKey =
-  PublicKey(bytes: public(privateKey.bytes))
+  PublicKey( public(privateKey.bytes))
 
 
 proc Dh*(privateKey: PrivateKey, publicKey: PublicKey): Result[seq[
@@ -46,3 +52,10 @@ proc Dh*(privateKey: PrivateKey, publicKey: PublicKey): Result[seq[
     return err("Failed to compute shared secret: " & e.msg)
 
   return ok(outputKey.getBytes())
+
+
+proc get_addr*(pubkey: PublicKey): string =
+    # TODO: Needs Spec
+    result = hash_func(pubkey.bytes().bytesToHex())
+
+
