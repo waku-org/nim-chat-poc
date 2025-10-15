@@ -7,19 +7,21 @@ import ../utils
 type PrivateKey* = object
   bytes: Curve25519Key
 
-# type PublicKey* = object
-#   bytes: Curve25519Key
-
 type PublicKey* = distinct Curve25519Key # TODO: define outside of ECDH
 
 
+proc bytes*(key: PublicKey): array[Curve25519KeySize, byte] =
+  cast[array[Curve25519KeySize, byte]](key)
+
+proc get_addr*(pubkey: PublicKey): string =
+    # TODO: Needs Spec
+    result = hash_func(pubkey.bytes().bytesToHex())
 
 
 proc bytes*(key: PrivateKey): Curve25519Key =
   return key.bytes
 
-proc bytes*(key: PublicKey): array[Curve25519KeySize, byte] =
-  cast[array[Curve25519KeySize, byte]](key)
+
 
 proc createRandomKey*(): Result[PrivateKey, string] =
   let rng = HmacDrbgContext.new()
@@ -52,10 +54,5 @@ proc Dh*(privateKey: PrivateKey, publicKey: PublicKey): Result[seq[
     return err("Failed to compute shared secret: " & e.msg)
 
   return ok(outputKey.getBytes())
-
-
-proc get_addr*(pubkey: PublicKey): string =
-    # TODO: Needs Spec
-    result = hash_func(pubkey.bytes().bytesToHex())
 
 
