@@ -5,6 +5,7 @@ import crypto
 import identity
 import proto_types
 import types
+import message_info
 
 type ConvoId = string
 
@@ -15,7 +16,7 @@ type
     proc identity(self: Self): Identity
     proc getId(self: Self): string
 
-    proc notifyNewMessage(self: Self, convo: Conversation,
+    proc notifyNewMessage(self: Self, convo: Conversation, msgInfo: MessageInfo,
         content: ContentFrame)
     proc notifyDeliveryAck(self: Self, convo: Conversation,
         msgId: MessageId)
