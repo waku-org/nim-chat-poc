@@ -30,7 +30,7 @@ type Doubleratchet* = object
   # TODO: SkippedKeys
   skippedMessageKeys: Table[(PublicKey,MsgCount), MessageKey]
 
-const DomainSepKdfRoot = "DoubleRatchet"
+const DomainSepKdfRoot = "DoubleRatchetRootKey"
 
 
 type DrHeader* = object
