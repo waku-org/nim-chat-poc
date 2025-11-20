@@ -7,7 +7,7 @@ import errors
 import types
 
 
-func hkdfExtract*(salt: openArray[byte], ikm: openArray[byte], info: openArray[byte] ) : GenericArray = 
+func hkdfExtract*(salt: openArray[byte], ikm: openArray[byte]) : GenericArray = 
 
   assert GenericArray.len == sha256.digestSize()
 

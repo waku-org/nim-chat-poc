@@ -31,9 +31,6 @@ type Doubleratchet* = object
   skippedMessageKeys: Table[(PublicKey,MsgCount), MessageKey]
 
 const DomainSepKdfRoot = "DoubleRatchet"
-const DomainSepKdfMsg = "MessageKey"
-const DomainSepKdfChain = "ChainKey"
-
 
 
 type DrHeader* = object
@@ -68,8 +65,8 @@ func kdfRoot(self: var Doubleratchet, rootKey: RootKey, dhOutput:DhDerivedKey): 
 
 func kdfChain(self: Doubleratchet, chainKey: ChainKey): (MessageKey, ChainKey) =
 
-  let msgKey   = hkdfExtract(chainKey, [0x01u8], cast[seq[byte]](DomainSepKdfMsg))
-  let chainKey = hkdfExtract(chainKey, [0x02u8], cast[seq[byte]](DomainSepKdfChain))
+  let msgKey   = hkdfExtract(chainKey, [0x01u8])
+  let chainKey = hkdfExtract(chainKey, [0x02u8])
 
   return(msgKey, chainKey)
 
