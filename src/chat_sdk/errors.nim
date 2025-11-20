@@ -8,6 +8,7 @@ type
   ErrorCode* = enum
     errTypeError
     errWrapped
+    errDecryptOutgoing
 
 
 proc `$`*(x: ChatError): string =

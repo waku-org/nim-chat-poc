@@ -16,8 +16,8 @@ const maxSkip = 10
 
 
 type Doubleratchet* = object
-  dhSelf: PrivateKey
-  dhRemote: PublicKey
+  dhSelf*: PrivateKey
+  dhRemote*: PublicKey
 
   rootKey: RootKey
   chainKeySend: ChainKey
@@ -73,8 +73,9 @@ func kdfChain(self: Doubleratchet, chainKey: ChainKey): (MessageKey, ChainKey) =
 
   return(msgKey, chainKey)
 
-func dhRatchetSend(self: var Doubleratchet) =
+proc dhRatchetSend(self: var Doubleratchet) =
   # Perform DH Ratchet step when receiving a new peer key.
+  info "dhRatchetSend DH Self: ", dhSelf = self.dhSelf
   let dhOutput : DhDerivedKey = dhExchange(self.dhSelf, self.dhRemote).get()
   let (newRootKey, newChainKeySend) = kdfRoot(self, self.rootKey, dhOutput)
   self.rootKey = newRootKey
@@ -82,6 +83,8 @@ func dhRatchetSend(self: var Doubleratchet) =
   self.msgCountSend = 0
 
 proc dhRatchetRecv(self: var Doubleratchet, remotePublickey: PublicKey ) = 
+  info "dh ratchet happens"
+  info "dhRatchetRecv DH Remote: ", dhRemote = remotePublickey
   self.prevChainLen = self.msgCountSend
   self.msgCountSend = 0
   self.msgCountRecv = 0
@@ -96,7 +99,7 @@ proc dhRatchetRecv(self: var Doubleratchet, remotePublickey: PublicKey ) =
   self.dhSelf = generateKeypair().get()[0]
 
   let dhOutputPost = self.dhSelf.dhExchange(self.dhRemote).get()
-  (self.rootKey, self.chainKeyRecv) = kdfRoot(self, self.rootKey, dhOutputPost)
+  (self.rootKey, self.chainKeySend) = kdfRoot(self, self.rootKey, dhOutputPost)
 
 
 proc skipMessageKeys(self: var Doubleratchet, until: MsgCount): Result[(), string] =
@@ -138,8 +141,14 @@ proc encrypt(self: var Doubleratchet, plaintext: var seq[byte], associatedData: 
 
 
 proc decrypt*(self: var Doubleratchet, header: DrHeader, ciphertext: CipherText, associatedData: openArray[byte] ) : Result[seq[byte], NaxolotlError] =
+  info "double ratchet decrypt", header = $header
+  info "dhRemote: ", dhRemote = self.dhRemote
+  info "dhSelf: ", dhSelf = self.dhSelf
+  info "dhSelf public: ", dhSelf = self.dhSelf.public
 
   let peerPublic = header.dhPublic
+
+  info "peerPublic: ", peerPublic = peerPublic
 
   var msgKey : MessageKey
 
@@ -176,8 +185,12 @@ proc encrypt*(self: var Doubleratchet, plaintext: var seq[byte]) : (DrHeader, Ci
   encrypt(self, plaintext,@[])
 
 
-func initDoubleratchet*(sharedSecret: array[32, byte], dhSelf: PrivateKey, dhRemote: PublicKey, isSending: bool = true): Doubleratchet =
+proc initDoubleratchet*(sharedSecret: array[32, byte], dhSelf: PrivateKey, dhRemote: PublicKey, isSending: bool = true): Doubleratchet =
 
+  info "Initializing Double Ratchet"
+  info "DH Self: ", dhSelf = dhSelf
+  info "DH Self public: ", dhSelf = dhSelf.public
+  info "DH Remote: ", dhRemote = dhRemote
   result = Doubleratchet(
       dhSelf: dhSelf,
       dhRemote: dhRemote,

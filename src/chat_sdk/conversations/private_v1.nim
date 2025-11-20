@@ -72,7 +72,15 @@ proc calcMsgId(self: PrivateV1, msgBytes: seq[byte]): string =
 
 proc encrypt*(convo: PrivateV1, plaintext: var seq[byte]): EncryptedPayload =
 
+  info "encrypt metadata"
+  info "Doubleratchet DH Self: ", dhSelf = convo.doubleratchet.dhSelf
+  info "dh self public:" , dhSelfPub = convo.doubleratchet.dhSelf.public
+  info "dhRemote: ", dhRemote = convo.doubleratchet.dhRemote
+
   let (header, ciphertext) = convo.doubleratchet.encrypt(plaintext) #TODO: Associated Data
+
+  info "encrypt done"
+  info "header dh public: ", dhPub = header.dhPublic
 
   result = EncryptedPayload(doubleratchet: proto_types.DoubleRatchet(
     dh: toSeq(header.dhPublic),
@@ -93,6 +101,16 @@ proc decrypt*(convo: PrivateV1, enc: EncryptedPayload): Result[seq[byte], ChatEr
     prevChainLen: dr.prevChainLen
   )
   copyMem(addr header.dhPublic[0], unsafeAddr dr.dh[0], dr.dh.len) # TODO: Avoid this copy
+  
+  info "decrypt metadata"
+  info "header dh public: ", dhPub = header.dhPublic
+  info "Doubleratchet DH Remote: ", dhRemote = convo.doubleratchet.dhRemote
+  info "dh self:", dhSelf = convo.doubleratchet.dhSelf
+  info "dh self public:" , dhSelfPub = convo.doubleratchet.dhSelf.public
+
+  if convo.doubleratchet.dhSelf.public == header.dhPublic:
+    info "outgoing message, no need to decrypt"
+    return err(ChatError(code: errDecryptOutgoing, context: "Attempted to decrypt outgoing message"))
 
   convo.doubleratchet.decrypt(header, dr.ciphertext, @[]).mapErr(proc(e: NaxolotlError): ChatError = ChatError(code: errWrapped, context: repr(e) ))
 
