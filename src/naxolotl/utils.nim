@@ -7,13 +7,13 @@ import errors
 import types
 
 
-func hkdfExtract*(salt: openArray[byte], ikm: openArray[byte]) : GenericArray = 
+func hkdfExtract*(key: openArray[byte], seed: openArray[byte]) : GenericArray = 
 
   assert GenericArray.len == sha256.digestSize()
 
   var ctx{.noInit.}: HKDF[sha256]
   var prk{.noInit.}: array[sha256.digestSize(), byte]
-  ctx.hkdfExtract(prk, salt, ikm)
+  ctx.hkdfExtract(prk, key, seed)
 
   return prk
 
