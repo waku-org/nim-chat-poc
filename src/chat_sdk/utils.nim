@@ -1,5 +1,5 @@
 import waku/waku_core
-import std/[macros, random, times]
+import std/[macros, times]
 import blake2
 import strutils
 

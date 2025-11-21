@@ -1,9 +1,5 @@
-import std/[options, times]
-
 import ./conversations/[convo_type, message]
-import crypto
 import identity
-import proto_types
 import types
 
 type ConvoId = string

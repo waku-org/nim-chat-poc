@@ -1,7 +1,6 @@
 import naxolotl/[
     naxolotl,
     curve25519,
-    types, 
     errors
 ]
 
