@@ -490,7 +490,7 @@ proc appLoop(app: ChatApp, panes: seq[Pane]) : Future[void] {.async.} =
   illwillInit(fullscreen = false)
   # Clear buffer
   while true:
-    await sleepAsync(5)
+    await sleepAsync(5.milliseconds)
     app.tb.clear()
 
     drawStatusBar(app, panes[0], fgBlack, getIdColor(app.client.getId()))
@@ -527,7 +527,7 @@ proc appLoop(app: ChatApp, panes: seq[Pane]) : Future[void] {.async.} =
 
 proc peerWatch(app: ChatApp): Future[void] {.async.} =
   while true:
-    await sleepAsync(1000)
+    await sleepAsync(1.seconds)
     app.peerCount = app.client.ds.getConnectedPeerCount()
 
 
