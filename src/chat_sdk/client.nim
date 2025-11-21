@@ -16,7 +16,6 @@ import # Foreign
   types
 
 import #local
-  conversation_store,
   conversations,
   conversations/convo_impl,
   crypto,

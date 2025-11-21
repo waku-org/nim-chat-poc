@@ -1,8 +1,7 @@
-import nim_chacha20_poly1305/[common, chacha20_poly1305, streaming, helpers, poly1305]
+import nim_chacha20_poly1305/[common, chacha20_poly1305, poly1305]
 import std/[sysrand]
 import results
 import strformat
-import chronicles
 
 import types
 import errors

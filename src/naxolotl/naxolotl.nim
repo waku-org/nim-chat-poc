@@ -1,7 +1,7 @@
 import curve25519
 import results
 import chronicles
-import nim_chacha20_poly1305/[common,helpers]
+import nim_chacha20_poly1305/common
 import strformat
 import strutils
 import sequtils

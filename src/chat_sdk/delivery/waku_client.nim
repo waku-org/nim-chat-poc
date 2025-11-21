@@ -7,7 +7,6 @@ import
   libp2p/peerid,
   std/random,
   stew/byteutils,
-  std/sequtils,
   strformat,
   waku/[
     common/logging,
@@ -20,7 +19,7 @@ import
     waku_filter_v2/client,
   ]
 
-import ../utils, ../proto_types
+import ../proto_types
 
 logScope:
   topics = "chat waku"

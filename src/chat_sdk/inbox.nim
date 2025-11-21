@@ -11,8 +11,7 @@ import
   crypto,
   delivery/waku_client,
   proto_types,
-  types,
-  utils
+  types
 
 logScope:
   topics = "chat inbox"

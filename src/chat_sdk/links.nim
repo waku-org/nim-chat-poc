@@ -1,5 +1,4 @@
 import base64
-import chronicles
 import chronos
 import strformat
 import strutils

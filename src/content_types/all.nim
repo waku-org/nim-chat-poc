@@ -4,7 +4,6 @@
 import protobuf_serialization # This import is needed or th macro will not work
 import protobuf_serialization/proto_parser
 import results
-import std/random
 import strformat
 
 import ../chat_sdk/proto_types
