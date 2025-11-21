@@ -12,13 +12,13 @@ export PublicKey, PrivateKey, bytes, createRandomKey, loadPrivateKeyFromBytes, l
 
 proc encrypt_plain*[T: EncryptableTypes](frame: T): EncryptedPayload =
   return EncryptedPayload(
-    plaintext: Plaintext(payload: encode(frame)),
+    plaintext: Plaintext(payload: proto_types.encode(frame)),
   )
 
 proc decrypt_plain*[T: EncryptableTypes](ciphertext: Plaintext, t: typedesc[
     T]): Result[T, string] =
 
-  let obj = decode(ciphertext.payload, T)
+  let obj = proto_types.decode(ciphertext.payload, T)
   if obj.isErr:
     return err("Protobuf decode failed: " & obj.error)
   result = ok(obj.get())

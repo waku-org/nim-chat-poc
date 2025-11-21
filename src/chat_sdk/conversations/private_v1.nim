@@ -145,7 +145,7 @@ proc wireCallbacks(convo: PrivateV1, deliveryAckCb: proc(
 
 
 proc initPrivateV1*(owner: Identity, participant: PublicKey, seedKey: array[32, byte],
-        discriminator: string = "default", isSender: bool, deliveryAckCb: proc(
+        discriminator: string = "default", inviter: bool, deliveryAckCb: proc(
         conversation: Conversation,
       msgId: string): Future[void] {.async.} = nil):
           PrivateV1 =
@@ -161,7 +161,7 @@ proc initPrivateV1*(owner: Identity, participant: PublicKey, seedKey: array[32, 
     topic: derive_topic(participants, discriminator),
     participant: participant,
     discriminator: discriminator,
-    doubleratchet: initDoubleratchet(seedKey, owner.privateKey.bytes, participant.bytes, isSender)
+    doubleratchet: initDoubleratchet(seedKey, owner.privateKey.bytes, participant.bytes, inviter)
   )
 
   result.wireCallbacks(deliveryAckCb)

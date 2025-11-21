@@ -76,6 +76,8 @@ func kdfChain(self: Doubleratchet, chainKey: ChainKey): (MessageKey, ChainKey) =
 proc dhRatchetSend(self: var Doubleratchet) =
   # Perform DH Ratchet step when receiving a new peer key.
   info "dhRatchetSend DH Self: ", dhSelf = self.dhSelf
+  self.dhSelf = generateKeypair().get()[0]
+  info "dhRatchetSend new DH Self: ", dhSelf = self.dhSelf
   let dhOutput : DhDerivedKey = dhExchange(self.dhSelf, self.dhRemote).get()
   let (newRootKey, newChainKeySend) = kdfRoot(self, self.rootKey, dhOutput)
   self.rootKey = newRootKey
@@ -185,7 +187,7 @@ proc encrypt*(self: var Doubleratchet, plaintext: var seq[byte]) : (DrHeader, Ci
   encrypt(self, plaintext,@[])
 
 
-proc initDoubleratchet*(sharedSecret: array[32, byte], dhSelf: PrivateKey, dhRemote: PublicKey, isSending: bool = true): Doubleratchet =
+proc initDoubleratchet*(sharedSecret: array[32, byte], dhSelf: PrivateKey, dhRemote: PublicKey, inviter: bool = true): Doubleratchet =
 
   info "Initializing Double Ratchet"
   info "DH Self: ", dhSelf = dhSelf
@@ -201,5 +203,5 @@ proc initDoubleratchet*(sharedSecret: array[32, byte], dhSelf: PrivateKey, dhRem
       skippedMessageKeys: initTable[(PublicKey, MsgCount), MessageKey]()
   )
 
-  if isSending:
+  if not inviter:
     result.dhRatchetSend()

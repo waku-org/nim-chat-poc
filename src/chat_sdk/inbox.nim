@@ -14,6 +14,8 @@ import
   types,
   utils
 
+import ../content_types
+
 logScope:
   topics = "chat inbox"
 
@@ -42,7 +44,7 @@ proc decrypt*(inbox: Inbox, encbytes: EncryptedPayload): Result[InboxV1Frame, st
   result = res_frame
 
 proc wrap_env*(payload: EncryptedPayload, convo_id: string): WapEnvelopeV1 =
-  let bytes = encode(payload)
+  let bytes = proto_types.encode(payload)
   let salt = generateSalt()
 
   return WapEnvelopeV1(
@@ -87,12 +89,16 @@ proc createPrivateV1FromInvite*[T: ConversationStore](client: T,
       topic = convo.getConvoId()
   client.addConversation(convo)
 
+  # TODO send a control frame instead
+  discard convo.sendMessage(client.ds, initTextFrame("Hello").toContentFrame())
+
+
 proc handleFrame*[T: ConversationStore](convo: Inbox, client: T, bytes: seq[
     byte]) =
   ## Dispatcher for Incoming `InboxV1Frames`.
   ## Calls further processing depending on the kind of frame.
 
-  let enc = decode(bytes, EncryptedPayload).valueOr:
+  let enc = proto_types.decode(bytes, EncryptedPayload).valueOr:
     raise newException(ValueError, "Failed to decode payload")
 
   let frame = convo.decrypt(enc).valueOr:
