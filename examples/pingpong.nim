@@ -38,7 +38,7 @@ proc main() {.async.} =
   # Wire Callbacks
   saro.onNewMessage(proc(convo: Conversation, msg: ReceivedMessage) {.async.} =
     echo "    Saro  <------        :: " & getContent(msg.content)
-    await sleepAsync(5000)
+    await sleepAsync(5000.milliseconds)
     discard await convo.sendMessage(saro.ds, initTextFrame("Ping").toContentFrame())
   
     )
@@ -52,11 +52,11 @@ proc main() {.async.} =
 
   raya.onNewMessage(proc(convo: Conversation,msg: ReceivedMessage) {.async.} =
     echo fmt"           ------>  Raya :: from:{msg.sender} " & getContent(msg.content)
-    await sleepAsync(500)
+    await sleepAsync(500.milliseconds)
     discard  await convo.sendMessage(raya.ds, initTextFrame("Pong" & $ri).toContentFrame())
-    await sleepAsync(800)
+    await sleepAsync(800.milliseconds)
     discard  await convo.sendMessage(raya.ds, initTextFrame("Pong" & $ri).toContentFrame())
-    await sleepAsync(500)
+    await sleepAsync(500.milliseconds)
     discard  await convo.sendMessage(raya.ds, initTextFrame("Pong" & $ri).toContentFrame())
     inc ri
   )
@@ -73,13 +73,13 @@ proc main() {.async.} =
   await saro.start()
   await raya.start()
 
-  await sleepAsync(5000)
+  await sleepAsync(5.seconds)
 
   # Perform OOB Introduction: Raya -> Saro
   let raya_bundle = raya.createIntroBundle()
   discard await saro.newPrivateConversation(raya_bundle)
 
-  await sleepAsync(20000) # Run for some time 
+  await sleepAsync(20.seconds) # Run for some time 
 
   saro.stop()
   raya.stop()
