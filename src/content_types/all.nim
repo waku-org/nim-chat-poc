@@ -55,9 +55,6 @@ proc toContentFrame*(frame: TextFrame): ContentFrame =
 proc initTextFrame*(text: string): TextFrame =
   result = TextFrame(encoding: ord(Utf8), text: text)
 
-
-
-
 proc `$`*(frame: TextFrame): string =
 
   result = fmt"TextFrame(encoding:{TextEncoding(frame.encoding)} text:{frame.text})"
