@@ -57,10 +57,10 @@ proc main() {.async.} =
     echo fmt"           ------>  Raya :: from:{msg.sender} " & getContent(msg.content)
     await sleepAsync(500)
     discard  await convo.sendMessage(raya.ds, initTextFrame("Pong" & $ri).toContentFrame())
-    await sleepAsync(800)
-    discard  await convo.sendMessage(raya.ds, initTextFrame("Pong" & $ri).toContentFrame())
-    await sleepAsync(500)
-    discard  await convo.sendMessage(raya.ds, initTextFrame("Pong" & $ri).toContentFrame())
+    # await sleepAsync(800)
+    # discard  await convo.sendMessage(raya.ds, initTextFrame("Pong" & $ri).toContentFrame())
+    # await sleepAsync(500)
+    # discard  await convo.sendMessage(raya.ds, initTextFrame("Pong" & $ri).toContentFrame())
     inc ri
   )
 
