@@ -14,6 +14,9 @@ make update
 # Build executables
 make all
 
+# Run tests
+make tests
+
 # Run the Text Interface
 ./build/tui --name=<unique_id>
 ```
