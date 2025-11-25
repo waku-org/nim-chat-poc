@@ -114,7 +114,7 @@ proc skipMessageKeys(self: var Doubleratchet, until: MsgCount): Result[(), strin
 proc encrypt(self: var Doubleratchet, plaintext: var seq[byte], associatedData: openArray[byte]): (DrHeader, CipherText) = 
 
   let (msgKey, chainKey) = self.kdfChain(self.chainKeySend)
-
+  self.chainKeySend = chainKey
   let header = DrHeader(  
                 dhPublic: self.dhSelf.public, #TODO Serialize
                 msgNumber: self.msgCountSend,

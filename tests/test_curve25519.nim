@@ -1,8 +1,8 @@
-# test_example.nim
-import unittest
-import ../src/crypto/ecdh # TODO use config.nims
 import results
-import ../src/utils
+import unittest
+
+import ../src/chat_sdk/crypto/ecdh # TODO use config.nims
+import ../src/chat_sdk/utils
 
 # Key share test from RFC-7748:
 const ks7748_a_priv = "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a"
@@ -15,6 +15,9 @@ const ks7748_shared_key = "4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09
 
 import parseutils
 
+
+
+
 proc hexToArray*[N: static[int]](hexStr: string): array[N, byte] =
   ## Converts hex string to fixed-size byte array
   if hexStr.len != N * 2:
@@ -26,18 +29,17 @@ proc hexToArray*[N: static[int]](hexStr: string): array[N, byte] =
     if parseHex(hexStr[i*2..i*2+1], result[i]) == 0:
       raise newException(ValueError, "Invalid hex pair: " & hexStr[i*2..i*2+1])
 
-# Usage
 
 suite "X25519":
   test "Key Loading":
 
-    let a_priv = loadKeyFromBytes(hexToArray[32](ks7748_a_priv)).get()
+    let a_priv = loadPrivateKeyFromBytes(hexToArray[32](ks7748_a_priv)).get()
     let a_pub = a_priv.getPublicKey()
 
     check bytesToHex(a_pub.bytes, lowercase = true) == ks7748_a_pub
     check bytesToHex(a_pub.bytes, lowercase = true) != ks7748_b_pub
 
-    let b_priv = loadKeyFromBytes(hexToArray[32](ks7748_b_priv)).get()
+    let b_priv = loadPrivateKeyFromBytes(hexToArray[32](ks7748_b_priv)).get()
     let b_pub = b_priv.getPublicKey()
 
     check bytesToHex(b_pub.bytes, lowercase = true) != ks7748_a_pub
@@ -45,10 +47,10 @@ suite "X25519":
 
   test "ECDH":
 
-    let a_priv = loadKeyFromBytes(hexToArray[32](ks7748_a_priv)).get()
+    let a_priv = loadPrivateKeyFromBytes(hexToArray[32](ks7748_a_priv)).get()
     let a_pub = a_priv.getPublicKey()
 
-    let b_priv = loadKeyFromBytes(hexToArray[32](ks7748_b_priv)).get()
+    let b_priv = loadPrivateKeyFromBytes(hexToArray[32](ks7748_b_priv)).get()
     let b_pub = b_priv.getPublicKey()
 
 
