@@ -33,6 +33,13 @@ proc buildBinary(name: string, srcDir = "./", params = "", lang = "c") =
 
   exec "nim " & lang & " --out:build/" & name & " --mm:refc " & extra_params & " " &
     srcDir & name & ".nim"
+    
+proc test(name: string, params = "-d:chronicles_log_level=DEBUG", lang = "c") =
+  buildBinary name, "tests/", params
+  exec "build/" & name
+
+task tests, "Build & run tests":
+  test "all_tests", "-d:chronicles_log_level=DEBUG -d:chronosStrictException"
 
 task waku_example, "Build Waku based simple example":
   let name = "waku_example"
