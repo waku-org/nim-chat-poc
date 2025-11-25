@@ -15,9 +15,6 @@ const ks7748_shared_key = "4a5d9d5ba4ce2de1728e3bf480350f25e07e21c947d19e3376f09
 
 import parseutils
 
-
-
-
 proc hexToArray*[N: static[int]](hexStr: string): array[N, byte] =
   ## Converts hex string to fixed-size byte array
   if hexStr.len != N * 2:
