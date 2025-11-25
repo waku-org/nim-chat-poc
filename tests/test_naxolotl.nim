@@ -1,13 +1,14 @@
 
 import unittest
-import naxolotl
 import results
 import random
 import sequtils
 
 import strutils
 
-import naxolotl/utils
+import ../src/naxolotl
+import ../src/naxolotl/utils
+
 
 
 # Key share test from RFC-7748:

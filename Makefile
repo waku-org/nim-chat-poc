@@ -71,6 +71,12 @@ build-waku-nat:
 	@echo "Start building waku nat-libs"
 	$(MAKE) -C vendor/nwaku nat-libs
 	@echo "Completed building nat-libs"
+	
+.PHONY: tests
+tests: | build-waku-librln build-waku-nat nim_chat_poc.nims
+	echo -e $(BUILD_MSG) "build/$@" && \
+		$(ENV_SCRIPT) nim tests $(NIM_PARAMS) nim_chat_poc.nims
+
 
 ##########
 ## Example ##
