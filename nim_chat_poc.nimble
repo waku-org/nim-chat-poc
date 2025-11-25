@@ -39,7 +39,7 @@ proc test(name: string, params = "-d:chronicles_log_level=DEBUG", lang = "c") =
   exec "build/" & name
 
 task tests, "Build & run tests":
-  test "all_tests", "-d:chronicles_log_level=DEBUG -d:chronosStrictException"
+  test "all_tests", "-d:chronicles_log_level=ERROR -d:chronosStrictException"
 
 task waku_example, "Build Waku based simple example":
   let name = "waku_example"
