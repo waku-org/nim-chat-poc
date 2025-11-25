@@ -31,7 +31,10 @@ proc main() {.async.} =
   let sIdent = Identity(name: "saro", privateKey: sKey)
 
   # Create Clients
+  info "create saro client"
   var saro = newClient(cfg_saro, sIdent)
+
+  info "create raya client"
   var raya = newClient(cfg_raya, Identity(name: "raya", privateKey: rKey))
 
   var ri = 0
