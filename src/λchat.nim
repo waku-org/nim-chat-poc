@@ -1,4 +1,4 @@
-import chat_sdk/[
+import λchat/[
   client,
   crypto,
   conversations,
