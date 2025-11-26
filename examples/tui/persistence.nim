@@ -12,9 +12,9 @@ import strformat
 import strutils
 import tables
 
-import chat_sdk/crypto/ecdh
-import chat_sdk/delivery/waku_client
-import chat_sdk/identity
+import chat/crypto/ecdh
+import chat/delivery/waku_client
+import chat/identity
 
 
 const REGISTRATION_DIR = ".registry"

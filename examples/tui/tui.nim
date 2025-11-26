@@ -10,7 +10,7 @@ import strutils
 import sugar
 import tables
 
-import chat_sdk
+import chat
 import content_types/all
 
 import layout
