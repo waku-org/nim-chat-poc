@@ -3,11 +3,13 @@ import unittest
 import results
 import random
 import sequtils
-
+import std/md5
+import strformat
 import strutils
 
 import ../src/naxolotl
 import ../src/naxolotl/utils
+import ../src/naxolotl/types
 
 
 
@@ -69,7 +71,7 @@ suite "Doubleratchet":
     assert r.isOk()
     assert r.get()  == msg
 
-  test "sequence":
+  test "skipped_msg":
 
     let (a_priv, a_pub, b_priv, b_pub) = loadTestKeys()
 
@@ -80,13 +82,14 @@ suite "Doubleratchet":
 
     var msg0 :seq[byte] = @[1,2,3,4,5,6,7,8,9,10]
     var msg1 :seq[byte] = @[6,7,8,9,10,1,2,3,4,5]
-    let (header0, ciphertext0) = adr.encrypt(msg0)
-    let (header1, ciphertext1) = adr.encrypt(msg1)
-
-    let r = bdr.decrypt(header1, ciphertext1, @[])
+    var m :seq[byte] = @[9,10,1,2,3,4,5,6,7,8]
+    discard adr.encrypt(msg0)
+    discard adr.encrypt(msg1)
+    let (header, ciphertext) = adr.encrypt(m)
+    let r = bdr.decrypt(header, ciphertext, @[])
     assert r.isOk()
     let recv_msg = r.get()
-    assert recv_msg  == msg1
+    assert recv_msg  == m
 
 
   test "out of order":
@@ -157,3 +160,36 @@ suite "Doubleratchet":
 
     let r = bdr.decrypt(header, ciphertext, @[])
     assert r.isErr()
+
+  test "dh_key_updates":
+
+    let (a_priv, a_pub, b_priv, b_pub) = loadTestKeys()
+
+    let sk = hexToArray[32](ks7748_shared_key)
+    
+    var adr = initDoubleratchet(sk, a_priv, b_pub, true)
+    var bdr = initDoubleratchet(sk, b_priv, a_pub, true)
+
+    var last_dh_a : PublicKey
+    var last_dh_b : PublicKey
+
+
+    proc step(src: var DoubleRatchet, dst: var DoubleRatchet, m: var seq[byte], ) : PublicKey = 
+      let (header, ciphertext) = src.encrypt(m)
+      let r = dst.decrypt(header, ciphertext, @[])
+      assert m == r.get()
+      return header.dhPublic 
+
+    for i in 0..10:
+      var ma = toMD5(fmt"M{i}_a").toSeq()
+      var mb = toMD5(fmt"M{i}_b").toSeq()
+
+      let dh_a = step(adr, bdr, ma)
+      let dh_b = step(bdr, adr, mb)
+
+      assert dh_a != last_dh_a
+      assert dh_b != last_dh_b
+      assert dh_a != dh_b
+
+      last_dh_a = dh_a
+      last_dh_b = dh_b
