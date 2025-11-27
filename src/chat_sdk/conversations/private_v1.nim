@@ -34,7 +34,7 @@ proc initReceivedMessage(sender: PublicKey, timestamp: int64, content: ContentFr
 
 type
   PrivateV1* = ref object of Conversation
-    # Placeholder for PrivateV1 conversation type
+    ds: WakuClient
     sdsClient: ReliabilityManager
     owner: Identity
     topic: string
@@ -126,7 +126,7 @@ proc wireCallbacks(convo: PrivateV1, deliveryAckCb: proc(
 
 
 
-proc initPrivateV1*(owner: Identity, participant: PublicKey, seedKey: array[32, byte],
+proc initPrivateV1*(owner: Identity, ds:WakuClient, participant: PublicKey, seedKey: array[32, byte],
         discriminator: string = "default", isSender: bool, deliveryAckCb: proc(
         conversation: Conversation,
       msgId: string): Future[void] {.async.} = nil):
@@ -138,6 +138,7 @@ proc initPrivateV1*(owner: Identity, participant: PublicKey, seedKey: array[32, 
     raise newException(ValueError, fmt"sds initialization: {repr(error)}")
 
   result = PrivateV1(
+    ds: ds,
     sdsClient: rm,
     owner: owner,
     topic: derive_topic(participants, discriminator),
@@ -152,13 +153,13 @@ proc initPrivateV1*(owner: Identity, participant: PublicKey, seedKey: array[32, 
     raise newException(ValueError, "bad sds channel")
 
 
-proc initPrivateV1Sender*(owner:Identity, participant: PublicKey, seedKey: array[32, byte], deliveryAckCb: proc(
+proc initPrivateV1Sender*(owner:Identity, ds: WakuClient, participant: PublicKey, seedKey: array[32, byte], deliveryAckCb: proc(
         conversation: Conversation, msgId: string): Future[void] {.async.} = nil): PrivateV1 =
-        initPrivateV1(owner, participant, seedKey, "default", true, deliveryAckCb)
+        initPrivateV1(owner, ds, participant, seedKey, "default", true, deliveryAckCb)
 
-proc initPrivateV1Recipient*(owner:Identity, participant: PublicKey, seedKey: array[32, byte], deliveryAckCb: proc(
+proc initPrivateV1Recipient*(owner:Identity,ds: WakuClient, participant: PublicKey, seedKey: array[32, byte], deliveryAckCb: proc(
         conversation: Conversation, msgId: string): Future[void] {.async.} = nil): PrivateV1 =
-        initPrivateV1(owner, participant, seedKey, "default", false, deliveryAckCb)
+        initPrivateV1(owner,ds, participant, seedKey, "default", false, deliveryAckCb)
 
 
 proc sendFrame(self: PrivateV1, ds: WakuClient,
@@ -216,14 +217,13 @@ proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
     notice "Got Placeholder", text = frame.placeholder.counter
 
 
-method sendMessage*(convo: PrivateV1, ds: WakuClient,
-    content_frame: ContentFrame) : Future[MessageId] {.async.} =
+method sendMessage*(convo: PrivateV1, content_frame: ContentFrame) : Future[MessageId] {.async.} =
 
   try:
     let frame = PrivateV1Frame(sender: @(convo.owner.getPubkey().bytes()),
         timestamp: getCurrentTimestamp(), content: content_frame)
 
-    result = await convo.sendFrame(ds, frame)
+    result = await convo.sendFrame(convo.ds, frame)
   except Exception as e:
     error "Unknown error in PrivateV1:SendMessage"
 

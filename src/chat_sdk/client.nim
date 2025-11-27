@@ -218,7 +218,7 @@ proc newPrivateConversation*(client: Client,
   var key : array[32, byte]
   key[2]=2
 
-  var convo = initPrivateV1Sender(client.identity(), destPubkey, key, deliveryAckCb)
+  var convo = initPrivateV1Sender(client.identity(), client.ds, destPubkey, key, deliveryAckCb)
   client.addConversation(convo)
 
   # TODO: Subscribe to new content topic
