@@ -3,7 +3,6 @@ import strformat
 import strutils
 
 import ../proto_types
-import ../delivery/waku_client
 import ../utils
 import ../types
 
@@ -25,7 +24,6 @@ method id*(self: Conversation): string {.raises: [Defect, ValueError].} =
   # TODO: make this a compile time check
   panic("ProgramError: Missing concrete implementation")
 
-method sendMessage*(convo: Conversation, ds: WakuClient,
-    content_frame: ContentFrame) : Future[MessageId] {.async, base, gcsafe.} =
+method sendMessage*(convo: Conversation, content_frame: ContentFrame) : Future[MessageId] {.async, base, gcsafe.} =
   # TODO: make this a compile time check
   panic("ProgramError: Missing concrete implementation")

@@ -39,7 +39,7 @@ proc main() {.async.} =
   saro.onNewMessage(proc(convo: Conversation, msg: ReceivedMessage) {.async.} =
     echo "    Saro  <------        :: " & getContent(msg.content)
     await sleepAsync(5000.milliseconds)
-    discard await convo.sendMessage(saro.ds, initTextFrame("Ping").toContentFrame())
+    discard await convo.sendMessage(initTextFrame("Ping").toContentFrame())
   
     )
 
@@ -53,17 +53,17 @@ proc main() {.async.} =
   raya.onNewMessage(proc(convo: Conversation,msg: ReceivedMessage) {.async.} =
     echo fmt"           ------>  Raya :: from:{msg.sender} " & getContent(msg.content)
     await sleepAsync(500.milliseconds)
-    discard  await convo.sendMessage(raya.ds, initTextFrame("Pong" & $ri).toContentFrame())
+    discard  await convo.sendMessage(initTextFrame("Pong" & $ri).toContentFrame())
     await sleepAsync(800.milliseconds)
-    discard  await convo.sendMessage(raya.ds, initTextFrame("Pong" & $ri).toContentFrame())
+    discard  await convo.sendMessage(initTextFrame("Pong" & $ri).toContentFrame())
     await sleepAsync(500.milliseconds)
-    discard  await convo.sendMessage(raya.ds, initTextFrame("Pong" & $ri).toContentFrame())
+    discard  await convo.sendMessage(initTextFrame("Pong" & $ri).toContentFrame())
     inc ri
   )
 
   raya.onNewConversation(proc(convo: Conversation) {.async.} =
     echo "           ------>  Raya :: New Conversation: " & convo.id()
-    discard await convo.sendMessage(raya.ds, initTextFrame("Hello").toContentFrame())
+    discard await convo.sendMessage(initTextFrame("Hello").toContentFrame())
   )
   raya.onDeliveryAck(proc(convo: Conversation, msgId: string) {.async.} =
     echo "    raya -- Read Receipt for " & msgId

@@ -81,7 +81,7 @@ proc createPrivateV1FromInvite*[T: ConversationStore](client: T,
   var key : array[32, byte]
   key[2]=2
 
-  let convo = initPrivateV1Recipient(client.identity(), destPubkey, key, deliveryAckCb)
+  let convo = initPrivateV1Recipient(client.identity(), client.ds, destPubkey, key, deliveryAckCb)
   notice "Creating PrivateV1 conversation", client = client.getId(),
       topic = convo.getConvoId()
   client.addConversation(convo)
@@ -107,7 +107,6 @@ proc handleFrame*[T: ConversationStore](convo: Inbox, client: T, bytes: seq[
     notice "Receive Note", client = client.getId(), text = frame.note.text
 
 
-method sendMessage*(convo: Inbox, ds: WakuClient,
-    content_frame: ContentFrame) : Future[MessageId] {.async.} =
+method sendMessage*(convo: Inbox, content_frame: ContentFrame) : Future[MessageId] {.async.} =
   warn "Cannot send message to Inbox"
   result = "program_error"
