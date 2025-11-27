@@ -36,8 +36,8 @@ func hkdfSplit*(salt: GenericArray, ikm: GenericArray, info: openArray[byte] ) :
   var out2 : array[KeyLen, byte]
 
   # Unsafe memcopy
-  copyMem(addr output[0],  unsafeAddr out1[0], KeyLen)
-  copyMem(addr output[32], unsafeAddr out2[0], KeyLen)
+  copyMem(addr out1[0], addr output[0],  KeyLen)
+  copyMem(addr out2[0], addr output[32], KeyLen)
 
   result = (out1,out2)
 
