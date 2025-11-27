@@ -90,7 +90,7 @@ proc createPrivateV1FromInvite*[T: ConversationStore](client: T,
   client.addConversation(convo)
 
   # TODO send a control frame instead
-  discard convo.sendMessage(client.ds, initTextFrame("Hello").toContentFrame())
+  # discard convo.sendMessage(client.ds, initTextFrame("Hello").toContentFrame())
 
 
 proc handleFrame*[T: ConversationStore](convo: Inbox, client: T, bytes: seq[

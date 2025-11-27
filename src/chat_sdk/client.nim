@@ -51,8 +51,8 @@ type KeyEntry* = object
 type Client* = ref object
   ident: Identity
   ds*: WakuClient
-  keyStore: Table[string, KeyEntry]          # Keyed by HexEncoded Public Key
-  conversations: Table[string, Conversation] # Keyed by conversation ID
+  keyStore*: Table[string, KeyEntry]          # Keyed by HexEncoded Public Key
+  conversations*: Table[string, Conversation] # Keyed by conversation ID
   inboundQueue: QueueRef
   isRunning: bool
 
