@@ -93,7 +93,7 @@ proc dhRatchetRecv(self: var Doubleratchet, remotePublickey: PublicKey ) =
   self.dhSelf = generateKeypair().get()[0]
 
   let dhOutputPost = self.dhSelf.dhExchange(self.dhRemote).get()
-  (self.rootKey, self.chainKeyRecv) = kdfRoot(self, self.rootKey, dhOutputPost)
+  (self.rootKey, self.chainKeySend) = kdfRoot(self, self.rootKey, dhOutputPost)
 
 
 proc skipMessageKeys(self: var Doubleratchet, until: MsgCount): Result[(), string] =
