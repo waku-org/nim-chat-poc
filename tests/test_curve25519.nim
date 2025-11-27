@@ -1,8 +1,8 @@
 import results
 import unittest
 
-import ../src/chat_sdk/crypto/ecdh # TODO use config.nims
-import ../src/chat_sdk/utils
+import ../src/chat/crypto/ecdh # TODO use config.nims
+import ../src/chat/utils
 
 # Key share test from RFC-7748:
 const ks7748_a_priv = "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a"

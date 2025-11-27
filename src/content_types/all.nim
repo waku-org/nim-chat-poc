@@ -6,7 +6,7 @@ import protobuf_serialization/proto_parser
 import results
 import strformat
 
-import ../chat_sdk/proto_types
+import ../chat/proto_types
 
 
 export protobuf_serialization

@@ -2,11 +2,11 @@ import chronicles
 import chronos
 import strformat
 
-import chat_sdk
+import chat
 import content_types
 
 # TEsting
-import ../src/chat_sdk/crypto
+import ../src/chat/crypto
 
 
 proc getContent(content: ContentFrame): string =
