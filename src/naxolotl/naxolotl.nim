@@ -16,7 +16,7 @@ const maxSkip = 10
 
 
 type Doubleratchet* = object
-  dhSelf: PrivateKey
+  dhSelf*: PrivateKey
   dhRemote: PublicKey
 
   rootKey: RootKey
