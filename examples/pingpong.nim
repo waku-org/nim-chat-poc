@@ -12,8 +12,15 @@ import ../src/chat/crypto
 proc getContent(content: ContentFrame): string =
   # Skip type checks and assume its a TextFrame
   let m = decode(content.bytes, TextFrame).valueOr:
-    raise newException(ValueError, fmt"Badly formed Content")
+    raise newException(ValueError, fmt"Badly formed ContentType")
   return fmt"{m}"
+
+proc toBytes(content: ContentFrame): seq[byte] =
+  encode(content)
+
+proc fromBytes(bytes: seq[byte]): ContentFrame =
+  decode(bytes, ContentFrame).valueOr:
+      raise newException(ValueError, fmt"Badly formed Content")
 
 proc main() {.async.} =
 
@@ -33,9 +40,10 @@ proc main() {.async.} =
   var ri = 0
   # Wire Callbacks
   saro.onNewMessage(proc(convo: Conversation, msg: ReceivedMessage) {.async.} =
-    echo "    Saro  <------        :: " & getContent(msg.content)
+    let contentFrame = msg.content.fromBytes()
+    echo "    Saro  <------        :: " & getContent(contentFrame)
     await sleepAsync(5000.milliseconds)
-    discard await convo.sendMessage(initTextFrame("Ping").toContentFrame())
+    discard await convo.sendMessage(initTextFrame("Ping").toContentFrame().toBytes())
   
     )
 
@@ -47,19 +55,20 @@ proc main() {.async.} =
 
 
   raya.onNewMessage(proc(convo: Conversation,msg: ReceivedMessage) {.async.} =
-    echo fmt"           ------>  Raya :: from:{msg.sender} " & getContent(msg.content)
+    let contentFrame = msg.content.fromBytes()
+    echo fmt"           ------>  Raya :: from:{msg.sender} " & getContent(contentFrame)
     await sleepAsync(500.milliseconds)
-    discard  await convo.sendMessage(initTextFrame("Pong" & $ri).toContentFrame())
+    discard  await convo.sendMessage(initTextFrame("Pong" & $ri).toContentFrame().toBytes())
     await sleepAsync(800.milliseconds)
-    discard  await convo.sendMessage(initTextFrame("Pong" & $ri).toContentFrame())
+    discard  await convo.sendMessage(initTextFrame("Pong" & $ri).toContentFrame().toBytes())
     await sleepAsync(500.milliseconds)
-    discard  await convo.sendMessage(initTextFrame("Pong" & $ri).toContentFrame())
+    discard  await convo.sendMessage(initTextFrame("Pong" & $ri).toContentFrame().toBytes())
     inc ri
   )
 
   raya.onNewConversation(proc(convo: Conversation) {.async.} =
     echo "           ------>  Raya :: New Conversation: " & convo.id()
-    discard await convo.sendMessage(initTextFrame("Hello").toContentFrame())
+    discard await convo.sendMessage(initTextFrame("Hello").toContentFrame().toBytes())
   )
   raya.onDeliveryAck(proc(convo: Conversation, msgId: string) {.async.} =
     echo "    raya -- Read Receipt for " & msgId

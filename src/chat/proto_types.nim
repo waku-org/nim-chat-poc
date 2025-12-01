@@ -12,13 +12,11 @@ import_proto3 "../../protos/inbox.proto"
 # import_proto3 "../protos/invite.proto"    // Import3 follows protobuf includes so this will result in a redefinition error
 import_proto3 "../../protos/encryption.proto"
 import_proto3 "../../protos/envelope.proto"
-# import_proto3 "../protos/common_frames.proto"
 
 import_proto3 "../../protos/private_v1.proto"
 
 type EncryptableTypes = InboxV1Frame | EncryptedPayload
 
-export ContentFrame
 export EncryptedPayload
 export InboxV1Frame
 export PrivateV1Frame
@@ -94,12 +92,12 @@ proc getKind*(obj: InboxV1Frame): InboxV1FrameType =
 
 type
   PrivateV1FrameType* = enum
-    type_ContentFrame, type_Placeholder
+    type_Content, type_Placeholder
 
 proc getKind*(obj: PrivateV1Frame): PrivateV1FrameType =
 
-  if obj.content != ContentFrame():
-    return type_ContentFrame
+  if obj.content != @[]:
+    return type_Content
 
   if obj.placeholder != Placeholder():
     return type_Placeholder
