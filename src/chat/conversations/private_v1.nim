@@ -190,6 +190,10 @@ proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
   let enc = decode(bytes, EncryptedPayload).valueOr:
     raise newException(ValueError, fmt"Failed to decode EncryptedPayload: {repr(error)}")
 
+  if convo.doubleratchet.dhSelfPublic() == enc.doubleratchet.dh:
+    info "outgoing message, no need to handle", convo = convo.id()
+    return
+
   let plaintext = convo.decrypt(enc).valueOr:
     error "decryption failed", error = error
     return

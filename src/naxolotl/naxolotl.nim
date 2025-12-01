@@ -187,3 +187,6 @@ func initDoubleratchet*(sharedSecret: array[32, byte], dhSelf: PrivateKey, dhRem
 
   if isSending:
     result.dhRatchetSend()
+
+func dhSelfPublic*(self: Doubleratchet): PublicKey = 
+  self.dhSelf.public
