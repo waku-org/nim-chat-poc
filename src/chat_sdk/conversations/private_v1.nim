@@ -94,10 +94,6 @@ proc decrypt*(convo: PrivateV1, enc: EncryptedPayload): Result[seq[byte], ChatEr
   )
   copyMem(addr header.dhPublic[0], unsafeAddr dr.dh[0], dr.dh.len) # TODO: Avoid this copy
 
-  if convo.doubleratchet.dhSelf.public == header.dhPublic:
-    info "outgoing message, no need to decrypt"
-    return err(ChatError(code: errDecryptOutgoing, context: "Attempted to decrypt outgoing message"))
-
   convo.doubleratchet.decrypt(header, dr.ciphertext, @[]).mapErr(proc(e: NaxolotlError): ChatError = ChatError(code: errWrapped, context: repr(e) ))
 
 
@@ -193,6 +189,10 @@ proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
 
   let enc = decode(bytes, EncryptedPayload).valueOr:
     raise newException(ValueError, fmt"Failed to decode EncryptedPayload: {repr(error)}")
+
+  if convo.doubleratchet.dhSelfPublic() == enc.doubleratchet.dh:
+    info "outgoing message, no need to handle", convo = convo.id()
+    return
 
   let plaintext = convo.decrypt(enc).valueOr:
     error "decryption failed", error = error
