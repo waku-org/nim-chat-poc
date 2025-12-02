@@ -31,21 +31,21 @@ Current state of the [ChatSDK FURPS](https://github.com/waku-org/pm/blob/master/
 |-----|----------------------------|--------|---------------------------------------------------------|
 | F1  | Permissionless Accounts    | ✅     |                                                         |
 | F2  | 1:1 Messaging              | ✅     |                                                         |
-| F3  | FS + PCS                   | 🟡     | PCS in place — strong FS needs initial key exchange     |
+| F3  | FS + PCS                   | 🟡     | PCS in place — needs noise implementation               |
 | F4  | Delivery Receipts          | ✅     |                                                         |
 | F5  | Basic Content Types        | ✅     | Types need formal definition; plugin system prototyped  |
-| F6  | Default Message Store      | ⚪     |                                                         |
-| F7  | Default Secrets Store      | ⚪     |                                                         |
+| F6  | Default Message Store      | 🚫     | Wont do - api changed, apps handle message storag       |
+| F7  | Default Secrets Store      | ➡️     | Deferred - Not required for dev api preview             |
 | U1  | Non-interactive Initiation | ✅     |                                                         |
 | U2  | Invite Links               | ✅     |                                                         |
-| U3  | 25 Lines of Code           | 🟡     |                                                         |
-| R1  | Dropped Message Detection  | ⚪     |                                                         |
+| U3  | 25 Lines of Code           | ✅     |                                                         |
+| R1  | Dropped Message Detection  | 🚫     | Wont do - uses reliable channels                        |
 | P1  | 10K Active Clients         | ⚪     |                                                         |
 | S1  | RLN Compatible             | 🟡     | RLN supported, but not implemented yet                  |
 | S2  | Future Proof               | 🟡     |                                                         |
-| S3  | Go Bindings                | ⚪     |                                                         |
-| S4  | Rust Bindings              | ⚪     |                                                         |
-| +1  | Sender Privacy             | 🟡     | Needs verification                                      |
+| S3  | Go Bindings                | 🚫     | Wont do - Refocus on Logos-core                         |
+| S4  | Rust Bindings              | 🚫     | Wont do - Refocus on Logos-core                         |
+| +1  | Sender Privacy             | ✅     | Needs verification                                      |
 | +2  | Membership Privacy         | 🟡     | Needs verification                                      |
 | +3  | User Activity Privacy      | 🟡     | Needs verification                                      |
 | +4  | Nimble Compatible          | ⛔     | Blocked — upstream dependency conflicts     
