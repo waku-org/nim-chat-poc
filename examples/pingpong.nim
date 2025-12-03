@@ -22,8 +22,8 @@ proc main() {.async.} =
   var cfg_raya = DefaultConfig()
 
   # Cross pollinate Peers - No Waku discovery is used in this example
-  cfg_saro.staticPeers.add(cfg_raya.getMultiAddr())
-  cfg_raya.staticPeers.add(cfg_saro.getMultiAddr())
+  # cfg_saro.staticPeers.add(cfg_raya.getMultiAddr())
+  # cfg_raya.staticPeers.add(cfg_saro.getMultiAddr())
 
   let sKey = loadPrivateKeyFromBytes(@[45u8, 216, 160, 24, 19, 207, 193, 214, 98, 92, 153, 145, 222, 247, 101, 99, 96, 131, 149, 185, 33, 187, 229, 251, 100, 158, 20, 131, 111, 97, 181, 210]).get()
   let rKey = loadPrivateKeyFromBytes(@[43u8, 12, 160, 51, 212, 90, 199, 160, 154, 164, 129, 229, 147, 69, 151, 17, 239, 51, 190, 33, 86, 164, 50, 105, 39, 250, 182, 116, 138, 132, 114, 234]).get()
@@ -79,7 +79,7 @@ proc main() {.async.} =
   let raya_bundle = raya.createIntroBundle()
   discard await saro.newPrivateConversation(raya_bundle)
 
-  await sleepAsync(20.seconds) # Run for some time 
+  await sleepAsync(200.seconds) # Run for some time 
 
   saro.stop()
   raya.stop()
