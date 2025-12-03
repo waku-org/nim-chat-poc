@@ -206,3 +206,6 @@ proc getConnectedPeerCount*(client: WakuClient): int =
     if peerInfo.connectedness == Connected:
       inc count
   return count
+
+proc stop*(client: WakuClient) {.async.} =
+  await client.node.stop()

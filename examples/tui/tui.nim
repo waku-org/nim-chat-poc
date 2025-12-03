@@ -106,10 +106,6 @@ proc getSelectedConvo(app: ChatApp): ptr ConvoInfo =
 
 proc createChatClient(name: string): Future[Client] {.async.} =
   var cfg = await getCfg(name)
-  # for key, val in fetchRegistrations():
-  #   if key != name:
-  #     cfg.waku.staticPeers.add(val)
-
   result = newClient(cfg.waku, cfg.ident)
 
 

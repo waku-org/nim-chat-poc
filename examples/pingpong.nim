@@ -69,7 +69,7 @@ proc main() {.async.} =
   await saro.start()
   await raya.start()
 
-  await sleepAsync(5.seconds)
+  await sleepAsync(10.seconds)
 
   # Perform OOB Introduction: Raya -> Saro
   let raya_bundle = raya.createIntroBundle()
@@ -77,8 +77,8 @@ proc main() {.async.} =
 
   await sleepAsync(20.seconds) # Run for some time 
 
-  saro.stop()
-  raya.stop()
+  await saro.stop()
+  await raya.stop()
 
 
 when isMainModule:
