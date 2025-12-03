@@ -293,5 +293,6 @@ proc start*(client: Client) {.async.} =
 
 proc stop*(client: Client) =
   ## Stop the client.
+  client.ds.stop()
   client.isRunning = false
   notice "Client stopped", client = client.getId()
