@@ -15,12 +15,6 @@ import # Foreign
   tables,
   types
 
-import
-  waku/[
-    waku_node,
-    discovery/waku_dnsdisc
-  ]
-
 import #local
   conversations,
   conversations/convo_impl,
@@ -50,7 +44,7 @@ type
 
 type KeyEntry* = object
   keyType: string
-  privateKey: crypto.PrivateKey
+  privateKey: PrivateKey
   timestamp: int64
 
 type Client* = ref object
@@ -292,17 +286,6 @@ proc start*(client: Client) {.async.} =
   asyncSpawn client.ds.start()
 
   client.isRunning = true
-
-  let dnsDiscoveryUrl = "enrtree://AIRVQ5DDA4FFWLRBCHJWUWOO6X6S4ZTZ5B667LQ6AJU6PEYDLRD5O@sandbox.waku.nodes.status.im"
-  let nameServer = parseIpAddress("1.1.1.1")
-  let discoveredPeers = await retrieveDynamicBootstrapNodes(dnsDiscoveryUrl, @[nameServer])
-  if discoveredPeers.isOk:
-    info "Connecting to discovered peers"
-    let remotePeers = discoveredPeers.get()
-    info "Discovered and connecting to peers", peerCount = remotePeers.len
-    asyncSpawn client.ds.node.connectToNodes(remotePeers)
-  else:
-    warn "Failed to find peers via DNS discovery", error = discoveredPeers.error
 
   asyncSpawn client.messageQueueConsumer()
 

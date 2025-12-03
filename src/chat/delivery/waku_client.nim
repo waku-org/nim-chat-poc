@@ -15,6 +15,7 @@ import
     waku_node,
     waku_enr,
     discovery/waku_discv5,
+    discovery/waku_dnsdisc,
     factory/builder,
     waku_filter_v2/client,
   ]
@@ -160,6 +161,17 @@ proc start*(client: WakuClient) {.async.} =
     quit(1)
 
   client.node.peerManager.start()
+
+  let dnsDiscoveryUrl = "enrtree://AIRVQ5DDA4FFWLRBCHJWUWOO6X6S4ZTZ5B667LQ6AJU6PEYDLRD5O@sandbox.waku.nodes.status.im"
+  let nameServer = parseIpAddress("1.1.1.1")
+  let discoveredPeers = await retrieveDynamicBootstrapNodes(dnsDiscoveryUrl, @[nameServer])
+  if discoveredPeers.isOk:
+    info "Connecting to discovered peers"
+    let remotePeers = discoveredPeers.get()
+    info "Discovered and connecting to peers", peerCount = remotePeers.len
+    asyncSpawn client.node.connectToNodes(remotePeers)
+  else:
+    warn "Failed to find peers via DNS discovery", error = discoveredPeers.error
 
   let subscription: SubscriptionEvent = (kind: PubsubSub, topic:
     client.cfg.pubsubTopic)
