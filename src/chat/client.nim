@@ -234,9 +234,11 @@ proc newPrivateConversation*(client: Client,
 proc parseMessage(client: Client, msg: ChatPayload) {.raises: [ValueError,
     SerializationError].} =
   ## Receives a incoming payload, decodes it, and processes it.
-
-  let envelope = decode(msg.bytes, WapEnvelopeV1).valueOr:
-    raise newException(ValueError, "Failed to decode WapEnvelopeV1: " & error)
+  let envelopeRes = decode(msg.bytes, WapEnvelopeV1)
+  if envelopeRes.isErr:
+    debug "Failed to decode WapEnvelopeV1", err = envelopeRes.error
+    return
+  let envelope = envelopeRes.get()
 
   let convo = block:
     let opt = client.getConversationFromHint(envelope.conversationHint).valueOr:
