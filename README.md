@@ -34,7 +34,7 @@ Current state of the [ChatSDK FURPS](https://github.com/waku-org/pm/blob/master/
 | F3  | FS + PCS                   | 🟡     | PCS in place — needs noise implementation               |
 | F4  | Delivery Receipts          | ✅     |                                                         |
 | F5  | Basic Content Types        | ✅     | Types need formal definition; plugin system prototyped  |
-| F6  | Default Message Store      | 🚫     | Wont do - api changed, apps handle message storag       |
+| F6  | Default Message Store      | 🚫     | Wont do - api changed, apps handle message storage       |
 | F7  | Default Secrets Store      | ➡️     | Deferred - Not required for dev api preview             |
 | U1  | Non-interactive Initiation | ✅     |                                                         |
 | U2  | Invite Links               | ✅     |                                                         |
