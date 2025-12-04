@@ -1,3 +1,5 @@
+import std/[strutils]
+
 import
   chronicles,
   chronos,
@@ -10,6 +12,7 @@ import
   conversation_store,
   crypto,
   delivery/waku_client,
+  errors,
   proto_types,
   types
 
@@ -21,6 +24,8 @@ type
     pubkey: PublicKey
     inbox_addr: string
 
+const
+  TopicPrefixInbox = "/inbox/"
 
 proc `$`*(conv: Inbox): string =
   fmt"Inbox: addr->{conv.inbox_addr}"
@@ -56,7 +61,17 @@ proc conversation_id_for*(pubkey: PublicKey): string =
 
 # TODO derive this from instance of Inbox
 proc topic_inbox*(client_addr: string): string =
-  return "/inbox/" & client_addr
+  return TopicPrefixInbox & client_addr
+
+proc parseTopic*(topic: string): Result[string, ChatError] =
+  if not topic.startsWith(TopicPrefixInbox):
+    return err(ChatError(code: errTopic, context: "Invalid inbox topic prefix"))
+  
+  let id = topic.split('/')[^1]
+  if id == "":
+    return err(ChatError(code: errTopic, context: "Empty inbox id"))
+  
+  return ok(id)
 
 method id*(convo: Inbox): string =
   return conversation_id_for(convo.pubkey)

@@ -229,14 +229,14 @@ proc newPrivateConversation*(client: Client,
 
 #################################################
 # Payload Handling
+# Receives a incoming payload, decodes it, and processes it.
 #################################################
 
 proc parseMessage(client: Client, msg: ChatPayload) {.raises: [ValueError,
     SerializationError].} =
-  ## Receives a incoming payload, decodes it, and processes it.
   let envelopeRes = decode(msg.bytes, WapEnvelopeV1)
   if envelopeRes.isErr:
-    debug "Failed to decode WapEnvelopeV1", err = envelopeRes.error
+    debug "Failed to decode WapEnvelopeV1", client = client.getId(), err = envelopeRes.error
     return
   let envelope = envelopeRes.get()
 
@@ -267,6 +267,11 @@ proc messageQueueConsumer(client: Client) {.async.} =
 
   while client.isRunning:
     let message = await client.inboundQueue.queue.get()
+
+    let topicRes = inbox.parseTopic(message.contentTopic).or(private_v1.parseTopic(message.contentTopic))
+    if topicRes.isErr:
+      debug "Invalid content topic", client = client.getId(), err = topicRes.error, contentTopic = message.contentTopic
+      continue
 
     notice "Inbound Message Received", client = client.getId(),
         contentTopic = message.contentTopic, len = message.bytes.len()
