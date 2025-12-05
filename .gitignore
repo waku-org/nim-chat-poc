@@ -87,3 +87,7 @@ waku_handler.moc.cpp
 
 # Nix build result
 result
+
+# App data
+.registry/
+.savedkeys/
