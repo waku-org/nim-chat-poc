@@ -8,6 +8,7 @@ type
   ErrorCode* = enum
     errTypeError
     errWrapped
+    errTopic
 
 proc `$`*(x: ChatError): string =
   fmt"ChatError(code={$x.code}, context: {x.context})"
