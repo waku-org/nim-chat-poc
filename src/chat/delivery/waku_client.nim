@@ -15,6 +15,7 @@ import
     waku_node,
     waku_enr,
     discovery/waku_discv5,
+    discovery/waku_dnsdisc,
     factory/builder,
     waku_filter_v2/client,
   ]
@@ -71,8 +72,8 @@ type
 
 proc DefaultConfig*(): WakuConfig =
   let nodeKey = crypto.PrivateKey.random(Secp256k1, crypto.newRng()[])[]
-  let clusterId = 19'u16
-  let shardId = 0'u16
+  let clusterId = 16'u16
+  let shardId = 32'u16
   var port: uint16 = 50000'u16 + uint16(rand(200))
 
   result = WakuConfig(nodeKey: nodeKey, port: port, clusterId: clusterId,
@@ -161,6 +162,17 @@ proc start*(client: WakuClient) {.async.} =
 
   client.node.peerManager.start()
 
+  let dnsDiscoveryUrl = "enrtree://AI4W5N5IFEUIHF5LESUAOSMV6TKWF2MB6GU2YK7PU4TYUGUNOCEPW@boot.staging.status.nodes.status.im"
+  let nameServer = parseIpAddress("1.1.1.1")
+  let discoveredPeers = await retrieveDynamicBootstrapNodes(dnsDiscoveryUrl, @[nameServer])
+  if discoveredPeers.isOk:
+    info "Connecting to discovered peers"
+    let remotePeers = discoveredPeers.get()
+    info "Discovered and connecting to peers", peerCount = remotePeers.len
+    asyncSpawn client.node.connectToNodes(remotePeers)
+  else:
+    warn "Failed to find peers via DNS discovery", error = discoveredPeers.error
+
   let subscription: SubscriptionEvent = (kind: PubsubSub, topic:
     client.cfg.pubsubTopic)
 
@@ -194,3 +206,6 @@ proc getConnectedPeerCount*(client: WakuClient): int =
     if peerInfo.connectedness == Connected:
       inc count
   return count
+
+proc stop*(client: WakuClient) {.async.} =
+  await client.node.stop()

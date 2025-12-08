@@ -42,6 +42,9 @@ type
     discriminator: string
     doubleratchet: naxolotl.Doubleratchet
 
+const
+  TopicPrefixPrivateV1 = "/convo/private/"
+
 proc getTopic*(self: PrivateV1): string =
   ## Returns the topic for the PrivateV1 conversation.
   return self.topic
@@ -63,7 +66,18 @@ proc getConvoId*(self: PrivateV1): string =
 
 proc derive_topic(participants: seq[PublicKey], discriminator: string): string =
   ## Derives a topic from the participants' public keys.
-  return "/convo/private/" & getConvoIdRaw(participants, discriminator)
+  return TopicPrefixPrivateV1 & getConvoIdRaw(participants, discriminator)
+
+## Parses the topic to extract the conversation ID.
+proc parseTopic*(topic: string): Result[string, ChatError] =
+  if not topic.startsWith(TopicPrefixPrivateV1):
+    return err(ChatError(code: errTopic, context: "Invalid topic prefix"))
+  
+  let id = topic.split('/')[^1]
+  if id == "":
+    return err(ChatError(code: errTopic, context: "Empty conversation ID"))
+  
+  return ok(id)
 
 proc calcMsgId(self: PrivateV1, msgBytes: seq[byte]): string =
   let s = fmt"{self.getConvoId()}|{msgBytes}"
