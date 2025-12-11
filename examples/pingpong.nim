@@ -82,7 +82,7 @@ proc main() {.async.} =
 
   # Perform OOB Introduction: Raya -> Saro
   let raya_bundle = raya.createIntroBundle()
-  discard await saro.newPrivateConversation(raya_bundle)
+  discard await saro.newPrivateConversation(raya_bundle, initTextFrame("Init").toContentFrame())
 
   await sleepAsync(20.seconds) # Run for some time 
 
