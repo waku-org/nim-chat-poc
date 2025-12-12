@@ -31,7 +31,6 @@ proc hexToArray*[N: static[int]](hexStr: string): array[N, byte] =
       "Hex string length (" & $hexStr.len & ") doesn't match array size (" & $(
           N*2) & ")")
           
-  var result: array[N, byte]
   for i in 0..<N:
     result[i] = byte(parseHexInt(hexStr[2*i .. 2*i+1]))
 
@@ -46,9 +45,9 @@ func loadTestKeys() : (array[32,byte],array[32,byte],array[32,byte],array[32,byt
 
     (a_priv, a_pub, b_priv, b_pub)
 
-func createTestInstances(a: array[32, byte], apub: array[32, byte], b: array[32, byte], bpub: array[32, byte],sk: array[32, byte]) : (Doubleratchet, Doubleratchet) =
-    let adr = initDoubleratchet(sk, a, bpub, true)
-    let bdr = initDoubleratchet(sk, b, apub, false)
+proc createTestInstances(b: array[32, byte], bpub: array[32, byte],sk: array[32, byte]) : (Doubleratchet, Doubleratchet) =
+    let adr = initDoubleratchetSender(sk, bpub)
+    let bdr = initDoubleratchetRecipient(sk, b)
     (adr,bdr)
 
 
@@ -60,9 +59,8 @@ suite "Doubleratchet":
 
     let sk = hexToArray[32](ks7748_shared_key)
 
-    var adr = initDoubleratchet(sk, a_priv, b_pub, true)
-    var bdr = initDoubleratchet(sk, b_priv, a_pub, true)
-
+    var (adr, bdr) = createTestInstances(b_priv, b_pub, sk)
+    
     var msg :seq[byte] = @[1,2,3,4,5,6,7,8,9,10]
 
     let (header, ciphertext) = adr.encrypt(msg)
@@ -77,8 +75,7 @@ suite "Doubleratchet":
 
     let sk = hexToArray[32](ks7748_shared_key)
     
-    var adr = initDoubleratchet(sk, a_priv, b_pub, true)
-    var bdr = initDoubleratchet(sk, b_priv, a_pub, true)
+    var (adr, bdr) = createTestInstances(b_priv, b_pub, sk)
 
     var msg0 :seq[byte] = @[1,2,3,4,5,6,7,8,9,10]
     var msg1 :seq[byte] = @[6,7,8,9,10,1,2,3,4,5]
@@ -98,8 +95,7 @@ suite "Doubleratchet":
 
     let sk = hexToArray[32](ks7748_shared_key)
     
-    var adr = initDoubleratchet(sk, a_priv, b_pub, true)
-    var bdr = initDoubleratchet(sk, b_priv, a_pub, true)
+    var (adr, bdr) = createTestInstances(b_priv, b_pub, sk)
 
     var msg : seq[ seq[byte]]= @[
       @[1,2,3,4,5,6,7,8,9,10],
@@ -132,8 +128,7 @@ suite "Doubleratchet":
     let (a_priv, a_pub, b_priv, b_pub) = loadTestKeys()
     let sk = hexToArray[32](ks7748_shared_key)
 
-    var adr = initDoubleratchet(sk, a_priv, b_pub, true)
-    var bdr = initDoubleratchet(sk, b_priv, a_pub, true)
+    var (adr, bdr) = createTestInstances(b_priv, b_pub, sk)
     
     var msg :seq[byte] = @[1,2,3,4,5,6,7,8,9,10]
   
@@ -150,8 +145,7 @@ suite "Doubleratchet":
     let (a_priv, a_pub, b_priv, b_pub) = loadTestKeys()
     let sk = hexToArray[32](ks7748_shared_key)
 
-    var adr = initDoubleratchet(sk, a_priv, b_pub, true)
-    var bdr = initDoubleratchet(sk, b_priv, a_pub, true)
+    var (adr, bdr) = createTestInstances(b_priv, b_pub, sk)
     
     var msg :seq[byte] = @[1,2,3,4,5,6,7,8,9,10]
 
@@ -167,8 +161,7 @@ suite "Doubleratchet":
 
     let sk = hexToArray[32](ks7748_shared_key)
     
-    var adr = initDoubleratchet(sk, a_priv, b_pub, true)
-    var bdr = initDoubleratchet(sk, b_priv, a_pub, true)
+    var (adr, bdr) = createTestInstances(b_priv, b_pub, sk)
 
     var last_dh_a : PublicKey
     var last_dh_b : PublicKey
