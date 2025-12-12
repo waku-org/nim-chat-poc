@@ -54,6 +54,7 @@ type Client* = ref object
   conversations: Table[string, Conversation] # Keyed by conversation ID
   inboundQueue: QueueRef
   isRunning: bool
+  inbox: Inbox
 
   newMessageCallbacks: seq[MessageCallback]
   newConvoCallbacks: seq[NewConvoCallback]
@@ -71,6 +72,8 @@ proc newClient*(cfg: WakuConfig, ident: Identity): Client {.raises: [IOError,
     let rm = newReliabilityManager().valueOr:
       raise newException(ValueError, fmt"SDS InitializationError")
 
+    let defaultInbox = initInbox(ident)
+
     var q = QueueRef(queue: newAsyncQueue[ChatPayload](10))
     var c = Client(ident: ident,
                   ds: waku,
@@ -78,14 +81,14 @@ proc newClient*(cfg: WakuConfig, ident: Identity): Client {.raises: [IOError,
                   conversations: initTable[string, Conversation](),
                   inboundQueue: q,
                   isRunning: false,
+                  inbox: defaultInbox,
                   newMessageCallbacks: @[],
                   newConvoCallbacks: @[])
 
-    let defaultInbox = initInbox(c.ident.getPubkey())
     c.conversations[defaultInbox.id()] = defaultInbox
 
-    notice "Client started", client = c.ident.getId(),
-        defaultInbox = defaultInbox
+    notice "Client started", client = c.ident.getName(),
+        defaultInbox = defaultInbox, inTopic= topic_inbox(c.ident.get_addr())
     result = c
   except Exception as e:
     error "newCLient", err = e.msg
@@ -95,7 +98,7 @@ proc newClient*(cfg: WakuConfig, ident: Identity): Client {.raises: [IOError,
 #################################################
 
 proc getId*(client: Client): string =
-  result = client.ident.getId()
+  result = client.ident.getName()
 
 proc identity*(client: Client): Identity =
   result = client.ident
@@ -174,7 +177,7 @@ proc createIntroBundle*(self: var Client): IntroBundle =
 #################################################
 
 proc addConversation*(client: Client, convo: Conversation) =
-  notice "Creating conversation", client = client.getId(), topic = convo.id()
+  notice "Creating conversation", client = client.getId(), convoId = convo.id()
   client.conversations[convo.id()] = convo
   client.notifyNewConversation(convo)
 
@@ -183,47 +186,15 @@ proc getConversation*(client: Client, convoId: string): Conversation =
   result = client.conversations[convoId]
 
 proc newPrivateConversation*(client: Client,
-    introBundle: IntroBundle): Future[Option[ChatError]] {.async.} =
+    introBundle: IntroBundle, content: ContentFrame): Future[Option[ChatError]] {.async.} =
   ## Creates a private conversation with the given `IntroBundle`.
   ## `IntroBundles` are provided out-of-band.
+  let remote_pubkey = loadPublicKeyFromBytes(introBundle.ident).get()
+  let remote_ephemeralkey = loadPublicKeyFromBytes(introBundle.ephemeral).get()
 
-  notice "New PRIVATE Convo ", client = client.getId(),
-      fromm = introBundle.ident.mapIt(it.toHex(2)).join("")
+  let convo = await client.inbox.inviteToPrivateConversation(client.ds,remote_pubkey, remote_ephemeralkey, content )
+  client.addConversation(convo)     # TODO: Fix re-entrantancy bug. Convo needs to be saved before payload is sent.
 
-  let destPubkey = loadPublicKeyFromBytes(introBundle.ident).valueOr:
-    raise newException(ValueError, "Invalid public key in intro bundle.")
-
-  let convoId = conversationIdFor(destPubkey)
-  let destConvoTopic = topicInbox(destPubkey.getAddr())
-
-  let invite = InvitePrivateV1(
-    initiator: @(client.ident.getPubkey().bytes()),
-    initiatorEphemeral: @[0, 0], # TODO: Add ephemeral
-    participant: @(destPubkey.bytes()),
-    participantEphemeralId: introBundle.ephemeralId,
-    discriminator: "test"
-    )
-
-
-
-  let env = wrapEnv(encrypt(InboxV1Frame(invitePrivateV1: invite,
-      recipient: "")), convoId)
-
-  let deliveryAckCb = proc(
-        conversation: Conversation,
-      msgId: string): Future[void] {.async.} =
-    client.notifyDeliveryAck(conversation, msgId)
-
-  # TODO: remove placeholder key
-  var key : array[32, byte]
-  key[2]=2
-
-  var convo = initPrivateV1Sender(client.identity(), client.ds, destPubkey, key, deliveryAckCb)
-  client.addConversation(convo)
-
-  # TODO: Subscribe to new content topic
-
-  await client.ds.sendPayload(destConvoTopic, env)
   return none(ChatError)
 
 

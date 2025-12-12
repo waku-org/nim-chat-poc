@@ -37,14 +37,21 @@ type
     ds: WakuClient
     sdsClient: ReliabilityManager
     owner: Identity
-    topic: string
     participant: PublicKey
     discriminator: string
     doubleratchet: naxolotl.Doubleratchet
 
-proc getTopic*(self: PrivateV1): string =
-  ## Returns the topic for the PrivateV1 conversation.
-  return self.topic
+proc derive_topic(participant: PublicKey): string =
+  ## Derives a topic from the participants' public keys.
+  return "/convo/private/" & participant.get_addr()
+
+proc getTopicInbound*(self: PrivateV1): string =
+  ## Returns the topic where the local client is listening for messages
+  return derive_topic(self.owner.getPubkey())
+
+proc getTopicOutbound*(self: PrivateV1): string =
+  ## Returns the topic where the remote recipient is listening for messages
+  return derive_topic(self.participant)
 
 proc allParticipants(self: PrivateV1): seq[PublicKey] =
   return @[self.owner.getPubkey(), self.participant]
@@ -61,9 +68,6 @@ proc getConvoIdRaw(participants: seq[PublicKey],
 proc getConvoId*(self: PrivateV1): string =
   return getConvoIdRaw(@[self.owner.getPubkey(), self.participant], self.discriminator)
 
-proc derive_topic(participants: seq[PublicKey], discriminator: string): string =
-  ## Derives a topic from the participants' public keys.
-  return "/convo/private/" & getConvoIdRaw(participants, discriminator)
 
 proc calcMsgId(self: PrivateV1, msgBytes: seq[byte]): string =
   let s = fmt"{self.getConvoId()}|{msgBytes}"
@@ -110,7 +114,7 @@ proc wireCallbacks(convo: PrivateV1, deliveryAckCb: proc(
   let funcDeliveryAck = proc(messageId: SdsMessageID,
       channelId: SdsChannelID) {.gcsafe.} =
     debug "sds message ack", messageId = messageId,
-        channelId = channelId, cb = repr(deliveryAckCb)
+        channelId = channelId
 
     if deliveryAckCb != nil:
       asyncSpawn deliveryAckCb(convo, messageId)
@@ -132,19 +136,21 @@ proc initPrivateV1*(owner: Identity, ds:WakuClient, participant: PublicKey, seed
       msgId: string): Future[void] {.async.} = nil):
           PrivateV1 =
 
-  var participants = @[owner.getPubkey(), participant];
-
   var rm = newReliabilityManager().valueOr:
     raise newException(ValueError, fmt"sds initialization: {repr(error)}")
+
+  let dr = if isSender:
+      initDoubleratchetSender(seedKey, participant.bytes)
+    else:
+      initDoubleratchetRecipient(seedKey, owner.privateKey.bytes)
 
   result = PrivateV1(
     ds: ds,
     sdsClient: rm,
     owner: owner,
-    topic: derive_topic(participants, discriminator),
     participant: participant,
     discriminator: discriminator,
-    doubleratchet: initDoubleratchet(seedKey, owner.privateKey.bytes, participant.bytes, isSender)
+    doubleratchet: dr
   )
 
   result.wireCallbacks(deliveryAckCb)
@@ -152,18 +158,7 @@ proc initPrivateV1*(owner: Identity, ds:WakuClient, participant: PublicKey, seed
   result.sdsClient.ensureChannel(result.getConvoId()).isOkOr:
     raise newException(ValueError, "bad sds channel")
 
-
-proc initPrivateV1Sender*(owner:Identity, ds: WakuClient, participant: PublicKey, seedKey: array[32, byte], deliveryAckCb: proc(
-        conversation: Conversation, msgId: string): Future[void] {.async.} = nil): PrivateV1 =
-        initPrivateV1(owner, ds, participant, seedKey, "default", true, deliveryAckCb)
-
-proc initPrivateV1Recipient*(owner:Identity,ds: WakuClient, participant: PublicKey, seedKey: array[32, byte], deliveryAckCb: proc(
-        conversation: Conversation, msgId: string): Future[void] {.async.} = nil): PrivateV1 =
-        initPrivateV1(owner,ds, participant, seedKey, "default", false, deliveryAckCb)
-
-
-proc sendFrame(self: PrivateV1, ds: WakuClient,
-    msg: PrivateV1Frame):  Future[MessageId]{.async.} =
+proc encodeFrame*(self: PrivateV1, msg: PrivateV1Frame): (MessageId, EncryptedPayload) =
 
   let frameBytes = encode(msg)
   let msgId = self.calcMsgId(frameBytes)
@@ -171,9 +166,12 @@ proc sendFrame(self: PrivateV1, ds: WakuClient,
       self.getConvoId()).valueOr:
     raise newException(ValueError, fmt"sds wrapOutgoingMessage failed: {repr(error)}")
 
-  let encryptedPayload = self.encrypt(sdsPayload)
+  result = (msgId, self.encrypt(sdsPayload))
 
-  discard ds.sendPayload(self.getTopic(), encryptedPayload.toEnvelope(
+proc sendFrame(self: PrivateV1, ds: WakuClient,
+    msg: PrivateV1Frame):  Future[MessageId]{.async.} =
+  let (msgId, encryptedPayload) = self.encodeFrame(msg)
+  discard ds.sendPayload(self.getTopicOutbound(), encryptedPayload.toEnvelope(
       self.getConvoId()))
 
   result = msgId
@@ -183,18 +181,15 @@ method id*(self: PrivateV1): string =
   return getConvoIdRaw(self.allParticipants(), self.discriminator)
 
 proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
-    bytes: seq[byte]) =
+    encPayload: EncryptedPayload) =
   ## Dispatcher for Incoming `PrivateV1Frames`.
   ## Calls further processing depending on the kind of frame.
 
-  let enc = decode(bytes, EncryptedPayload).valueOr:
-    raise newException(ValueError, fmt"Failed to decode EncryptedPayload: {repr(error)}")
-
-  if convo.doubleratchet.dhSelfPublic() == enc.doubleratchet.dh:
+  if convo.doubleratchet.dhSelfPublic() == encPayload.doubleratchet.dh:
     info "outgoing message, no need to handle", convo = convo.id()
     return
 
-  let plaintext = convo.decrypt(enc).valueOr:
+  let plaintext = convo.decrypt(encPayload).valueOr:
     error "decryption failed", error = error
     return
 
@@ -220,6 +215,15 @@ proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
   of typePlaceholder:
     notice "Got Placeholder", text = frame.placeholder.counter
 
+proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
+    bytes: seq[byte]) =
+  ## Dispatcher for Incoming `PrivateV1Frames`.
+  ## Calls further processing depending on the kind of frame.
+  let encPayload = decode(bytes, EncryptedPayload).valueOr:
+    raise newException(ValueError, fmt"Failed to decode EncryptedPayload: {repr(error)}")
+
+  convo.handleFrame(client,encPayload)
+
 
 method sendMessage*(convo: PrivateV1, content_frame: ContentFrame) : Future[MessageId] {.async.} =
 
@@ -231,3 +235,36 @@ method sendMessage*(convo: PrivateV1, content_frame: ContentFrame) : Future[Mess
   except Exception as e:
     error "Unknown error in PrivateV1:SendMessage"
 
+
+## Encrypts content without sending it.
+proc encryptMessage(self: PrivateV1, content_frame: ContentFrame) : (MessageId, EncryptedPayload) =
+
+  try:
+    let frame = PrivateV1Frame(
+      sender: @(self.owner.getPubkey().bytes()),
+      timestamp: getCurrentTimestamp(), 
+      content: content_frame
+    )
+
+    result = self.encodeFrame(frame)
+
+  except Exception as e:
+    error "Unknown error in PrivateV1:EncryptMessage"
+
+proc initPrivateV1Sender*(sender:Identity, 
+                          ds: WakuClient, 
+                          participant: PublicKey, 
+                          seedKey: array[32, byte], 
+                          content: ContentFrame,
+                          deliveryAckCb: proc(conversation: Conversation, msgId: string): Future[void] {.async.} = nil): (PrivateV1, EncryptedPayload) =
+  let convo = initPrivateV1(sender, ds, participant, seedKey, "default", true, deliveryAckCb)
+
+  # Encrypt Content with Convo
+  let contentFrame = PrivateV1Frame(sender: @(sender.getPubkey().bytes()), timestamp: getCurrentTimestamp(), content: content) 
+  let (msg_id, encPayload) = convo.encryptMessage(content)
+  result = (convo, encPayload)
+
+
+proc initPrivateV1Recipient*(owner:Identity,ds: WakuClient, participant: PublicKey, seedKey: array[32, byte], deliveryAckCb: proc(
+        conversation: Conversation, msgId: string): Future[void] {.async.} = nil): PrivateV1 =
+  initPrivateV1(owner,ds, participant, seedKey, "default", false, deliveryAckCb)

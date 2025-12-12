@@ -10,15 +10,17 @@ import
   conversation_store,
   crypto,
   delivery/waku_client,
+  identity,
   proto_types,
-  types
+  types,
+  utils
 
 logScope:
   topics = "chat inbox"
 
 type
   Inbox* = ref object of Conversation
-    pubkey: PublicKey
+    identity: Identity
     inbox_addr: string
 
 
@@ -26,9 +28,9 @@ proc `$`*(conv: Inbox): string =
   fmt"Inbox: addr->{conv.inbox_addr}"
 
 
-proc initInbox*(pubkey: PublicKey): Inbox =
+proc initInbox*(ident: Identity): Inbox =
   ## Initializes an Inbox object with the given address and invite callback.
-  return Inbox(pubkey: pubkey)
+  return Inbox(identity: ident)
 
 proc encrypt*(frame: InboxV1Frame): EncryptedPayload =
   return encrypt_plain(frame)
@@ -59,13 +61,52 @@ proc topic_inbox*(client_addr: string): string =
   return "/inbox/" & client_addr
 
 method id*(convo: Inbox): string =
-  return conversation_id_for(convo.pubkey)
+  return conversation_id_for(convo.identity.getPubkey())
 
+## Encrypt and Send a frame to the remote account
+proc sendFrame(ds: WakuClient, remote: PublicKey, frame: InboxV1Frame ): Future[void] {.async.} =
+    let env = wrapEnv(encrypt(frame),conversation_id_for(remote) )
+    await ds.sendPayload(topic_inbox(remote.get_addr()), env)
+
+
+proc newPrivateInvite(initator_static: PublicKey, 
+                      initator_ephemeral: PublicKey, 
+                      recipient_static: PublicKey, 
+                      recipient_ephemeral: uint32, 
+                      payload: EncryptedPayload) : InboxV1Frame =
+
+  let invite = InvitePrivateV1(
+    initiator: @(initator_static.bytes()),
+    initiatorEphemeral: @(initator_ephemeral.bytes()),
+    participant: @(recipient_static.bytes()),
+    participantEphemeralId: 0,
+    discriminator: "",
+    initial_message: payload
+  )
+  result = InboxV1Frame(invitePrivateV1: invite, recipient: "")
 
 #################################################
 # Conversation Creation
 #################################################
 
+## Establish a PrivateConversation with a remote client
+proc inviteToPrivateConversation*(self: Inbox, ds: Wakuclient, remote_static: PublicKey, remote_ephemeral: PublicKey, content: ContentFrame ) : Future[PrivateV1] {.async.} =
+  # Create SeedKey
+  # TODO: Update key derivations when noise is integrated
+  var local_ephemeral = generateKey()
+  var sk{.noInit.} : array[32, byte] = default(array[32, byte])
+
+  # Initialize PrivateConversation
+  let (convo, encPayload) = initPrivateV1Sender(self.identity, ds, remote_static, sk, content, nil)
+  result = convo
+
+  # # Build Invite
+  let frame = newPrivateInvite(self.identity.getPubkey(), local_ephemeral.getPublicKey(), remote_static, 0, encPayload)
+  
+  # Send
+  await sendFrame(ds, remote_static, frame)
+
+## Receive am Invitation to create a new private conversation
 proc createPrivateV1FromInvite*[T: ConversationStore](client: T,
     invite: InvitePrivateV1) =
 
@@ -78,13 +119,17 @@ proc createPrivateV1FromInvite*[T: ConversationStore](client: T,
     client.notifyDeliveryAck(conversation, msgId)
 
   # TODO: remove placeholder key
-  var key : array[32, byte]
-  key[2]=2
+  var key : array[32, byte] = default(array[32,byte])
 
   let convo = initPrivateV1Recipient(client.identity(), client.ds, destPubkey, key, deliveryAckCb)
   notice "Creating PrivateV1 conversation", client = client.getId(),
-      topic = convo.getConvoId()
-  client.addConversation(convo)
+      convoId = convo.getConvoId()
+  
+  convo.handleFrame(client, invite.initial_message)
+
+  # Calling `addConversation` must only occur after the conversation is completely configured.
+  # The client calls the OnNewConversation callback, which returns execution to the application.
+  client.addConversation(convo) 
 
 proc handleFrame*[T: ConversationStore](convo: Inbox, client: T, bytes: seq[
     byte]) =
