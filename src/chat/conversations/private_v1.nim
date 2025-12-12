@@ -97,7 +97,6 @@ proc decrypt*(convo: PrivateV1, enc: EncryptedPayload): Result[seq[byte], ChatEr
     prevChainLen: dr.prevChainLen
   )
   copyMem(addr header.dhPublic[0], unsafeAddr dr.dh[0], dr.dh.len) # TODO: Avoid this copy
-  debug "DECR WRAP", who=convo.owner.getName(), cipher = shrink(dr.ciphertext[0..8])
 
   convo.doubleratchet.decrypt(header, dr.ciphertext, @[]).mapErr(proc(e: NaxolotlError): ChatError = ChatError(code: errWrapped, context: repr(e) ))
 
@@ -169,7 +168,6 @@ proc encodeFrame*(self: PrivateV1, msg: PrivateV1Frame): (MessageId, EncryptedPa
 
   result = (msgId, self.encrypt(sdsPayload))
 
-
 proc sendFrame(self: PrivateV1, ds: WakuClient,
     msg: PrivateV1Frame):  Future[MessageId]{.async.} =
   let (msgId, encryptedPayload) = self.encodeFrame(msg)
@@ -181,9 +179,6 @@ proc sendFrame(self: PrivateV1, ds: WakuClient,
 
 method id*(self: PrivateV1): string =
   return getConvoIdRaw(self.allParticipants(), self.discriminator)
-
-
-
 
 proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
     encPayload: EncryptedPayload) =
@@ -254,7 +249,7 @@ proc encryptMessage*(self: PrivateV1, content_frame: Content) : (MessageId, Encr
     result = self.encodeFrame(frame)
 
   except Exception as e:
-    error "Unknown error in PrivateV1:SendMessage"
+    error "Unknown error in PrivateV1:EncryptMessage"
 
 proc initPrivateV1Sender*(sender:Identity, 
                           ds: WakuClient, 
@@ -272,4 +267,4 @@ proc initPrivateV1Sender*(sender:Identity,
 
 proc initPrivateV1Recipient*(owner:Identity,ds: WakuClient, participant: PublicKey, seedKey: array[32, byte], deliveryAckCb: proc(
         conversation: Conversation, msgId: string): Future[void] {.async.} = nil): PrivateV1 =
-        initPrivateV1(owner,ds, participant, seedKey, "default", false, deliveryAckCb)
+  initPrivateV1(owner,ds, participant, seedKey, "default", false, deliveryAckCb)
