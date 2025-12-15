@@ -24,6 +24,6 @@ method id*(self: Conversation): string {.raises: [Defect, ValueError].} =
   # TODO: make this a compile time check
   panic("ProgramError: Missing concrete implementation")
 
-method sendMessage*(convo: Conversation, content_frame: ContentFrame) : Future[MessageId] {.async, base, gcsafe.} =
+method sendMessage*(convo: Conversation, content_frame: Content) : Future[MessageId] {.async, base, gcsafe.} =
   # TODO: make this a compile time check
   panic("ProgramError: Missing concrete implementation")

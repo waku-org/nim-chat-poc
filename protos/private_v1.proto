@@ -2,10 +2,6 @@ syntax = "proto3";
 
 package wap.convos.private_v1;
 
-import "common_frames.proto";
-
-
-
 
 message Placeholder {
     uint32 counter = 1;
@@ -16,7 +12,7 @@ message PrivateV1Frame {
     bytes sender = 2;                
     int64 timestamp = 3;          // Sender reported timestamp
 	oneof frame_type {
-		common_frames.ContentFrame content = 10;
+		bytes content = 10;
         Placeholder placeholder = 11;
         // ....
 	}

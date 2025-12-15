@@ -11,7 +11,6 @@ import
   conversations,
   conversation_store,
   crypto,
-  delivery/waku_client,
   errors,
   proto_types,
   types
@@ -122,6 +121,6 @@ proc handleFrame*[T: ConversationStore](convo: Inbox, client: T, bytes: seq[
     notice "Receive Note", client = client.getId(), text = frame.note.text
 
 
-method sendMessage*(convo: Inbox, content_frame: ContentFrame) : Future[MessageId] {.async.} =
+method sendMessage*(convo: Inbox, content_frame: Content) : Future[MessageId] {.async.} =
   warn "Cannot send message to Inbox"
   result = "program_error"

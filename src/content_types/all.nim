@@ -12,7 +12,7 @@ import ../chat/proto_types
 export protobuf_serialization
 
 import_proto3 "protos/text_frame.proto"
-# import_proto3 "../../protos/common_frames.proto"
+import_proto3 "protos/common_frames.proto"
 
 export ContentFrame, TextFrame
 

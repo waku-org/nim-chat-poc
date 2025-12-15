@@ -28,7 +28,7 @@ import ../../naxolotl as nax
 type
   ReceivedPrivateV1Message* = ref object of ReceivedMessage 
     
-proc initReceivedMessage(sender: PublicKey, timestamp: int64, content: ContentFrame) : ReceivedPrivateV1Message =
+proc initReceivedMessage(sender: PublicKey, timestamp: int64, content: Content) : ReceivedPrivateV1Message =
   ReceivedPrivateV1Message(sender:sender, timestamp:timestamp, content:content)
 
 
@@ -227,7 +227,7 @@ proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
     return
 
   case frame.getKind():
-  of typeContentFrame:
+  of typeContent:
     # TODO: Using client.getId() results in an error in this context
     client.notifyNewMessage(convo, initReceivedMessage(convo.participant, frame.timestamp, frame.content))
     
@@ -235,7 +235,7 @@ proc handleFrame*[T: ConversationStore](convo: PrivateV1, client: T,
     notice "Got Placeholder", text = frame.placeholder.counter
 
 
-method sendMessage*(convo: PrivateV1, content_frame: ContentFrame) : Future[MessageId] {.async.} =
+method sendMessage*(convo: PrivateV1, content_frame: Content) : Future[MessageId] {.async.} =
 
   try:
     let frame = PrivateV1Frame(sender: @(convo.owner.getPubkey().bytes()),
