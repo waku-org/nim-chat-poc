@@ -11,6 +11,7 @@ import
   conversations,
   conversation_store,
   crypto,
+  delivery/waku_client,
   errors,
   identity,
   proto_types,
@@ -104,7 +105,7 @@ proc newPrivateInvite(initator_static: PublicKey,
 #################################################
 
 ## Establish a PrivateConversation with a remote client
-proc inviteToPrivateConversation*(self: Inbox, ds: Wakuclient, remote_static: PublicKey, remote_ephemeral: PublicKey, content: ContentFrame ) : Future[PrivateV1] {.async.} =
+proc inviteToPrivateConversation*(self: Inbox, ds: Wakuclient, remote_static: PublicKey, remote_ephemeral: PublicKey, content: Content ) : Future[PrivateV1] {.async.} =
   # Create SeedKey
   # TODO: Update key derivations when noise is integrated
   var local_ephemeral = generateKey()

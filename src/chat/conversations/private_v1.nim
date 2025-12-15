@@ -23,7 +23,8 @@ import convo_type
 import message
 
 import ../../naxolotl as nax
- 
+
+const TopicPrefixPrivateV1 = "/convo/private/"
 
 type
   ReceivedPrivateV1Message* = ref object of ReceivedMessage 
@@ -43,7 +44,7 @@ type
 
 proc derive_topic(participant: PublicKey): string =
   ## Derives a topic from the participants' public keys.
-  return "/convo/private/" & participant.get_addr()
+  return TopicPrefixPrivateV1 & participant.get_addr()
 
 proc getTopicInbound*(self: PrivateV1): string =
   ## Returns the topic where the local client is listening for messages
@@ -52,6 +53,17 @@ proc getTopicInbound*(self: PrivateV1): string =
 proc getTopicOutbound*(self: PrivateV1): string =
   ## Returns the topic where the remote recipient is listening for messages
   return derive_topic(self.participant)
+
+## Parses the topic to extract the conversation ID.
+proc parseTopic*(topic: string): Result[string, ChatError] =
+  if not topic.startsWith(TopicPrefixPrivateV1):
+    return err(ChatError(code: errTopic, context: "Invalid topic prefix"))
+  
+  let id = topic.split('/')[^1]
+  if id == "":
+    return err(ChatError(code: errTopic, context: "Empty conversation ID"))
+  
+  return ok(id)
 
 proc allParticipants(self: PrivateV1): seq[PublicKey] =
   return @[self.owner.getPubkey(), self.participant]
@@ -255,7 +267,7 @@ proc initPrivateV1Sender*(sender:Identity,
                           ds: WakuClient, 
                           participant: PublicKey, 
                           seedKey: array[32, byte], 
-                          content: ContentFrame,
+                          content: Content,
                           deliveryAckCb: proc(conversation: Conversation, msgId: string): Future[void] {.async.} = nil): (PrivateV1, EncryptedPayload) =
   let convo = initPrivateV1(sender, ds, participant, seedKey, "default", true, deliveryAckCb)
 

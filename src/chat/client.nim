@@ -186,7 +186,7 @@ proc getConversation*(client: Client, convoId: string): Conversation =
   result = client.conversations[convoId]
 
 proc newPrivateConversation*(client: Client,
-    introBundle: IntroBundle, content: ContentFrame): Future[Option[ChatError]] {.async.} =
+    introBundle: IntroBundle, content: Content): Future[Option[ChatError]] {.async.} =
   ## Creates a private conversation with the given `IntroBundle`.
   ## `IntroBundles` are provided out-of-band.
   let remote_pubkey = loadPublicKeyFromBytes(introBundle.ident).get()
