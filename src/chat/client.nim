@@ -229,14 +229,16 @@ proc newPrivateConversation*(client: Client,
 
 #################################################
 # Payload Handling
+# Receives a incoming payload, decodes it, and processes it.
 #################################################
 
 proc parseMessage(client: Client, msg: ChatPayload) {.raises: [ValueError,
     SerializationError].} =
-  ## Receives a incoming payload, decodes it, and processes it.
-
-  let envelope = decode(msg.bytes, WapEnvelopeV1).valueOr:
-    raise newException(ValueError, "Failed to decode WapEnvelopeV1: " & error)
+  let envelopeRes = decode(msg.bytes, WapEnvelopeV1)
+  if envelopeRes.isErr:
+    debug "Failed to decode WapEnvelopeV1", client = client.getId(), err = envelopeRes.error
+    return
+  let envelope = envelopeRes.get()
 
   let convo = block:
     let opt = client.getConversationFromHint(envelope.conversationHint).valueOr:
@@ -266,6 +268,11 @@ proc messageQueueConsumer(client: Client) {.async.} =
   while client.isRunning:
     let message = await client.inboundQueue.queue.get()
 
+    let topicRes = inbox.parseTopic(message.contentTopic).or(private_v1.parseTopic(message.contentTopic))
+    if topicRes.isErr:
+      debug "Invalid content topic", client = client.getId(), err = topicRes.error, contentTopic = message.contentTopic
+      continue
+
     notice "Inbound Message Received", client = client.getId(),
         contentTopic = message.contentTopic, len = message.bytes.len()
     try:
@@ -291,7 +298,8 @@ proc start*(client: Client) {.async.} =
 
   notice "Client start complete", client = client.getId()
 
-proc stop*(client: Client) =
+proc stop*(client: Client) {.async.} =
   ## Stop the client.
+  await client.ds.stop()
   client.isRunning = false
   notice "Client stopped", client = client.getId()

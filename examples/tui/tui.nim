@@ -106,10 +106,6 @@ proc getSelectedConvo(app: ChatApp): ptr ConvoInfo =
 
 proc createChatClient(name: string): Future[Client] {.async.} =
   var cfg = await getCfg(name)
-  for key, val in fetchRegistrations():
-    if key != name:
-      cfg.waku.staticPeers.add(val)
-
   result = newClient(cfg.waku, cfg.ident)
 
 
@@ -124,7 +120,7 @@ proc sendMessage(app: ChatApp, convoInfo: ptr ConvoInfo, msg: string) {.async.} 
 
   var msgId = ""
   if convoInfo.convo != nil:
-    msgId = await convoInfo.convo.sendMessage(app.client.ds, initTextFrame(msg).toContentFrame())
+    msgId = await convoInfo.convo.sendMessage(initTextFrame(msg).toContentFrame())
 
   convoInfo[].addMessage(msgId, "You", app.inputBuffer)
 
@@ -490,7 +486,7 @@ proc appLoop(app: ChatApp, panes: seq[Pane]) : Future[void] {.async.} =
   illwillInit(fullscreen = false)
   # Clear buffer
   while true:
-    await sleepAsync(5.milliseconds)
+    await sleepAsync(chronos.milliseconds(5))
     app.tb.clear()
 
     drawStatusBar(app, panes[0], fgBlack, getIdColor(app.client.getId()))
@@ -527,7 +523,7 @@ proc appLoop(app: ChatApp, panes: seq[Pane]) : Future[void] {.async.} =
 
 proc peerWatch(app: ChatApp): Future[void] {.async.} =
   while true:
-    await sleepAsync(1.seconds)
+    await sleepAsync(chronos.seconds(1))
     app.peerCount = app.client.ds.getConnectedPeerCount()
 
 
