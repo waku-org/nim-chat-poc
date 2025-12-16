@@ -203,7 +203,7 @@ proc drawStatusBar(app: ChatApp, layout: Pane , fg: ForegroundColor, bg: Backgro
 
   var i = layout.yStart + 1
   var chunk = layout.width - 9
-  tb.write(1, i, "Name: " & app.client.getId())
+  tb.write(1, i, "Name: " & app.client.getName())
   inc i
   tb.write(1, i, fmt"PeerCount: {app.peerCount}")
   inc i

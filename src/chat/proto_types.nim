@@ -10,7 +10,6 @@ export protobuf_serialization
 
 import_proto3 "../../protos/inbox.proto"
 # import_proto3 "../protos/invite.proto"    // Import3 follows protobuf includes so this will result in a redefinition error
-import_proto3 "../../protos/encryption.proto"
 import_proto3 "../../protos/envelope.proto"
 
 import_proto3 "../../protos/private_v1.proto"

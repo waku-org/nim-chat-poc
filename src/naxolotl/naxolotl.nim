@@ -50,12 +50,20 @@ proc `$`*(x: DrHeader): string =
   "DrHeader(pubKey=" & hex(x.dhPublic) & ", msgNum=" & $x.msgNumber & ", msgNum=" & $x.prevChainLen & ")"
 
 
+proc `$`*(key: array[32, byte]): string =
+  let byteStr = hex(key)
+  fmt"{byteStr[0..5]}..{byteStr[^6 .. ^1]}"
+
+
+proc generateDhKey() : PrivateKey =
+  result = generateKeypair().get()[0]
+
 #################################################
 # Kdf
 #################################################
 
 
-func kdfRoot(self: var Doubleratchet, rootKey: RootKey, dhOutput:DhDerivedKey): (RootKey, ChainKey) =
+func kdfRoot(rootKey: RootKey, dhOutput:DhDerivedKey): (RootKey, ChainKey) =
 
   var salt = rootKey
   var ikm = dhOutput
@@ -63,7 +71,7 @@ func kdfRoot(self: var Doubleratchet, rootKey: RootKey, dhOutput:DhDerivedKey): 
 
   hkdfSplit(salt, ikm, info)
 
-func kdfChain(self: Doubleratchet, chainKey: ChainKey): (MessageKey, ChainKey) =
+func kdfChain(chainKey: ChainKey): (MessageKey, ChainKey) =
 
   let msgKey   = hkdfExtract(chainKey, [0x01u8])
   let chainKey = hkdfExtract(chainKey, [0x02u8])
@@ -73,7 +81,7 @@ func kdfChain(self: Doubleratchet, chainKey: ChainKey): (MessageKey, ChainKey) =
 func dhRatchetSend(self: var Doubleratchet) =
   # Perform DH Ratchet step when receiving a new peer key.
   let dhOutput : DhDerivedKey = dhExchange(self.dhSelf, self.dhRemote).get()
-  let (newRootKey, newChainKeySend) = kdfRoot(self, self.rootKey, dhOutput)
+  let (newRootKey, newChainKeySend) = kdfRoot(self.rootKey, dhOutput)
   self.rootKey = newRootKey
   self.chainKeySend = newChainKeySend
   self.msgCountSend = 0
@@ -86,14 +94,14 @@ proc dhRatchetRecv(self: var Doubleratchet, remotePublickey: PublicKey ) =
   self.dhRemote = remotePublickey
 
   let dhOutputPre = self.dhSelf.dhExchange(self.dhRemote).get()
-  let (newRootKey, newChainKeyRecv) = kdfRoot(self, self.rootKey, dhOutputPre)
+  let (newRootKey, newChainKeyRecv) = kdfRoot(self.rootKey, dhOutputPre)
   self.rootKey = newRootKey
   self.chainKeyRecv = newChainKeyRecv
 
-  self.dhSelf = generateKeypair().get()[0]
+  self.dhSelf = generateDhKey()
 
   let dhOutputPost = self.dhSelf.dhExchange(self.dhRemote).get()
-  (self.rootKey, self.chainKeySend) = kdfRoot(self, self.rootKey, dhOutputPost)
+  (self.rootKey, self.chainKeySend) = kdfRoot(self.rootKey, dhOutputPost)
 
 
 proc skipMessageKeys(self: var Doubleratchet, until: MsgCount): Result[(), string] =
@@ -102,7 +110,7 @@ proc skipMessageKeys(self: var Doubleratchet, until: MsgCount): Result[(), strin
     return err("Too many skipped messages")
 
   while self.msgCountRecv < until:
-    let (msgKey, chainKey) = self.kdfChain(self.chainKeyRecv)
+    let (msgKey, chainKey) = kdfChain(self.chainKeyRecv)
     self.chainKeyRecv = chainKey
 
     let keyId = keyId(self.dhRemote, self.msgCountRecv)
@@ -113,7 +121,7 @@ proc skipMessageKeys(self: var Doubleratchet, until: MsgCount): Result[(), strin
 
 proc encrypt(self: var Doubleratchet, plaintext: var seq[byte], associatedData: openArray[byte]): (DrHeader, CipherText) = 
 
-  let (msgKey, chainKey) = self.kdfChain(self.chainKeySend)
+  let (msgKey, chainKey) = kdfChain(self.chainKeySend)
   self.chainKeySend = chainKey
   let header = DrHeader(  
                 dhPublic: self.dhSelf.public, #TODO Serialize
@@ -130,14 +138,12 @@ proc encrypt(self: var Doubleratchet, plaintext: var seq[byte], associatedData: 
   output.add(nonce)
   output.add(ciphertext)
 
-
   (header, output)
 
 
 proc decrypt*(self: var Doubleratchet, header: DrHeader, ciphertext: CipherText, associatedData: openArray[byte] ) : Result[seq[byte], NaxolotlError] =
 
   let peerPublic = header.dhPublic
-
   var msgKey : MessageKey
 
   # Check Skipped Keys
@@ -155,7 +161,7 @@ proc decrypt*(self: var Doubleratchet, header: DrHeader, ciphertext: CipherText,
     if r.isErr:
        error "skipMessages", error = r.error()
 
-    (msgKey, self.chainKeyRecv) = self.kdfChain(self.chainKeyRecv)
+    (msgKey, self.chainKeyRecv) = kdfChain(self.chainKeyRecv)
     inc self.msgCountRecv
 
   var nonce : Nonce
@@ -173,10 +179,10 @@ proc encrypt*(self: var Doubleratchet, plaintext: var seq[byte]) : (DrHeader, Ci
   encrypt(self, plaintext,@[])
 
 
-func initDoubleratchet*(sharedSecret: array[32, byte], dhSelf: PrivateKey, dhRemote: PublicKey, isSending: bool = true): Doubleratchet =
+proc initDoubleratchetSender*(sharedSecret: array[32, byte], dhRemote: PublicKey): Doubleratchet =
 
   result = Doubleratchet(
-      dhSelf: dhSelf,
+      dhSelf: generateDhKey(),
       dhRemote: dhRemote,
       rootKey: RootKey(sharedSecret),
       msgCountSend: 0,
@@ -185,8 +191,20 @@ func initDoubleratchet*(sharedSecret: array[32, byte], dhSelf: PrivateKey, dhRem
       skippedMessageKeys: initTable[(PublicKey, MsgCount), MessageKey]()
   )
 
-  if isSending:
-    result.dhRatchetSend()
+  # Update RK, CKs
+  result.dhRatchetSend()
+
+proc initDoubleratchetRecipient*(sharedSecret: array[32, byte], dhSelf: PrivateKey): Doubleratchet =
+
+  result = Doubleratchet(
+      dhSelf: dhSelf,
+      #dhRemote: None,
+      rootKey: RootKey(sharedSecret),
+      msgCountSend: 0,
+      msgCountRecv: 0,
+      prevChainLen: 0,
+      skippedMessageKeys: initTable[(PublicKey, MsgCount), MessageKey]()
+  )
 
 func dhSelfPublic*(self: Doubleratchet): PublicKey = 
   self.dhSelf.public
