@@ -3,7 +3,7 @@
 This is the technical proof of a modular e2ee chat protocol using Waku. You can find discussion and details [here](https://github.com/waku-org/specs/pull/73)
 
 See [EchoBot](./examples/bot_echo.nim) for a minimal client side usage example.
-
+See [Client](./src/chat/client.nim) for the main entry point to the SDK
 
 ## Quick Start
 
@@ -17,8 +17,8 @@ make all
 # Run tests
 make tests
 
-# Run the Text Interface
-./build/tui --name=<unique_id>
+# Run an example of two clients communicating
+./build/pingpong
 ```
 
 ## Details
