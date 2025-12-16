@@ -15,8 +15,7 @@ import
   errors,
   identity,
   proto_types,
-  types,
-  utils
+  types
 
 logScope:
   topics = "chat inbox"

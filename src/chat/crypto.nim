@@ -7,7 +7,7 @@ import results
 import utils
 
 export PublicKey, PrivateKey, bytes, createRandomKey, loadPrivateKeyFromBytes, loadPublicKeyFromBytes,
-       getPublicKey, Dh, Result, get_addr
+       getPublicKey, Dh, Result, get_addr, `$`
 
 
 proc encrypt_plain*[T: EncryptableTypes](frame: T): EncryptedPayload =
