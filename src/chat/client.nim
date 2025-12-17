@@ -64,11 +64,10 @@ type Client* = ref object
 # Constructors
 #################################################
 
-proc newClient*(cfg: WakuConfig, ident: Identity): Client {.raises: [IOError,
+proc newClient*(ds: WakuClient, ident: Identity): Client {.raises: [IOError,
     ValueError, SerializationError].} =
   ## Creates new instance of a `Client` with a given `WakuConfig`
   try:
-    let waku = initWakuClient(cfg)
     let rm = newReliabilityManager().valueOr:
       raise newException(ValueError, fmt"SDS InitializationError")
 
@@ -76,7 +75,7 @@ proc newClient*(cfg: WakuConfig, ident: Identity): Client {.raises: [IOError,
 
     var q = QueueRef(queue: newAsyncQueue[ChatPayload](10))
     var c = Client(ident: ident,
-                  ds: waku,
+                  ds: ds,
                   keyStore: initTable[string, KeyEntry](),
                   conversations: initTable[string, Conversation](),
                   inboundQueue: q,
