@@ -72,8 +72,8 @@ type
 
 proc DefaultConfig*(): WakuConfig =
   let nodeKey = crypto.PrivateKey.random(Secp256k1, crypto.newRng()[])[]
-  let clusterId = 16'u16
-  let shardId = 32'u16
+  let clusterId = 42'u16
+  let shardId = 2'u16
   var port: uint16 = 50000'u16 + uint16(rand(200))
 
   result = WakuConfig(nodeKey: nodeKey, port: port, clusterId: clusterId,
@@ -162,7 +162,7 @@ proc start*(client: WakuClient) {.async.} =
 
   client.node.peerManager.start()
 
-  let dnsDiscoveryUrl = "enrtree://AI4W5N5IFEUIHF5LESUAOSMV6TKWF2MB6GU2YK7PU4TYUGUNOCEPW@boot.staging.status.nodes.status.im"
+  let dnsDiscoveryUrl = "enrtree://AKHMR2NCDFW5GI7TQIET3Y4SOKAZPDOMIHQACRKNILMGUBER4XW6K@logos-chat.nodes.status.im"
   let nameServer = parseIpAddress("1.1.1.1")
   let discoveredPeers = await retrieveDynamicBootstrapNodes(dnsDiscoveryUrl, @[nameServer])
   if discoveredPeers.isOk:
