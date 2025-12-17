@@ -50,17 +50,9 @@ type WakuConfig* = object
   nodekey*: crypto.PrivateKey  # TODO: protect key exposure 
   port*: uint16
   clusterId*: uint16
-  shardId*: seq[uint16] ## @[0'u16]
+  shardId*: seq[uint16]
   pubsubTopic*: string
   staticPeers*: seq[string]
-
-proc getMultiAddr*(cfg: WakuConfig): string =
-  # TODO: Handle bad PubKey
-  var peerId = PeerId.init(cfg.nodekey.getPublicKey().get())[] #16Uiu2HAmNaeL4p3WEYzC9mgXBmBWSgWjPHRvatZTXnp8Jgv3iKsb
-
-  # TODO: format IP address
-  result = fmt"/ip4/127.0.0.1/tcp/{cfg.port}/p2p/{peerId}"
-
 
 type
   WakuClient* = ref object
