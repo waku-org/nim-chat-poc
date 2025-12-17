@@ -14,3 +14,4 @@ export client, conversations, identity, links, waku_client
 export MessageId
 
 export toHex
+export crypto.`$`
