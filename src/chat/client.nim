@@ -50,7 +50,7 @@ type KeyEntry* = object
 type Client* = ref object
   ident: Identity
   ds*: WakuClient
-  keyStore: Table[string, KeyEntry]          # Keyed by HexEncoded Public Key
+  keyStore: Table[RemoteKeyIdentifier, seq[KeyEntry]]
   conversations: Table[string, Conversation] # Keyed by conversation ID
   inboundQueue: QueueRef
   isRunning: bool
@@ -77,7 +77,7 @@ proc newClient*(cfg: WakuConfig, ident: Identity): Client {.raises: [IOError,
     var q = QueueRef(queue: newAsyncQueue[ChatPayload](10))
     var c = Client(ident: ident,
                   ds: waku,
-                  keyStore: initTable[string, KeyEntry](),
+                  keyStore: initTable[RemoteKeyIdentifier, seq[KeyEntry]](),
                   conversations: initTable[string, Conversation](),
                   inboundQueue: q,
                   isRunning: false,
@@ -150,18 +150,23 @@ proc notifyDeliveryAck(client: Client, convo: Conversation,
 # Functional
 #################################################
 
+proc cacheInviteKey(self: var Client, key: PrivateKey) =
+
+  let rki_ephemeral = generateRemoteKeyIdentifier(key.getPublicKey())
+
+  self.keyStore[rki_ephemeral] = @[KeyEntry(
+    keyType: "ephemeral",
+    privateKey: key,
+    timestamp: getCurrentTimestamp()
+  )]
+
 proc createIntroBundle*(self: var Client): IntroBundle =
   ## Generates an IntroBundle for the client, which includes
   ## the required information to send a message.
 
   # Create Ephemeral keypair, save it in the key store
   let ephemeralKey = generateKey()
-
-  self.keyStore[ephemeralKey.getPublicKey().bytes().bytesToHex()] = KeyEntry(
-    keyType: "ephemeral",
-    privateKey: ephemeralKey,
-    timestamp: getCurrentTimestamp()
-  )
+  self.cacheInviteKey(ephemeralKey)
 
   result = IntroBundle(
     ident: @(self.ident.getPubkey().bytes()),
