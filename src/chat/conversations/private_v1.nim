@@ -1,5 +1,3 @@
-
-import blake2
 import chronicles
 import chronos
 import sds
@@ -75,7 +73,7 @@ proc getConvoIdRaw(participants: seq[PublicKey],
   addrs.sort()
   addrs.add(discriminator)
   let raw = addrs.join("|")
-  return utils.hash_func(raw)
+  return utils.hash_func_str(16, raw) 
 
 proc getConvoId*(self: PrivateV1): string =
   return getConvoIdRaw(@[self.owner.getPubkey(), self.participant], self.discriminator)
@@ -83,7 +81,7 @@ proc getConvoId*(self: PrivateV1): string =
 
 proc calcMsgId(self: PrivateV1, msgBytes: seq[byte]): string =
   let s = fmt"{self.getConvoId()}|{msgBytes}"
-  result = getBlake2b(s, 16, "")
+  result = utils.hash_func_str(16, s) 
 
 
 proc encrypt*(convo: PrivateV1, plaintext: var seq[byte]): EncryptedPayload =

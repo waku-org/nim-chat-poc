@@ -86,14 +86,14 @@ proc sendFrame(ds: WakuClient, remote: PublicKey, frame: InboxV1Frame ): Future[
 proc newPrivateInvite(initator_static: PublicKey, 
                       initator_ephemeral: PublicKey, 
                       recipient_static: PublicKey, 
-                      recipient_ephemeral: uint32, 
+                      recipient_ephemeral: PublicKey, 
                       payload: EncryptedPayload) : InboxV1Frame =
 
   let invite = InvitePrivateV1(
     initiator: @(initator_static.bytes()),
     initiatorEphemeral: @(initator_ephemeral.bytes()),
     participant: @(recipient_static.bytes()),
-    participantEphemeralId: 0,
+    participantEphemeralId: cast[int32](generateRemoteKeyIdentifier(recipient_ephemeral)),
     discriminator: "",
     initial_message: payload
   )
@@ -115,7 +115,7 @@ proc inviteToPrivateConversation*(self: Inbox, ds: Wakuclient, remote_static: Pu
   result = convo
 
   # # Build Invite
-  let frame = newPrivateInvite(self.identity.getPubkey(), local_ephemeral.getPublicKey(), remote_static, 0, encPayload)
+  let frame = newPrivateInvite(self.identity.getPubkey(), local_ephemeral.getPublicKey(), remote_static, remote_ephemeral, encPayload)
   
   # Send
   await sendFrame(ds, remote_static, frame)

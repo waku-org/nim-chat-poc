@@ -7,9 +7,16 @@ proc getCurrentTimestamp*(): Timestamp =
     result = waku_core.getNanosecondTime(getTime().toUnix())
 
 
-proc hash_func*(s: string | seq[byte]): string =
-    # This should be Blake2s but it does not exist so substituting with Blake2b
-    result = getBlake2b(s, 4, "")
+proc hash_func_bytes*(n: static range[1..64], s: string | seq[byte]): seq[uint8] =
+
+    let key = ""
+    var b: Blake2b
+    blake2b_init(b, n, cstring(key), len(key))
+    blake2b_update(b, s, len(s))
+    result = blake2b_final(b)
+
+proc hash_func_str*(n: static range[1..64], s: string | seq[byte]): string =
+    result = $hash_func_bytes(n,s)
 
 proc bytesToHex*[T](bytes: openarray[T], lowercase: bool = false): string =
     ## Convert bytes to hex string with case option

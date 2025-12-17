@@ -15,7 +15,7 @@ proc bytes*(key: PublicKey): array[Curve25519KeySize, byte] =
 
 proc get_addr*(pubkey: PublicKey): string =
     # TODO: Needs Spec
-    result = hash_func(pubkey.bytes().bytesToHex())
+    result = hash_func_str(6,pubkey.bytes().bytesToHex())
 
 
 proc bytes*(key: PrivateKey): Curve25519Key =
