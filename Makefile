@@ -64,7 +64,7 @@ NIM_PARAMS := $(NIM_PARAMS) -d:git_version=\"$(GIT_VERSION)\"
 build-waku-librln:
 	@echo "Start building waku librln"
 	$(MAKE) -C vendor/nwaku librln
-	$(eval NIM_PARAMS += --passL:./vendor/nwaku/librln_v0.7.0.a --passL:-lm)
+	$(eval NIM_PARAMS += --passL:./vendor/nwaku/librln_v0.9.0.a --passL:-lm)
 	@echo "Completed building librln"
 
 build-waku-nat:
