@@ -21,7 +21,56 @@ make tests
 ./build/pingpong
 ```
 
+## API
+
+### Client
+
+#### `new_client(WakuClient, Identity) -> Client`
+Constructs a new Client instance 
+
+#### `create_intro_bundle(Client) -> IntroBundle`
+Creates a package of keys required by initiators to initialize a conversation.
+
+#### `new_private_conversation(Client, IntroBundle, Seq<u8>)`
+Used by a client to initialize a conversation. Requires the `IntroBundle` of the other participant, as well as an initial message. 
+
+#### `list_conversations(Client) ->  Seq<Conversation>`
+Returns a list of conversations known to this client.
+
+#### `get_conversation(Client, String) -> Conversation`
+Returns a conversation given the conversation ID.
+
+#### `on_new_message (Client, Callback(Conversation, ReceivedMessage)) -> Void`<br> `on_new_conversation(Client, Callback(Conversation)) -> Void` <br> `on_new_delivery_ack(Client, Callback(Conversation, String)) -> Void`
+Registers callback to receive updates for events.
+
+#### `start(Client) -> Void` <br> `stop(Client) -> Void`
+Start MUST be called in order to receive messages. Stop should be called to finalize remaining tasks.
+
+### Conversation
+
+#### `id(Conversation) -> String`
+Returns the Conversation Identifier (ConvoId).
+
+#### `send_message(Conversation, Seq<u8>) -> String`
+Sends content bytes to the conversation and returns a message_id.
+
+
+### WakuClient
+
+#### `default_config() -> DefaultConfig`
+Creates a safe waku configuration to initialize a WakuClient.
+
+#### `init_waku_client(WakuConfig) -> WakuClient`
+Create a wakuClient from a configuration. 
+
+### Identity
+
+#### `create_identity*(name: string)-> Identity`
+Creates a new random identity
+
+
 ## Details
+
 
 ### Features
 
@@ -49,6 +98,9 @@ Current state of the [ChatSDK FURPS](https://github.com/waku-org/pm/blob/master/
 | +2  | Membership Privacy         | 🟡     | Needs verification                                      |
 | +3  | User Activity Privacy      | 🟡     | Needs verification                                      |
 | +4  | Nimble Compatible          | ⛔     | Blocked — upstream dependency conflicts     
+
+
+
 
 
 ### Message Flow
