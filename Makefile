@@ -77,7 +77,7 @@ endif
 build-waku-librln:
 	@echo "Start building waku librln"
 	$(MAKE) -C vendor/nwaku librln
-	$(eval NIM_PARAMS += --passL:$(LIBRLN_FILE) --passL:-lm)
+	$(eval NIM_PARAMS += --passL:./vendor/nwaku/$(LIBRLN_FILE) --passL:-lm)
 	@echo "Completed building librln"
 
 build-waku-nat:
