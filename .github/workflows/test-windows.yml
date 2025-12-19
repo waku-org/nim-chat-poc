@@ -10,14 +10,55 @@ on:
           - 'LICENSE'
 jobs:
     tests-tasks:
-        strategy:
-          matrix:
-            os: [windows-latest]
-        runs-on: ${{ matrix.os }}
+        runs-on: windows-latest
+
+        defaults:
+          run:
+            shell: msys2 {0}  
+
+        env:
+          MSYSTEM: MINGW64
+          
         steps:
             - name: Checkout
               uses: actions/checkout@v6
+
+            - name: Setup MSYS2
+              uses: msys2/setup-msys2@v2
+              with:
+                update: true
+                install: >-
+                  git
+                  base-devel
+                  mingw-w64-x86_64-toolchain
+                  make
+                  cmake
+                  upx
+                  mingw-w64-x86_64-rust
+                  mingw-w64-x86_64-postgresql
+                  mingw-w64-x86_64-gcc
+                  mingw-w64-x86_64-gcc-libs
+                  mingw-w64-x86_64-libwinpthread-git
+                  mingw-w64-x86_64-zlib
+                  mingw-w64-x86_64-openssl
+                  mingw-w64-x86_64-python
+                  mingw-w64-x86_64-cmake
+                  mingw-w64-x86_64-llvm
+                  mingw-w64-x86_64-clang
+            
+            - name: Add UPX to PATH
+              run: |
+                echo "/usr/bin:$PATH" >> $GITHUB_PATH
+                echo "/mingw64/bin:$PATH" >> $GITHUB_PATH
+                echo "/usr/lib:$PATH" >> $GITHUB_PATH
+                echo "/mingw64/lib:$PATH" >> $GITHUB_PATH 
+
+            - name: Verify dependencies
+              run: |
+                which upx gcc g++ make cmake cargo rustc python
+
             - name: Update
               run: make update
+            
             - name: Tests
               run: make tests
