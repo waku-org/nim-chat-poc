@@ -57,6 +57,9 @@ jobs:
               run: |
                 which upx gcc g++ make cmake cargo rustc python make mingw32-make
 
+            - name: Update
+              run: make update
+
             - name: Building miniupnpc
               run: |
                 cd vendor/nwaku/vendor/nim-nat-traversal/vendor/miniupnp/miniupnpc
@@ -68,9 +71,6 @@ jobs:
                 cd ./vendor/nim-nat-traversal/vendor/libnatpmp-upstream
                 make CC="gcc -fPIC -D_WIN32_WINNT=0x0600 -DNATPMP_STATICLIB" libnatpmp.a V=1
                 cd ../../../../../../
-
-            - name: Update
-              run: make update
-            
+                        
             - name: Tests
               run: make tests
