@@ -68,7 +68,7 @@ jobs:
 
             - name: Building libnatpmp
               run: |
-                cd ./vendor/nim-nat-traversal/vendor/libnatpmp-upstream
+                cd vendor/nwaku/vendor/nim-nat-traversal/vendor/libnatpmp-upstream
                 make CC="gcc -fPIC -D_WIN32_WINNT=0x0600 -DNATPMP_STATICLIB" libnatpmp.a V=1
                 cd ../../../../../../
                         
