@@ -55,7 +55,19 @@ jobs:
 
             - name: Verify dependencies
               run: |
-                which upx gcc g++ make cmake cargo rustc python
+                which upx gcc g++ make cmake cargo rustc python make mingw32-make
+
+            - name: Building miniupnpc
+              run: |
+                cd vendor/nwaku/vendor/nim-nat-traversal/vendor/miniupnp/miniupnpc
+                make -f Makefile.mingw CC=gcc CXX=g++ libminiupnpc.a V=1
+                cd ../../../../../../..
+
+            - name: Building libnatpmp
+              run: |
+                cd ./vendor/nim-nat-traversal/vendor/libnatpmp-upstream
+                make CC="gcc -fPIC -D_WIN32_WINNT=0x0600 -DNATPMP_STATICLIB" libnatpmp.a V=1
+                cd ../../../../../../
 
             - name: Update
               run: make update
