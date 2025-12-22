@@ -22,6 +22,12 @@ GIT_SUBMODULE_UPDATE := git submodule update --init --recursive
 
 else # "variables.mk" was included. Business as usual until the end of this file.
 
+# Determine the OS
+detected_OS := $(shell uname -s)
+ifneq (,$(findstring MINGW,$(detected_OS)))
+  detected_OS := Windows
+endif
+
 ##########
 ## Main ##
 ##########
@@ -61,10 +67,19 @@ NIM_PARAMS := $(NIM_PARAMS) -d:git_version=\"$(GIT_VERSION)\"
 ##################
 .PHONY: build-waku-librln
 
+LIBRLN_VERSION := v0.7.0
+
+ifeq ($(detected_OS),Windows)
+LIBRLN_FILE := rln.lib
+else
+LIBRLN_FILE := librln_$(LIBRLN_VERSION).a
+endif
+
+
 build-waku-librln:
 	@echo "Start building waku librln"
 	$(MAKE) -C vendor/nwaku librln
-	$(eval NIM_PARAMS += --passL:./vendor/nwaku/librln_v0.7.0.a --passL:-lm)
+	$(eval NIM_PARAMS += --passL:./vendor/nwaku/${LIBRLN_FILE} --passL:-lm)
 	@echo "Completed building librln"
 
 build-waku-nat:
