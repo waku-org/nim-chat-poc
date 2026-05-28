@@ -50,7 +50,7 @@ Builds: `liblogoschat` and `liblogosdelivery` both compile cleanly.
 
 - `vendor/nwaku` (feat/sim-rln-gifter-auth): `d08083c5`
 - `vendor/logos-lez-rln/logos-delivery` (feat/sim-rln-gifter-auth-debug, loose): `9240b8d0`
-- `vendor/logos-lez-rln/logos-delivery-module/vendor/logos-delivery` (feat/sim-rln-gifter-auth-debug, canonical): `2e9d59b9`
+- `vendor/logos-lez-rln/logos-delivery-module/vendor/logos-delivery` (feat/sim-rln-gifter-auth-debug, canonical): `9240b8d0` (same SHA as loose — they share the remote branch; orphaned content-identical commit `2e9d59b9` discarded by resync)
 - outer logos-chat (feat/sim-rln-gifter-auth-v2): report-only commit (see git log)
 
 ## Deferred
