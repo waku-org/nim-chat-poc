@@ -37,6 +37,9 @@ nimble.paths
 /metrics/prometheus
 /metrics/waku-sim-all-nodes-grafana-dashboard.json
 
+# Simulation runtime state (logs, keystores, configs generated per run)
+/simulations/**/.sim_state/
+
 *.log
 /package-lock.json
 /package.json

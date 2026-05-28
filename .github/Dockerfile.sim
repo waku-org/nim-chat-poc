@@ -1,0 +1,170 @@
+# ===========================================================================
+# Stage 1: Builder — build everything, package runtime closure
+# ===========================================================================
+FROM catthehacker/ubuntu:act-latest AS builder
+
+RUN apt-get update -qq && apt-get install -y -qq \
+    build-essential pkg-config libssl-dev git curl docker.io xxd \
+    && rm -rf /var/lib/apt/lists/*
+
+# Nix
+RUN curl -L https://nixos.org/nix/install | bash -s -- --daemon --yes
+RUN mkdir -p /root/.config/nix && \
+    printf 'experimental-features = nix-command flakes\nsandbox = false\n' > /root/.config/nix/nix.conf
+RUN rmdir /homeless-shelter 2>/dev/null || true
+
+# Rust + cargo-risczero
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+RUN cargo install cargo-risczero
+
+RUN git config --global url."https://github.com/".insteadOf "git@github.com:"
+
+SHELL ["/bin/bash", "-lc"]
+
+# logos-blockchain-circuits (architecture-aware)
+RUN ARCH=$(uname -m | sed 's/arm64/aarch64/') && \
+    CIRCUITS_URL="https://github.com/logos-blockchain/logos-blockchain-circuits/releases/download/v0.4.2/logos-blockchain-circuits-v0.4.2-linux-${ARCH}.tar.gz" && \
+    echo "Downloading circuits: $CIRCUITS_URL" && \
+    mkdir -p /root/.logos-blockchain-circuits && \
+    curl -sL "$CIRCUITS_URL" | tar xz -C /root/.logos-blockchain-circuits && \
+    mv /root/.logos-blockchain-circuits/logos-blockchain-circuits-*/* /root/.logos-blockchain-circuits/ 2>/dev/null || true && \
+    rmdir /root/.logos-blockchain-circuits/logos-blockchain-circuits-* 2>/dev/null || true
+
+# --- LEZ modules ---
+
+RUN source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
+    cd /root && \
+    git clone -b feat/mix-rln-gifter-sim https://github.com/logos-co/logos-lez-rln.git && \
+    cd logos-lez-rln && \
+    git submodule update --init && \
+    (cd logos-delivery-module && git submodule update --init --recursive)
+
+RUN source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
+    cd /root/logos-lez-rln && \
+    nix build .#logos-rln-module -o logos-rln-module/result-rln
+
+RUN source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
+    cd /root/logos-lez-rln && \
+    (cd logos-execution-zone-module && \
+        RISC0_SKIP_BUILD_KERNELS=1 nix build --impure \
+        --override-input logos-execution-zone "git+file://$(pwd)/../lssa" \
+        -o ../logos-rln-module/result-wallet)
+
+RUN source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
+    nix build github:logos-co/logos-liblogos/7df6195 \
+      --override-input logos-cpp-sdk github:logos-co/logos-cpp-sdk/a4bd66c \
+      -o /root/logoscore-result
+
+RUN source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
+    cd /root/logos-lez-rln/logos-delivery-module/vendor/logos-delivery && \
+    make -j1 liblogosdelivery 2>&1 | tail -5
+
+RUN source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
+    cd /root/logos-lez-rln && \
+    SDK_PATH=$(nix build github:logos-co/logos-cpp-sdk/a4bd66c --no-link --print-out-paths 2>/dev/null) && \
+    LIBLOGOS_PATH=$(nix build github:logos-co/logos-liblogos/7df6195 \
+        --override-input logos-cpp-sdk github:logos-co/logos-cpp-sdk/a4bd66c \
+        --no-link --print-out-paths 2>/dev/null) && \
+    QT_BASE=$(find /nix/store -maxdepth 1 -name "*qtbase-6*" -type d 2>/dev/null | head -1) && \
+    QT_RO=$(find /nix/store -maxdepth 1 -name "*qtremoteobjects-6*" -type d 2>/dev/null | head -1) && \
+    DELIVERY_MOD="$PWD/logos-delivery-module" && \
+    cd logos-delivery-module && rm -rf build_plugin && mkdir build_plugin && cd build_plugin && \
+    mkdir -p delivery_root/bin delivery_root/liblogosdelivery && \
+    cp "$DELIVERY_MOD/vendor/logos-delivery/build/liblogosdelivery."* delivery_root/bin/ 2>/dev/null || true && \
+    cp "$DELIVERY_MOD/vendor/logos-delivery/liblogosdelivery/liblogosdelivery.h" delivery_root/liblogosdelivery/ && \
+    nix-shell -p cmake ninja pkg-config postgresql --run " \
+        cmake .. -GNinja \
+          -DLOGOS_CPP_SDK_ROOT=$SDK_PATH \
+          -DLOGOS_LIBLOGOS_ROOT=$LIBLOGOS_PATH \
+          -DLOGOS_DELIVERY_ROOT=\$PWD/delivery_root \
+          -DLOGOS_MESSAGING_MODULE_USE_VENDOR=OFF \
+          -DCMAKE_PREFIX_PATH=\"$QT_BASE;$QT_RO\" \
+          -DQT_ADDITIONAL_PACKAGES_PREFIX_PATH=$QT_RO && \
+        ninja" 2>&1 | tail -5
+
+RUN source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
+    CLANG_SO=$(find /nix/store -maxdepth 3 -name 'libclang.so' 2>/dev/null | head -1) && \
+    export LIBCLANG_PATH=$(dirname "$CLANG_SO") && \
+    STDBOOL=$(find "$LIBCLANG_PATH" -maxdepth 5 -name 'stdbool.h' 2>/dev/null | head -1) && \
+    [ -n "$STDBOOL" ] && export BINDGEN_EXTRA_CLANG_ARGS="-I$(dirname $STDBOOL)" ; \
+    cd /root/logos-lez-rln/lssa && \
+    cargo build --features standalone -p sequencer_service 2>&1 | tail -5
+
+# Build run_setup binary (deploys LEZ programs to sequencer at sim runtime)
+RUN cd /root/logos-lez-rln/lez-rln && \
+    cargo build --bin run_setup 2>&1 | tail -5
+
+# --- logos-chat (liblogoschat) ---
+
+RUN source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
+    cd /root && \
+    git clone -b feat/logos-delivery https://github.com/adklempner/logos-chat.git && \
+    cd logos-chat && \
+    git submodule update --init --depth 1 && \
+    (cd vendor/nwaku && git submodule update --init --recursive --depth 1) && \
+    (cd vendor/nimbus-build-system && git submodule update --init --recursive --depth 1) && \
+    make update && make liblogoschat 2>&1 | tail -5
+
+# --- logos-chat-module (chat_module_plugin) ---
+
+RUN source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
+    cd /root && \
+    git clone -b feat/logos-delivery https://github.com/adklempner/logos-chat-module.git && \
+    cd logos-chat-module && nix build 2>&1 | tail -5
+
+# --- Package runtime closure ---
+
+RUN source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
+    { \
+      nix-store -qR /root/logos-lez-rln/logos-rln-module/result-rln; \
+      nix-store -qR /root/logos-lez-rln/logos-rln-module/result-wallet; \
+      nix-store -qR /root/logoscore-result; \
+      nix-store -qR /root/logos-chat-module/result; \
+    } | sort -u > /tmp/nix-closure-paths.txt && \
+    tar cf /tmp/nix-closure.tar -T /tmp/nix-closure-paths.txt && \
+    echo "Closure: $(wc -l < /tmp/nix-closure-paths.txt) paths, $(du -sh /tmp/nix-closure.tar | cut -f1)"
+
+
+
+
+# ===========================================================================
+# Stage 2: Runtime — minimal image, no nix/Rust/cargo needed
+# ===========================================================================
+FROM catthehacker/ubuntu:act-latest
+
+RUN apt-get update -qq && apt-get install -y -qq \
+    build-essential pkg-config libssl-dev git curl xxd netcat-openbsd lsof \
+    clang libclang-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Rust + r0vm (needed for: sequencer build + risc0 dev prover)
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+RUN cargo install cargo-risczero
+
+RUN git config --global url."https://github.com/".insteadOf "git@github.com:"
+
+# Import runtime nix closure from builder
+COPY --from=builder /tmp/nix-closure.tar /tmp/
+# Import nix store runtime closure from builder. These are loaded by
+# direct path (not via nix), so no nix DB registration needed.
+# The runtime nix has its own clean DB for nix-shell package downloads.
+RUN mkdir -p /nix/store && tar xf /tmp/nix-closure.tar -C / && rm /tmp/nix-closure.tar
+
+# Pre-built LEZ module outputs
+COPY --from=builder /root/logos-lez-rln/logos-rln-module/result-rln /root/lez-modules/result-rln
+COPY --from=builder /root/logos-lez-rln/logos-rln-module/result-wallet /root/lez-modules/result-wallet
+COPY --from=builder /root/logos-lez-rln/logos-delivery-module/build_plugin/modules/ /root/lez-modules/delivery-plugin/
+COPY --from=builder /root/logos-lez-rln/logos-delivery-module/vendor/logos-delivery/build/ /root/lez-modules/delivery-build/
+# NOTE: sequencer + run_setup are NOT pre-built. Binaries compiled in the
+# builder stage crash at runtime due to library mismatch between Docker stages.
+# They're built from source at runtime with system clang (~1.5 min).
+# The lssa source is cloned at runtime via setup_and_run.sh submodule init.
+COPY --from=builder /root/logoscore-result /root/lez-modules/logoscore-result
+COPY --from=builder /root/.logos-blockchain-circuits /root/.logos-blockchain-circuits
+COPY --from=builder /root/logos-lez-rln/dev /root/lez-modules/dev
+
+# Pre-built logos-chat outputs
+COPY --from=builder /root/logos-chat/build/liblogoschat.so /root/lez-modules/liblogoschat.so
+COPY --from=builder /root/logos-chat-module/result /root/lez-modules/chat-module-result

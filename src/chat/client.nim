@@ -145,10 +145,17 @@ proc createIntroBundle*(self: ChatClient): seq[byte] =
   notice "IntroBundleCreated", client = self.getId(),
       bundle = result
 
+proc sendPayloadWatched(
+    ds: WakuClient, contentTopic: string, data: seq[byte]
+) {.async.} =
+  try:
+    await ds.sendBytes(contentTopic, data)
+  except CatchableError as e:
+    error "sendBytes failed", contentTopic = contentTopic, err = e.msg
+
 proc sendPayloads(ds: WakuClient, payloads: seq[PayloadResult]) =
   for payload in payloads:
-   # TODO: (P2) surface errors
-    discard ds.sendBytes(payload.address, payload.data)
+    asyncSpawn sendPayloadWatched(ds, payload.address, payload.data)
 
 
 #################################################
@@ -237,7 +244,7 @@ proc messageQueueConsumer(client: ChatClient) {.async.} =
 proc start*(client: ChatClient) {.async.} =
   ## Start `ChatClient` and listens for incoming messages.
   client.ds.addDispatchQueue(client.inboundQueue)
-  asyncSpawn client.ds.start()
+  await client.ds.start()
 
   client.isRunning = true
 

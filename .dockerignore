@@ -1,0 +1,3 @@
+# Everything — the Dockerfile doesn't COPY from the build context.
+# Guest binaries are staged via docker cp separately.
+*

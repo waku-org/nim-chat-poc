@@ -1,5 +1,5 @@
 { lib, stdenv, nim, which, pkg-config, writeScriptBin,
-  openssl, miniupnpc, libnatpmp,
+  openssl, miniupnpc, libnatpmp, rustPlatform, fetchFromGitHub, darwin ? {},
   src,         # logos-chat source (self from flake, with submodules=1)
   rustBundleDrv }:  # result of rust_bundle.nix
 
@@ -13,20 +13,50 @@ assert lib.assertMsg ((src.submodules or false) == true)
 
 let
   revision = lib.substring 0 8 (src.rev or "dirty");
+  logosChatSrc = src;
+
+  zerokitMixSrc = fetchFromGitHub {
+    owner = "vacp2p";
+    repo = "zerokit";
+    rev = "v2.0.0";
+    hash = "sha256-5a2cL26uw7NdLCD0gCA3tS7uX8W9yxRGqcPhWNevstM=";
+  };
+
+  mixRlnLib = rustPlatform.buildRustPackage {
+    pname = "librln-mix";
+    version = "2.0.0";
+    src = zerokitMixSrc;
+    cargoHash = "sha256-SoMl0QBBgTG1b4UhOlErlzWmg3J6G0xOC0tNDddOptA=";
+    buildAndTestSubdir = "rln";
+    buildType = "release";
+    nativeBuildInputs = lib.optionals stdenv.isDarwin [ darwin.cctools ];
+    doCheck = false;
+    installPhase = ''
+      mkdir -p $out/lib
+      find target -name "librln.a" -exec cp {} $out/lib/librln_mix_v2.0.0.a \;
+      ls $out/lib/librln_mix_v2.0.0.a
+    '' + lib.optionalString stdenv.isDarwin ''
+      bash ${logosChatSrc}/scripts/fix_mix_librln_dupes.sh $out/lib/librln_mix_v2.0.0.a ${rustBundleDrv}/lib/liblogoschat_rust_bundle.a
+    '';
+  };
 in stdenv.mkDerivation {
   pname = "liblogoschat";
   version = "0.1.0";
   inherit src;
 
-  NIMFLAGS = lib.concatStringsSep " " [
+  NIMFLAGS = lib.concatStringsSep " " ([
     "--passL:${rustBundleDrv}/lib/liblogoschat_rust_bundle.a"
+    "--passL:${mixRlnLib}/lib/librln_mix_v2.0.0.a"
     "--passL:-lm"
     "-d:miniupnpcUseSystemLibs"
     "-d:libnatpmpUseSystemLibs"
     "--passL:-lminiupnpc"
     "--passL:-lnatpmp"
     "-d:git_version=${revision}"
-  ];
+    "-d:libp2p_mix_experimental_exit_is_dest"
+  ] ++ lib.optionals stdenv.isLinux [
+    "--passL:-Wl,--allow-multiple-definition"
+  ]);
 
   nativeBuildInputs = let
     fakeGit = writeScriptBin "git" ''

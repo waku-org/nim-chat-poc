@@ -3,9 +3,9 @@
 	url = https://github.com/status-im/nimbus-build-system.git
 [submodule "vendor/nwaku"]
 	path = vendor/nwaku
-	url = https://github.com/waku-org/nwaku.git
+	url = https://github.com/adklempner/logos-delivery.git
 	ignore = untracked
-	branch = master
+	branch = feat/rln-gifter-sim
 [submodule "vendor/nim-protobuf-serialization"]
 	path = vendor/nim-protobuf-serialization
 	url = https://github.com/status-im/nim-protobuf-serialization.git
@@ -28,3 +28,7 @@
 	path = vendor/nim-ffi
 	url = https://github.com/logos-messaging/nim-ffi.git
 	branch = master
+[submodule "vendor/logos-lez-rln"]
+	path = vendor/logos-lez-rln
+	url = https://github.com/logos-co/logos-lez-rln.git
+	branch = feat/mix-rln-gifter-sim

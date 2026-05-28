@@ -1,7 +1,9 @@
 export BUILD_SYSTEM_DIR := vendor/nimbus-build-system
 export EXCLUDED_NIM_PACKAGES := vendor/nwaku/vendor/nim-dnsdisc/vendor \
 								vendor/nwaku/vendor/nimbus-build-system \
-								vendor/nim-sds/vendor
+								vendor/nwaku/vendor/nim-ffi \
+								vendor/nim-sds/vendor \
+								vendor/logos-lez-rln
 LINK_PCRE := 0
 FORMAT_MSG := "\\x1B[95mFormatting:\\x1B[39m"
 # we don't want an error here, so we can handle things later, in the ".DEFAULT" target
@@ -69,7 +71,7 @@ TARGET ?= prod
 ## Git version
 GIT_VERSION ?= $(shell git describe --abbrev=6 --always --tags)
 ## Compilation parameters. If defined in the CLI the assignments won't be executed
-NIM_PARAMS := $(NIM_PARAMS) -d:git_version=\"$(GIT_VERSION)\"
+NIM_PARAMS := $(NIM_PARAMS) -d:git_version=\"$(GIT_VERSION)\" -d:libp2p_mix_experimental_exit_is_dest
 
 ##################
 ## Dependencies ##
@@ -77,6 +79,25 @@ NIM_PARAMS := $(NIM_PARAMS) -d:git_version=\"$(GIT_VERSION)\"
 
 CARGO_TARGET_DIR ?= rust-bundle/target
 RUST_BUNDLE_LIB := $(CARGO_TARGET_DIR)/release/liblogoschat_rust_bundle.a
+
+# Mix RLN spam protection library (separate zerokit build for mix-rln-spam-protection-plugin)
+MIX_LIBRLN_VERSION ?= v2.0.0
+MIX_LIBRLN_FILE ?= $(CURDIR)/build/librln_mix_$(MIX_LIBRLN_VERSION).a
+MIX_LIBRLN_NIM_PARAMS := --passL:$(MIX_LIBRLN_FILE) --passL:-lm
+ifneq ($(detected_OS),Darwin)
+  MIX_LIBRLN_NIM_PARAMS += --passL:"-Wl,--allow-multiple-definition"
+endif
+
+.PHONY: mix-librln
+mix-librln: | $(MIX_LIBRLN_FILE)
+
+$(MIX_LIBRLN_FILE):
+	echo -e $(BUILD_MSG) "$@" && \
+		$(CURDIR)/vendor/nwaku/scripts/build_rln_mix.sh \
+		$(CURDIR)/build/zerokit_$(MIX_LIBRLN_VERSION) \
+		$(MIX_LIBRLN_VERSION) \
+		$(MIX_LIBRLN_FILE) && \
+		$(CURDIR)/scripts/fix_mix_librln_dupes.sh $(MIX_LIBRLN_FILE) $(RUST_BUNDLE_LIB)
 
 # libchat and rln each embed Rust std when built as staticlibs; linking both
 # causes duplicate-symbol errors. rust-bundle/ links them as rlibs so std
@@ -107,9 +128,9 @@ tests: | build-rust-bundle build-waku-nat logos_chat.nims
 ##########
 
 # Ensure there is a nimble task with a name that matches the target
-tui bot_echo pingpong: | build-rust-bundle build-waku-nat logos_chat.nims
+tui bot_echo pingpong: | build-rust-bundle build-waku-nat mix-librln logos_chat.nims
 	echo -e $(BUILD_MSG) "build/$@" && \
-	$(ENV_SCRIPT) nim $@ $(NIM_PARAMS) \
+	$(ENV_SCRIPT) nim $@ $(NIM_PARAMS) $(MIX_LIBRLN_NIM_PARAMS) \
 		--passL:$(RUST_BUNDLE_LIB) --passL:-lm \
 		--path:src logos_chat.nims
 
@@ -129,9 +150,9 @@ endif
 LIBLOGOSCHAT := build/liblogoschat.$(LIBLOGOSCHAT_EXT)
 
 .PHONY: liblogoschat
-liblogoschat: | build-rust-bundle build-waku-nat logos_chat.nims
+liblogoschat: | build-rust-bundle build-waku-nat mix-librln logos_chat.nims
 	echo -e $(BUILD_MSG) "$(LIBLOGOSCHAT)" && \
-	$(ENV_SCRIPT) nim liblogoschat $(NIM_PARAMS) \
+	$(ENV_SCRIPT) nim liblogoschat $(NIM_PARAMS) $(MIX_LIBRLN_NIM_PARAMS) \
 		--passL:$(RUST_BUNDLE_LIB) --passL:-lm \
 		--path:src logos_chat.nims && \
 	echo -e "\n\x1B[92mLibrary built successfully:\x1B[39m" && \
