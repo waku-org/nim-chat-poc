@@ -35,7 +35,7 @@ RUN ARCH=$(uname -m | sed 's/arm64/aarch64/') && \
 
 RUN source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
     cd /root && \
-    git clone -b feat/mix-rln-gifter-sim https://github.com/logos-co/logos-lez-rln.git && \
+    git clone -b feat/eip191-gifter-auth https://github.com/logos-co/logos-lez-rln.git && \
     cd logos-lez-rln && \
     git submodule update --init && \
     (cd logos-delivery-module && git submodule update --init --recursive)
@@ -99,7 +99,7 @@ RUN cd /root/logos-lez-rln/lez-rln && \
 
 RUN source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
     cd /root && \
-    git clone -b feat/logos-delivery https://github.com/adklempner/logos-chat.git && \
+    git clone -b feat/sim-rln-gifter-auth-v2 https://github.com/logos-messaging/logos-chat.git && \
     cd logos-chat && \
     git submodule update --init --depth 1 && \
     (cd vendor/nwaku && git submodule update --init --recursive --depth 1) && \
@@ -110,7 +110,7 @@ RUN source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
 
 RUN source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh && \
     cd /root && \
-    git clone -b feat/logos-delivery https://github.com/adklempner/logos-chat-module.git && \
+    git clone -b feat/logos-delivery-v2 https://github.com/adklempner/logos-chat-module.git && \
     cd logos-chat-module && nix build 2>&1 | tail -5
 
 # --- Package runtime closure ---

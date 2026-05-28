@@ -13,7 +13,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 CHAT_MODULE_DIR="${CHAT_MODULE_DIR:-$ROOT/../logos-chat-module}"
 CHAT_MODULE_REPO="${CHAT_MODULE_REPO:-git@github.com:adklempner/logos-chat-module.git}"
-CHAT_MODULE_BRANCH="${CHAT_MODULE_BRANCH:-feat/logos-delivery}"
+CHAT_MODULE_BRANCH="${CHAT_MODULE_BRANCH:-feat/logos-delivery-v2}"
 
 log() { echo "[$(date '+%H:%M:%S')] $*"; }
 

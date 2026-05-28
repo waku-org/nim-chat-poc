@@ -20,8 +20,8 @@ ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 DOCKERFILE="$ROOT/.github/Dockerfile.sim"
 IMAGE_NAME="${DOCKER_IMAGE:-ghcr.io/adklempner/logos-chat-sim:latest}"
 CONTAINER_NAME="logos-chat-sim-run"
-BRANCH="${BRANCH:-feat/logos-delivery}"
-REPO_URL="${REPO_URL:-https://github.com/adklempner/logos-chat.git}"
+BRANCH="${BRANCH:-feat/sim-rln-gifter-auth-v2}"
+REPO_URL="${REPO_URL:-https://github.com/logos-messaging/logos-chat.git}"
 
 # Build image if it doesn't exist or REBUILD_IMAGE=1
 if [ "${REBUILD_IMAGE:-0}" = "1" ]; then
