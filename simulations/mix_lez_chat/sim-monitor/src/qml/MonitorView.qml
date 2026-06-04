@@ -132,62 +132,188 @@ ApplicationWindow {
                     ColumnLayout {
                         anchors.fill: parent
                         anchors.margins: 8
-                        spacing: 4
+                        spacing: 6
 
-                        // Header
-                        Text {
-                            font.family: root.monoFont; font.pixelSize: 13; font.bold: true
-                            color: textPrimary
-                            text: role.toUpperCase()
-                        }
-
-                        // State badge
-                        Text {
-                            font.family: root.monoFont; font.pixelSize: 11
-                            color: accent
-                            text: {
-                                var allPhases = ["init", "start", "request", "opt", "conf", "ready",
-                                    role === "sender" ? "intro_emitted" : "intro_accepted",
-                                    role === "sender" ? "msg_sent" : "msg_received"]
-                                var current = phase.split(":")[0]
-                                var currentIdx = allPhases.indexOf(current)
-                                if (currentIdx < 0 && phase !== "---") currentIdx = 99
-
-                                var labels = []
-                                for (var i = 0; i < allPhases.length; i++) {
-                                    var p = allPhases[i]
-                                    var label = p
-                                    if (p === "opt" && optLeaf >= 0) label = "opt:" + optLeaf
-                                    if (p === "conf" && authLeaf >= 0) label = "conf:" + authLeaf
-                                    if (i === currentIdx) labels.push("▶" + label)
-                                    else if (i < currentIdx) labels.push("✓" + label)
-                                    else break
+                        // Header + status summary
+                        RowLayout {
+                            spacing: 8
+                            Text {
+                                font.family: root.monoFont; font.pixelSize: 14; font.bold: true
+                                color: textPrimary
+                                text: role.toUpperCase()
+                            }
+                            Rectangle {
+                                width: statusLabel.implicitWidth + 12; height: 18; radius: 9
+                                color: {
+                                    if (phase === "---") return root.textTertiary
+                                    if (phase === "msg_sent" || phase === "msg_received") return root.accent
+                                    if (phase.indexOf("conf") >= 0 || phase === "ready" ||
+                                        phase === "intro_emitted" || phase === "intro_accepted") return "#2563EB"
+                                    return root.yellow
                                 }
-                                return labels.length > 0 ? labels.join(" → ") : phase
+                                Text {
+                                    id: statusLabel
+                                    anchors.centerIn: parent
+                                    font.family: root.monoFont; font.pixelSize: 9; font.bold: true
+                                    color: "#FFF"
+                                    text: {
+                                        if (phase === "---") return "WAITING"
+                                        if (phase === "init") return "INITIALIZED"
+                                        if (phase === "start") return "STARTED"
+                                        if (phase === "request") return "REGISTERING"
+                                        if (phase.indexOf("opt:") >= 0) return "LEAF " + optLeaf + " (OPTIMISTIC)"
+                                        if (phase.indexOf("conf:") >= 0) return "LEAF " + authLeaf + " (CONFIRMED)"
+                                        if (phase === "ready") return "MIX READY"
+                                        if (phase === "intro_emitted") return "BUNDLE CREATED"
+                                        if (phase === "intro_accepted") return "BUNDLE ACCEPTED"
+                                        if (phase === "msg_sent") return "SENDING"
+                                        if (phase === "msg_received") return "RECEIVING"
+                                        return phase.toUpperCase()
+                                    }
+                                }
                             }
                         }
 
-                        // Leaf info
-                        Text {
-                            font.family: root.monoFont; font.pixelSize: 11
-                            color: corrected ? root.yellow : (optLeaf >= 0 && optLeaf === authLeaf ? accent : textSecond)
-                            text: "leaf: opt=" + (optLeaf >= 0 ? optLeaf : "-") +
-                                  " auth=" + (authLeaf >= 0 ? authLeaf : "-") +
-                                  (corrected ? " ⚠" : (optLeaf >= 0 && optLeaf === authLeaf ? " ✓" : ""))
+                        // Phase progression bar
+                        Row {
+                            spacing: 2
+                            Repeater {
+                                model: ["init", "start", "request", "opt", "conf", "ready",
+                                    role === "sender" ? "intro" : "accept",
+                                    role === "sender" ? "send" : "recv"]
+                                Rectangle {
+                                    width: 8; height: 4; radius: 2
+                                    color: {
+                                        var allPhases = ["init", "start", "request", "opt", "conf", "ready",
+                                            role === "sender" ? "intro_emitted" : "intro_accepted",
+                                            role === "sender" ? "msg_sent" : "msg_received"]
+                                        var current = phase.split(":")[0]
+                                        var currentIdx = allPhases.indexOf(current)
+                                        if (index < currentIdx) return root.accent
+                                        if (index === currentIdx) return root.yellow
+                                        return root.border
+                                    }
+                                }
+                            }
                         }
 
-                        // Peers
-                        Text {
-                            font.family: root.monoFont; font.pixelSize: 11
-                            color: mixRdy ? accent : textSecond
-                            text: "peers=" + peers + " mix=" + (mixRdy ? "✓" : "✗") + " pool=" + pool
+                        // Leaf + membership info
+                        RowLayout {
+                            spacing: 8
+                            Text {
+                                font.family: root.monoFont; font.pixelSize: 10
+                                color: textSecond
+                                text: "RLN MEMBERSHIP"
+                            }
+                            Text {
+                                font.family: root.monoFont; font.pixelSize: 10
+                                color: corrected ? root.yellow : (optLeaf >= 0 && optLeaf === authLeaf ? accent : textSecond)
+                                text: {
+                                    if (optLeaf < 0 && authLeaf < 0) return "not registered"
+                                    var s = "leaf " + (authLeaf >= 0 ? authLeaf : optLeaf)
+                                    if (optLeaf >= 0 && authLeaf < 0) s += " (pending confirmation)"
+                                    else if (corrected) s += " (corrected from " + optLeaf + ")"
+                                    else if (optLeaf >= 0 && optLeaf === authLeaf) s += " (confirmed ✓)"
+                                    return s
+                                }
+                            }
+                        }
+
+                        // Network status
+                        RowLayout {
+                            spacing: 8
+                            Text {
+                                font.family: root.monoFont; font.pixelSize: 10
+                                color: textSecond
+                                text: "NETWORK"
+                            }
+                            Text {
+                                font.family: root.monoFont; font.pixelSize: 10
+                                color: mixRdy ? accent : (peers > 0 ? root.yellow : textTertiary)
+                                text: {
+                                    if (peers === 0) return "no peers"
+                                    var s = peers + " peers"
+                                    if (mixRdy) s += " · mix pool " + pool + " ✓"
+                                    else s += " · mix not ready"
+                                    return s
+                                }
+                            }
                         }
 
                         // Messages
-                        Text {
-                            font.family: root.monoFont; font.pixelSize: 11
-                            color: textPrimary
-                            text: "out:" + out_ + " in:" + in_
+                        RowLayout {
+                            spacing: 16
+
+                            Row {
+                                spacing: 4
+                                Text {
+                                    font.family: root.monoFont; font.pixelSize: 10
+                                    color: textSecond
+                                    text: "MSG OUT"
+                                }
+                                Rectangle {
+                                    width: 28; height: 18; radius: 3
+                                    color: out_ > 0 ? root.accent : root.bgPanel
+                                    border.color: out_ > 0 ? root.accent : root.border
+                                    Text {
+                                        anchors.centerIn: parent
+                                        font.family: root.monoFont; font.pixelSize: 11; font.bold: true
+                                        color: out_ > 0 ? "#000" : root.textTertiary
+                                        text: out_
+                                    }
+                                }
+                            }
+
+                            Row {
+                                spacing: 4
+                                Text {
+                                    font.family: root.monoFont; font.pixelSize: 10
+                                    color: textSecond
+                                    text: "MSG IN"
+                                }
+                                Rectangle {
+                                    width: 28; height: 18; radius: 3
+                                    color: in_ > 0 ? root.accent : root.bgPanel
+                                    border.color: in_ > 0 ? root.accent : root.border
+                                    Text {
+                                        anchors.centerIn: parent
+                                        font.family: root.monoFont; font.pixelSize: 11; font.bold: true
+                                        color: in_ > 0 ? "#000" : root.textTertiary
+                                        text: in_
+                                    }
+                                }
+                            }
+
+                            // Live activity indicator
+                            Rectangle {
+                                id: activityDot
+                                width: 8; height: 8; radius: 4
+                                color: (out_ > 0 || in_ > 0) ? root.accent : root.textTertiary
+                                opacity: activityAnim.running ? 1.0 : 0.3
+
+                                SequentialAnimation on opacity {
+                                    id: activityAnim
+                                    running: false
+                                    loops: 3
+                                    NumberAnimation { to: 1.0; duration: 150 }
+                                    NumberAnimation { to: 0.3; duration: 300 }
+                                }
+
+                                Connections {
+                                    target: monitor
+                                    function onStateChanged() {
+                                        var prevOut = activityDot._lastOut || 0
+                                        var prevIn = activityDot._lastIn || 0
+                                        if (out_ !== prevOut || in_ !== prevIn) {
+                                            activityAnim.restart()
+                                        }
+                                        activityDot._lastOut = out_
+                                        activityDot._lastIn = in_
+                                    }
+                                }
+                                property int _lastOut: 0
+                                property int _lastIn: 0
+                            }
                         }
 
                         Item { Layout.fillHeight: true }
