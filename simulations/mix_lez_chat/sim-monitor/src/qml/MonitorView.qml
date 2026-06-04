@@ -5,10 +5,21 @@ import QtQuick.Layouts 1.15
 ApplicationWindow {
     id: root
     visible: true
-    width: 900
-    height: 600
-    title: "Sim Monitor"
+    width: 1100
+    height: 720
     color: "#0A0A0A"
+
+    // Dynamic title
+    title: {
+        var nodes = 0
+        try { var n = JSON.parse(monitor.mixNodeStates); nodes = n.filter(function(x){return x.lez && x.kad}).length } catch(e){}
+        var s = "Sim Monitor"
+        if (monitor.blockId > 0) s += " — block " + monitor.blockId
+        s += " | " + nodes + "/4 nodes"
+        if (monitor.senderPhase !== "---") s += " | S:" + monitor.senderPhase
+        if (monitor.receiverPhase !== "---") s += " | R:" + monitor.receiverPhase
+        return s
+    }
 
     readonly property color bgPrimary:   "#0A0A0A"
     readonly property color bgSecondary: "#111111"
@@ -18,483 +29,525 @@ ApplicationWindow {
     readonly property color textSecond:  "#6B7280"
     readonly property color textTertiary:"#4B5563"
     readonly property color accent:      "#10B981"
+    readonly property color accentDim:   "#065F46"
     readonly property color yellow:      "#F59E0B"
     readonly property color red:         "#EF4444"
+    readonly property color blue:        "#2563EB"
 
     readonly property string monoFont: "JetBrains Mono, Menlo, Monaco, monospace"
 
-    function blockAgeColor(secs) {
-        if (secs < 0) return textTertiary
-        if (secs < 15) return accent
-        if (secs < 30) return yellow
-        return red
-    }
-
-    function mixDotColor(jsonStr) {
+    function nodeColor(jsonStr, idx) {
         try {
             var nodes = JSON.parse(jsonStr)
-            return nodes.map(function(n) {
-                if (n.lez && n.kad) return accent
-                if (n.mounted) return yellow
-                return textTertiary
-            })
-        } catch(e) {
-            return [textTertiary, textTertiary, textTertiary, textTertiary]
-        }
+            var n = nodes[idx]
+            if (n.lez && n.kad) return accent
+            if (n.mounted) return yellow
+        } catch(e) {}
+        return textTertiary
     }
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: 8
-        spacing: 4
+        anchors.margins: 10
+        spacing: 6
 
-        // ─── INFRA STRIP ───────────────────────────────────────
+        // ═══════════════════════════════════════════════════════════
+        // INFRA: Sequencer heartbeat + Network topology + Gifter
+        // ═══════════════════════════════════════════════════════════
         Rectangle {
             Layout.fillWidth: true
-            Layout.preferredHeight: 52
+            Layout.preferredHeight: 130
             color: bgSecondary
-            radius: 4
+            radius: 6
 
-            ColumnLayout {
+            RowLayout {
                 anchors.fill: parent
-                anchors.margins: 6
-                spacing: 2
+                anchors.margins: 10
+                spacing: 20
 
-                // Line 1: Sequencer
-                Text {
-                    font.family: root.monoFont
-                    font.pixelSize: 12
-                    color: textPrimary
-                    text: {
-                        var age = monitor.blockAgeSecs
-                        var ageStr = age < 0 ? "---" : age + "s ago"
-                        var rpc = monitor.rpcReachable ? " rpc=" + monitor.rpcBlockId : ""
-                        return "SEQ block=" + monitor.blockId + " (" + ageStr + rpc + ") tx:" +
-                               monitor.txValidated + "✓/" + monitor.txFailed + "✗"
+                // ── Sequencer heartbeat ──
+                ColumnLayout {
+                    Layout.preferredWidth: 180
+                    spacing: 4
+
+                    RowLayout {
+                        spacing: 6
+                        // Pulsing heartbeat dot
+                        Rectangle {
+                            id: heartbeat
+                            width: 12; height: 12; radius: 6
+                            color: monitor.blockId > 0 ? root.accent : root.textTertiary
+
+                            SequentialAnimation on scale {
+                                id: heartbeatAnim
+                                loops: 1
+                                NumberAnimation { to: 1.4; duration: 100; easing.type: Easing.OutQuad }
+                                NumberAnimation { to: 1.0; duration: 300; easing.type: Easing.InQuad }
+                            }
+                            property int _lastBlock: 0
+                            Connections {
+                                target: monitor
+                                function onStateChanged() {
+                                    if (monitor.blockId !== heartbeat._lastBlock && monitor.blockId > 0) {
+                                        heartbeatAnim.restart()
+                                        heartbeat._lastBlock = monitor.blockId
+                                    }
+                                }
+                            }
+                        }
+                        Text {
+                            font.family: root.monoFont; font.pixelSize: 11; font.bold: true
+                            color: root.textSecond
+                            text: "SEQUENCER"
+                        }
+                    }
+
+                    // Block number (large)
+                    Text {
+                        font.family: root.monoFont; font.pixelSize: 28; font.bold: true
+                        color: root.textPrimary
+                        text: monitor.blockId > 0 ? "# " + monitor.blockId : "---"
+                    }
+
+                    // Block age bar
+                    Rectangle {
+                        Layout.fillWidth: true; height: 4; radius: 2; color: root.border
+                        Rectangle {
+                            width: {
+                                var age = monitor.blockAgeSecs
+                                if (age < 0) return 0
+                                return Math.min(1.0, age / 30.0) * parent.width
+                            }
+                            height: parent.height; radius: 2
+                            color: {
+                                var age = monitor.blockAgeSecs
+                                if (age < 15) return root.accent
+                                if (age < 30) return root.yellow
+                                return root.red
+                            }
+                        }
+                    }
+
+                    // TX counters
+                    Text {
+                        font.family: root.monoFont; font.pixelSize: 10
+                        color: root.textSecond
+                        text: "tx: " + monitor.txValidated + " ✓  " + monitor.txFailed + " ✗" +
+                              (monitor.rpcReachable ? "  rpc:" + monitor.rpcBlockId : "")
                     }
                 }
 
-                // Line 2: Mix dots + Gifter + Payment
-                Row {
-                    spacing: 16
+                // ── Separator ──
+                Rectangle { width: 1; Layout.fillHeight: true; color: root.border }
 
-                    Row {
-                        spacing: 2
-                        Text { font.family: root.monoFont; font.pixelSize: 12; color: textSecond; text: "MIX " }
+                // ── Network topology (horizontal) ──
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: 4
+
+                    Text { font.family: root.monoFont; font.pixelSize: 11; font.bold: true; color: root.textSecond; text: "MIX NETWORK"; Layout.alignment: Qt.AlignHCenter }
+
+                    RowLayout {
+                        Layout.alignment: Qt.AlignHCenter
+                        spacing: 12
+
                         Repeater {
                             model: 4
-                            Text {
-                                font.pixelSize: 14
-                                text: "●"
-                                color: {
-                                    var colors = mixDotColor(monitor.mixNodeStates)
-                                    return colors[index] || textTertiary
+                            Column {
+                                spacing: 3
+                                Rectangle {
+                                    width: 44; height: 44; radius: 22
+                                    color: nodeColor(monitor.mixNodeStates, index)
+                                    border.color: Qt.lighter(nodeColor(monitor.mixNodeStates, index), 1.3)
+                                    border.width: 2
+                                    anchors.horizontalCenter: parent.horizontalCenter
+
+                                    Text {
+                                        anchors.centerIn: parent
+                                        font.family: root.monoFont; font.pixelSize: 13; font.bold: true
+                                        color: "#000"
+                                        text: "N" + index
+                                    }
+                                }
+                                Rectangle {
+                                    visible: index === 0
+                                    width: giftLabel.implicitWidth + 8; height: 14; radius: 4
+                                    color: monitor.gifterMounted ? root.accent : root.textTertiary
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    Text {
+                                        id: giftLabel
+                                        anchors.centerIn: parent
+                                        font.family: root.monoFont; font.pixelSize: 8; font.bold: true
+                                        color: "#000"
+                                        text: "GIFTER"
+                                    }
+                                }
+                                Text {
+                                    visible: index !== 0
+                                    font.family: root.monoFont; font.pixelSize: 8
+                                    color: root.textTertiary
+                                    text: "relay"
+                                    anchors.horizontalCenter: parent.horizontalCenter
                                 }
                             }
                         }
                     }
 
-                    Text {
-                        font.family: root.monoFont; font.pixelSize: 12
-                        color: monitor.gifterMounted ? accent : textTertiary
-                        text: "GIFTER " + monitor.gifterStatus
+                    // Connection line under the nodes
+                    Rectangle {
+                        Layout.alignment: Qt.AlignHCenter
+                        width: 4 * 44 + 3 * 12; height: 2; radius: 1
+                        color: {
+                            try {
+                                var nodes = JSON.parse(monitor.mixNodeStates)
+                                var allGreen = nodes.every(function(n) { return n.lez && n.kad })
+                                if (allGreen) return root.accent
+                                var anyMounted = nodes.some(function(n) { return n.mounted })
+                                if (anyMounted) return root.yellow
+                            } catch(e) {}
+                            return root.border
+                        }
                     }
+                }
+
+                // ── Separator ──
+                Rectangle { width: 1; Layout.fillHeight: true; color: root.border }
+
+                // ── Gifter stats ──
+                ColumnLayout {
+                    Layout.preferredWidth: 100
+                    spacing: 4
+                    Text { font.family: root.monoFont; font.pixelSize: 11; font.bold: true; color: root.textSecond; text: "GIFTER" }
+                    Text { font.family: root.monoFont; font.pixelSize: 10; color: root.accent; text: "✓ " + (monitor.gifterMounted ? "mounted" : "---") }
+                    Text { font.family: root.monoFont; font.pixelSize: 10; color: root.textSecond; text: "queue: " + monitor.gifterQueueDepth }
                 }
             }
         }
 
-        // ─── CHAT PANELS ───────────────────────────────────────
+        // ═══════════════════════════════════════════════════════════
+        // MESSAGE FLOW: Sender ──→ ←── Receiver
+        // ═══════════════════════════════════════════════════════════
         RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: 4
+            spacing: 0
 
-            Repeater {
-                model: ["sender", "receiver"]
+            // ── Sender panel ──
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                color: bgSecondary
+                radius: 6
+                clip: true
 
-                Rectangle {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    color: bgSecondary
-                    radius: 4
+                property string role: "sender"
+                property string phase: monitor.senderPhase
+                property int optLeaf: monitor.senderOptLeaf
+                property int authLeaf: monitor.senderAuthLeaf
+                property bool corrected: monitor.senderLeafCorrected
+                property int peers: monitor.senderPeers
+                property bool mixRdy: monitor.senderMixReady
+                property int pool: monitor.senderMixPool
+                property int out_: monitor.senderMsgOut
+                property int in_: monitor.senderMsgIn
 
-                    property string role: modelData
-                    property string phase: role === "sender" ? monitor.senderPhase : monitor.receiverPhase
-                    property int optLeaf: role === "sender" ? monitor.senderOptLeaf : monitor.receiverOptLeaf
-                    property int authLeaf: role === "sender" ? monitor.senderAuthLeaf : monitor.receiverAuthLeaf
-                    property bool corrected: role === "sender" ? monitor.senderLeafCorrected : monitor.receiverLeafCorrected
-                    property int peers: role === "sender" ? monitor.senderPeers : monitor.receiverPeers
-                    property bool mixRdy: role === "sender" ? monitor.senderMixReady : monitor.receiverMixReady
-                    property int pool: role === "sender" ? monitor.senderMixPool : monitor.receiverMixPool
-                    property int out_: role === "sender" ? monitor.senderMsgOut : monitor.receiverMsgOut
-                    property int in_: role === "sender" ? monitor.senderMsgIn : monitor.receiverMsgIn
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 10
+                    spacing: 8
 
-                    ColumnLayout {
-                        anchors.fill: parent
-                        anchors.margins: 8
-                        spacing: 6
-
-                        // Header + status summary
-                        RowLayout {
-                            spacing: 8
-                            Text {
-                                font.family: root.monoFont; font.pixelSize: 14; font.bold: true
-                                color: textPrimary
-                                text: role.toUpperCase()
-                            }
-                            Rectangle {
-                                width: statusLabel.implicitWidth + 12; height: 18; radius: 9
-                                color: {
-                                    if (phase === "---") return root.textTertiary
-                                    if (phase === "msg_sent" || phase === "msg_received") return root.accent
-                                    if (phase.indexOf("conf") >= 0 || phase === "ready" ||
-                                        phase === "intro_emitted" || phase === "intro_accepted") return "#2563EB"
-                                    return root.yellow
-                                }
-                                Text {
-                                    id: statusLabel
-                                    anchors.centerIn: parent
-                                    font.family: root.monoFont; font.pixelSize: 9; font.bold: true
-                                    color: "#FFF"
-                                    text: {
-                                        if (phase === "---") return "WAITING"
-                                        if (phase === "init") return "INITIALIZED"
-                                        if (phase === "start") return "STARTED"
-                                        if (phase === "request") return "REGISTERING"
-                                        if (phase.indexOf("opt:") >= 0) return "LEAF " + optLeaf + " (OPTIMISTIC)"
-                                        if (phase.indexOf("conf:") >= 0) return "LEAF " + authLeaf + " (CONFIRMED)"
-                                        if (phase === "ready") return "MIX READY"
-                                        if (phase === "intro_emitted") return "BUNDLE CREATED"
-                                        if (phase === "intro_accepted") return "BUNDLE ACCEPTED"
-                                        if (phase === "msg_sent") return "SENDING"
-                                        if (phase === "msg_received") return "RECEIVING"
-                                        return phase.toUpperCase()
-                                    }
-                                }
-                            }
+                    // Header
+                    RowLayout {
+                        spacing: 8
+                        Text { font.family: root.monoFont; font.pixelSize: 16; font.bold: true; color: root.textPrimary; text: "SENDER" }
+                        Rectangle {
+                            width: sLabel.implicitWidth + 12; height: 20; radius: 10
+                            color: monitor.senderPhase === "---" ? root.textTertiary :
+                                   (monitor.senderPhase === "msg_sent" ? root.accent :
+                                   (monitor.senderPhase.indexOf("conf") >= 0 ? root.blue : root.yellow))
+                            Text { id: sLabel; anchors.centerIn: parent; font.family: root.monoFont; font.pixelSize: 9; font.bold: true; color: "#FFF"
+                                text: monitor.senderPhase === "---" ? "WAITING" : monitor.senderPhase.toUpperCase() }
                         }
+                    }
 
-                        // Phase progression bar
-                        Row {
-                            spacing: 2
-                            Repeater {
-                                model: ["init", "start", "request", "opt", "conf", "ready",
-                                    role === "sender" ? "intro" : "accept",
-                                    role === "sender" ? "send" : "recv"]
+                    // Phase timeline
+                    Row {
+                        spacing: 0
+                        Repeater {
+                            model: ["init", "start", "reg", "opt", "conf", "ready", "intro", "send"]
+                            Row {
+                                spacing: 0
+                                property var allPhases: ["init", "start", "request", "opt", "conf", "ready", "intro_emitted", "msg_sent"]
+                                property int currentIdx: allPhases.indexOf(monitor.senderPhase.split(":")[0])
                                 Rectangle {
-                                    width: 8; height: 4; radius: 2
-                                    color: {
-                                        var allPhases = ["init", "start", "request", "opt", "conf", "ready",
-                                            role === "sender" ? "intro_emitted" : "intro_accepted",
-                                            role === "sender" ? "msg_sent" : "msg_received"]
-                                        var current = phase.split(":")[0]
-                                        var currentIdx = allPhases.indexOf(current)
-                                        if (index < currentIdx) return root.accent
-                                        if (index === currentIdx) return root.yellow
-                                        return root.border
-                                    }
+                                    width: 10; height: 10; radius: 5
+                                    color: index < currentIdx ? root.accent : (index === currentIdx ? root.yellow : root.border)
+                                    border.color: index <= currentIdx ? Qt.lighter(color, 1.3) : "transparent"; border.width: 1
+                                    scale: index === currentIdx ? 1.3 : 1.0
+                                    Behavior on scale { NumberAnimation { duration: 200 } }
+                                }
+                                Rectangle {
+                                    visible: index < 7
+                                    width: 16; height: 2; color: index < currentIdx ? root.accent : root.border
+                                    anchors.verticalCenter: parent.children[0].verticalCenter
                                 }
                             }
                         }
+                    }
 
-                        // Leaf + membership info
-                        RowLayout {
-                            spacing: 8
-                            Text {
-                                font.family: root.monoFont; font.pixelSize: 10
-                                color: textSecond
-                                text: "RLN MEMBERSHIP"
-                            }
-                            Text {
-                                font.family: root.monoFont; font.pixelSize: 10
-                                color: corrected ? root.yellow : (optLeaf >= 0 && optLeaf === authLeaf ? accent : textSecond)
-                                text: {
-                                    if (optLeaf < 0 && authLeaf < 0) return "not registered"
-                                    var s = "leaf " + (authLeaf >= 0 ? authLeaf : optLeaf)
-                                    if (optLeaf >= 0 && authLeaf < 0) s += " (pending confirmation)"
-                                    else if (corrected) s += " (corrected from " + optLeaf + ")"
-                                    else if (optLeaf >= 0 && optLeaf === authLeaf) s += " (confirmed ✓)"
-                                    return s
-                                }
-                            }
-                        }
+                    // RLN + Network
+                    Text { font.family: root.monoFont; font.pixelSize: 10; color: parent.parent.corrected ? root.yellow : (parent.parent.optLeaf >= 0 && parent.parent.optLeaf === parent.parent.authLeaf ? root.accent : root.textSecond)
+                        text: "RLN " + (parent.parent.authLeaf >= 0 ? "leaf " + parent.parent.authLeaf + " ✓" : (parent.parent.optLeaf >= 0 ? "leaf " + parent.parent.optLeaf + " ⏳" : "not registered")) }
+                    Text { font.family: root.monoFont; font.pixelSize: 10; color: parent.parent.mixRdy ? root.accent : root.textSecond
+                        text: "NET " + parent.parent.peers + " peers" + (parent.parent.mixRdy ? " · mix ✓ pool " + parent.parent.pool : "") }
 
-                        // Network status
-                        RowLayout {
-                            spacing: 8
-                            Text {
-                                font.family: root.monoFont; font.pixelSize: 10
-                                color: textSecond
-                                text: "NETWORK"
-                            }
-                            Text {
-                                font.family: root.monoFont; font.pixelSize: 10
-                                color: mixRdy ? accent : (peers > 0 ? root.yellow : textTertiary)
-                                text: {
-                                    if (peers === 0) return "no peers"
-                                    var s = peers + " peers"
-                                    if (mixRdy) s += " · mix pool " + pool + " ✓"
-                                    else s += " · mix not ready"
-                                    return s
-                                }
-                            }
-                        }
+                    Item { Layout.fillHeight: true }
 
-                        // Messages
-                        RowLayout {
-                            spacing: 16
-
+                    // MSG badges
+                    RowLayout {
+                        spacing: 12
+                        Repeater {
+                            model: [{ label: "MSG OUT", val: parent.parent.parent.parent.out_, c: root.accent },
+                                    { label: "MSG IN", val: parent.parent.parent.parent.in_, c: root.blue }]
                             Row {
                                 spacing: 4
-                                Text {
-                                    font.family: root.monoFont; font.pixelSize: 10
-                                    color: textSecond
-                                    text: "MSG OUT"
-                                }
+                                Text { font.family: root.monoFont; font.pixelSize: 9; color: root.textSecond; text: modelData.label }
                                 Rectangle {
-                                    width: 28; height: 18; radius: 3
-                                    color: out_ > 0 ? root.accent : root.bgPanel
-                                    border.color: out_ > 0 ? root.accent : root.border
-                                    Text {
-                                        anchors.centerIn: parent
-                                        font.family: root.monoFont; font.pixelSize: 11; font.bold: true
-                                        color: out_ > 0 ? "#000" : root.textTertiary
-                                        text: out_
-                                    }
+                                    width: 32; height: 20; radius: 4
+                                    color: modelData.val > 0 ? modelData.c : root.bgPanel
+                                    border.color: modelData.val > 0 ? modelData.c : root.border
+                                    Text { anchors.centerIn: parent; font.family: root.monoFont; font.pixelSize: 12; font.bold: true
+                                        color: modelData.val > 0 ? "#000" : root.textTertiary; text: modelData.val }
                                 }
-                            }
-
-                            Row {
-                                spacing: 4
-                                Text {
-                                    font.family: root.monoFont; font.pixelSize: 10
-                                    color: textSecond
-                                    text: "MSG IN"
-                                }
-                                Rectangle {
-                                    width: 28; height: 18; radius: 3
-                                    color: in_ > 0 ? root.accent : root.bgPanel
-                                    border.color: in_ > 0 ? root.accent : root.border
-                                    Text {
-                                        anchors.centerIn: parent
-                                        font.family: root.monoFont; font.pixelSize: 11; font.bold: true
-                                        color: in_ > 0 ? "#000" : root.textTertiary
-                                        text: in_
-                                    }
-                                }
-                            }
-
-                            // Live activity indicator
-                            Rectangle {
-                                id: activityDot
-                                width: 8; height: 8; radius: 4
-                                color: (out_ > 0 || in_ > 0) ? root.accent : root.textTertiary
-                                opacity: activityAnim.running ? 1.0 : 0.3
-
-                                SequentialAnimation on opacity {
-                                    id: activityAnim
-                                    running: false
-                                    loops: 3
-                                    NumberAnimation { to: 1.0; duration: 150 }
-                                    NumberAnimation { to: 0.3; duration: 300 }
-                                }
-
-                                Connections {
-                                    target: monitor
-                                    function onStateChanged() {
-                                        var prevOut = activityDot._lastOut || 0
-                                        var prevIn = activityDot._lastIn || 0
-                                        if (out_ !== prevOut || in_ !== prevIn) {
-                                            activityAnim.restart()
-                                        }
-                                        activityDot._lastOut = out_
-                                        activityDot._lastIn = in_
-                                    }
-                                }
-                                property int _lastOut: 0
-                                property int _lastIn: 0
                             }
                         }
+                    }
+                }
+            }
 
-                        Item { Layout.fillHeight: true }
+            // ── Message flow arrows ──
+            Item {
+                Layout.preferredWidth: 60
+                Layout.fillHeight: true
+
+                ColumnLayout {
+                    anchors.centerIn: parent
+                    spacing: 8
+
+                    // Forward arrow (sender → receiver)
+                    Text {
+                        font.family: root.monoFont; font.pixelSize: 16; font.bold: true
+                        color: monitor.senderMsgOut > 0 ? root.accent : root.border
+                        text: "→"
+                        horizontalAlignment: Text.AlignHCenter
+                        Layout.alignment: Qt.AlignHCenter
+
+                        SequentialAnimation on opacity {
+                            id: fwdArrowAnim; loops: 1; running: false
+                            NumberAnimation { to: 1.0; duration: 100 }
+                            NumberAnimation { to: 0.5; duration: 400 }
+                        }
+                        opacity: monitor.senderMsgOut > 0 ? 1.0 : 0.3
+                    }
+                    Text {
+                        font.family: root.monoFont; font.pixelSize: 9; color: root.textSecond
+                        text: monitor.senderMsgOut > 0 ? monitor.senderMsgOut + " sent" : ""
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+                    Text {
+                        font.family: root.monoFont; font.pixelSize: 9; color: root.textSecond
+                        text: monitor.receiverMsgIn > 0 ? monitor.receiverMsgIn + " recv" : ""
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+
+                    // Reverse arrow (receiver → sender)
+                    Text {
+                        font.family: root.monoFont; font.pixelSize: 16; font.bold: true
+                        color: monitor.senderMsgIn > 0 ? root.blue : root.border
+                        text: "←"
+                        horizontalAlignment: Text.AlignHCenter
+                        Layout.alignment: Qt.AlignHCenter
+                        opacity: monitor.senderMsgIn > 0 ? 1.0 : 0.3
+                    }
+                }
+            }
+
+            // ── Receiver panel ──
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                color: bgSecondary
+                radius: 6
+                clip: true
+
+                property string role: "receiver"
+                property string phase: monitor.receiverPhase
+                property int optLeaf: monitor.receiverOptLeaf
+                property int authLeaf: monitor.receiverAuthLeaf
+                property bool corrected: monitor.receiverLeafCorrected
+                property int peers: monitor.receiverPeers
+                property bool mixRdy: monitor.receiverMixReady
+                property int pool: monitor.receiverMixPool
+                property int out_: monitor.receiverMsgOut
+                property int in_: monitor.receiverMsgIn
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 10
+                    spacing: 8
+
+                    RowLayout {
+                        spacing: 8
+                        Text { font.family: root.monoFont; font.pixelSize: 16; font.bold: true; color: root.textPrimary; text: "RECEIVER" }
+                        Rectangle {
+                            width: rLabel.implicitWidth + 12; height: 20; radius: 10
+                            color: monitor.receiverPhase === "---" ? root.textTertiary :
+                                   (monitor.receiverPhase === "msg_received" ? root.accent :
+                                   (monitor.receiverPhase.indexOf("conf") >= 0 ? root.blue : root.yellow))
+                            Text { id: rLabel; anchors.centerIn: parent; font.family: root.monoFont; font.pixelSize: 9; font.bold: true; color: "#FFF"
+                                text: monitor.receiverPhase === "---" ? "WAITING" : monitor.receiverPhase.toUpperCase() }
+                        }
+                    }
+
+                    Row {
+                        spacing: 0
+                        Repeater {
+                            model: ["init", "start", "reg", "opt", "conf", "ready", "accept", "recv"]
+                            Row {
+                                spacing: 0
+                                property var allPhases: ["init", "start", "request", "opt", "conf", "ready", "intro_accepted", "msg_received"]
+                                property int currentIdx: allPhases.indexOf(monitor.receiverPhase.split(":")[0])
+                                Rectangle {
+                                    width: 10; height: 10; radius: 5
+                                    color: index < currentIdx ? root.accent : (index === currentIdx ? root.yellow : root.border)
+                                    border.color: index <= currentIdx ? Qt.lighter(color, 1.3) : "transparent"; border.width: 1
+                                    scale: index === currentIdx ? 1.3 : 1.0
+                                    Behavior on scale { NumberAnimation { duration: 200 } }
+                                }
+                                Rectangle {
+                                    visible: index < 7
+                                    width: 16; height: 2; color: index < currentIdx ? root.accent : root.border
+                                    anchors.verticalCenter: parent.children[0].verticalCenter
+                                }
+                            }
+                        }
+                    }
+
+                    Text { font.family: root.monoFont; font.pixelSize: 10; color: parent.parent.corrected ? root.yellow : (parent.parent.optLeaf >= 0 && parent.parent.optLeaf === parent.parent.authLeaf ? root.accent : root.textSecond)
+                        text: "RLN " + (parent.parent.authLeaf >= 0 ? "leaf " + parent.parent.authLeaf + " ✓" : (parent.parent.optLeaf >= 0 ? "leaf " + parent.parent.optLeaf + " ⏳" : "not registered")) }
+                    Text { font.family: root.monoFont; font.pixelSize: 10; color: parent.parent.mixRdy ? root.accent : root.textSecond
+                        text: "NET " + parent.parent.peers + " peers" + (parent.parent.mixRdy ? " · mix ✓ pool " + parent.parent.pool : "") }
+
+                    Item { Layout.fillHeight: true }
+
+                    RowLayout {
+                        spacing: 12
+                        Repeater {
+                            model: [{ label: "MSG OUT", val: parent.parent.parent.parent.out_, c: root.accent },
+                                    { label: "MSG IN", val: parent.parent.parent.parent.in_, c: root.blue }]
+                            Row {
+                                spacing: 4
+                                Text { font.family: root.monoFont; font.pixelSize: 9; color: root.textSecond; text: modelData.label }
+                                Rectangle {
+                                    width: 32; height: 20; radius: 4
+                                    color: modelData.val > 0 ? modelData.c : root.bgPanel
+                                    border.color: modelData.val > 0 ? modelData.c : root.border
+                                    Text { anchors.centerIn: parent; font.family: root.monoFont; font.pixelSize: 12; font.bold: true
+                                        color: modelData.val > 0 ? "#000" : root.textTertiary; text: modelData.val }
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
 
-        // ─── CHAT HOST PANEL (only in host mode) ────────────────
+        // ═══════════════════════════════════════════════════════════
+        // CHAIN EVENTS (with icons)
+        // ═══════════════════════════════════════════════════════════
         Rectangle {
             Layout.fillWidth: true
-            Layout.preferredHeight: hostModeEnabled ? 200 : 0
-            visible: hostModeEnabled
+            Layout.preferredHeight: 160
             color: bgSecondary
-            radius: 4
+            radius: 6
 
             ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: 8
-                spacing: 4
-
-                Text {
-                    font.family: root.monoFont; font.pixelSize: 13; font.bold: true
-                    color: textPrimary
-                    text: "CHAT HOST — " + (chatHost ? chatHost.phase : "---")
-                }
-
-                RowLayout {
-                    spacing: 8
-
-                    Button {
-                        text: "Initialize"
-                        enabled: chatHost && !chatHost.initialized
-                        font.family: root.monoFont; font.pixelSize: 11
-                        onClicked: {
-                            var cfg = chatHost.readConfigFile(
-                                monitor.stateDir + "/chat_sender_config.json")
-                            if (!cfg) cfg = chatHost.buildConfigFromEnv()
-                            chatHost.initChat(cfg)
-                        }
-                        background: Rectangle {
-                            color: parent.enabled
-                                ? (parent.pressed ? root.accentPress : parent.hovered ? root.accentHover : root.accent)
-                                : root.textTertiary
-                            radius: 3
-                        }
-                        contentItem: Text { text: parent.text; color: "#000"; font: parent.font; horizontalAlignment: Text.AlignHCenter }
-                    }
-
-                    Button {
-                        text: "Start"
-                        enabled: chatHost && chatHost.initialized && !chatHost.started
-                        font.family: root.monoFont; font.pixelSize: 11
-                        onClicked: chatHost.startChat()
-                        background: Rectangle {
-                            color: parent.enabled
-                                ? (parent.pressed ? root.accentPress : parent.hovered ? root.accentHover : root.accent)
-                                : root.textTertiary
-                            radius: 3
-                        }
-                        contentItem: Text { text: parent.text; color: "#000"; font: parent.font; horizontalAlignment: Text.AlignHCenter }
-                    }
-
-                    Button {
-                        text: "Create Bundle"
-                        enabled: chatHost && chatHost.started
-                        font.family: root.monoFont; font.pixelSize: 11
-                        onClicked: chatHost.createIntroBundle()
-                        background: Rectangle {
-                            color: parent.enabled
-                                ? (parent.pressed ? root.accentPress : parent.hovered ? root.accentHover : root.accent)
-                                : root.textTertiary
-                            radius: 3
-                        }
-                        contentItem: Text { text: parent.text; color: "#000"; font: parent.font; horizontalAlignment: Text.AlignHCenter }
-                    }
-                }
-
-                // Intro bundle display
-                TextField {
-                    Layout.fillWidth: true
-                    visible: chatHost && chatHost.introBundle.length > 0
-                    text: chatHost ? chatHost.introBundle : ""
-                    readOnly: true
-                    selectByMouse: true
-                    font.family: root.monoFont; font.pixelSize: 10
-                    color: textPrimary
-                    background: Rectangle { color: root.bgPanel; border.color: root.border; radius: 3 }
-                }
-
-                // Send conversation row
-                RowLayout {
-                    spacing: 4
-
-                    TextField {
-                        id: bundleInput
-                        Layout.fillWidth: true
-                        placeholderText: "Paste intro bundle..."
-                        font.family: root.monoFont; font.pixelSize: 11
-                        color: textPrimary
-                        background: Rectangle { color: root.bgPanel; border.color: bundleInput.activeFocus ? root.accent : root.border; radius: 3 }
-                    }
-
-                    TextField {
-                        id: msgInput
-                        Layout.preferredWidth: 200
-                        placeholderText: "Message..."
-                        font.family: root.monoFont; font.pixelSize: 11
-                        color: textPrimary
-                        background: Rectangle { color: root.bgPanel; border.color: msgInput.activeFocus ? root.accent : root.border; radius: 3 }
-                    }
-
-                    Button {
-                        text: "Send"
-                        enabled: chatHost && chatHost.started && msgInput.text.length > 0
-                        font.family: root.monoFont; font.pixelSize: 11
-                        onClicked: {
-                            if (bundleInput.text.length > 0 && (!chatHost.currentConvId || chatHost.currentConvId.length === 0)) {
-                                chatHost.newConversation(bundleInput.text, msgInput.text)
-                                bundleInput.text = ""
-                            } else if (chatHost.currentConvId && chatHost.currentConvId.length > 0) {
-                                chatHost.sendMessage(chatHost.currentConvId, msgInput.text)
-                            }
-                            msgInput.text = ""
-                        }
-                        background: Rectangle {
-                            color: parent.enabled
-                                ? (parent.pressed ? root.accentPress : parent.hovered ? root.accentHover : root.accent)
-                                : root.textTertiary
-                            radius: 3
-                        }
-                        contentItem: Text { text: parent.text; color: "#000"; font: parent.font; horizontalAlignment: Text.AlignHCenter }
-                    }
-                }
-
-                Text {
-                    font.family: root.monoFont; font.pixelSize: 11
-                    color: textSecond
-                    text: "out:" + (chatHost ? chatHost.messagesSent : 0) + " in:" + (chatHost ? chatHost.messagesReceived : 0) +
-                          (chatHost && chatHost.currentConvId ? " conv:" + chatHost.currentConvId.substring(0,6) : "")
-                }
-            }
-        }
-
-        // ─── CHAIN EVENTS ──────────────────────────────────────
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 180
-            color: bgSecondary
-            radius: 4
-
-            ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: 6
                 spacing: 2
 
-                Text {
-                    font.family: root.monoFont; font.pixelSize: 11; font.bold: true
-                    color: textSecond
-                    text: "CHAIN EVENTS"
-                }
+                Text { font.family: root.monoFont; font.pixelSize: 11; font.bold: true; color: root.textSecond; text: "CHAIN EVENTS" }
 
                 ListView {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     model: chainEvents
                     clip: true
+                    spacing: 1
 
-                    delegate: Text {
+                    delegate: Rectangle {
                         width: ListView.view.width
-                        font.family: root.monoFont
-                        font.pixelSize: 11
-                        color: {
-                            if (eventType === "TX_FAIL" || eventType === "WALLET_ERR" || eventType === "REG_FAIL")
-                                return root.red
-                            if (eventType === "REGISTER") return root.accent
-                            if (eventType === "LEAF_FIX") return root.yellow
-                            return root.textSecond
+                        height: 16
+                        color: "transparent"
+                        radius: 2
+
+                        // Brief flash on new events
+                        Rectangle {
+                            anchors.fill: parent; radius: 2; color: root.accent; opacity: flashAnim.running ? 0.15 : 0
+                            SequentialAnimation on opacity { id: flashAnim; running: index === 0; loops: 1
+                                NumberAnimation { to: 0.2; duration: 100 }
+                                NumberAnimation { to: 0; duration: 500 }
+                            }
                         }
-                        text: timestamp + " " + eventType + " " + detail
-                        elide: Text.ElideRight
+
+                        Row {
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: 6
+
+                            // Icon
+                            Text {
+                                font.pixelSize: 10
+                                text: {
+                                    if (eventType === "TX_OK") return "✓"
+                                    if (eventType === "TX_FAIL" || eventType === "WALLET_ERR" || eventType === "REG_FAIL") return "✗"
+                                    if (eventType === "REGISTER" || eventType === "GIFTER_REQ") return "◆"
+                                    if (eventType === "ROOTS") return "◈"
+                                    if (eventType === "BUNDLE") return "◉"
+                                    if (eventType === "LEAF_FIX") return "⚠"
+                                    if (eventType === "GIFTER_AUTHFAIL") return "⛔"
+                                    return "·"
+                                }
+                                color: {
+                                    if (eventType === "TX_FAIL" || eventType === "WALLET_ERR" || eventType === "REG_FAIL" || eventType === "GIFTER_AUTHFAIL") return root.red
+                                    if (eventType === "REGISTER") return root.accent
+                                    if (eventType === "LEAF_FIX") return root.yellow
+                                    if (eventType === "BUNDLE") return root.blue
+                                    return root.textTertiary
+                                }
+                            }
+
+                            Text {
+                                font.family: root.monoFont; font.pixelSize: 10
+                                color: root.textTertiary
+                                text: timestamp
+                            }
+                            Text {
+                                font.family: root.monoFont; font.pixelSize: 10; font.bold: true
+                                color: {
+                                    if (eventType === "TX_FAIL" || eventType === "WALLET_ERR" || eventType === "REG_FAIL") return root.red
+                                    if (eventType === "REGISTER") return root.accent
+                                    if (eventType === "LEAF_FIX") return root.yellow
+                                    return root.textSecond
+                                }
+                                text: eventType
+                            }
+                            Text {
+                                font.family: root.monoFont; font.pixelSize: 10
+                                color: root.textSecond
+                                text: detail
+                                elide: Text.ElideRight
+                            }
+                        }
                     }
                 }
             }

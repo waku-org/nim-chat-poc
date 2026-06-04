@@ -28,6 +28,7 @@ void MonitorBackend::setStateDir(const QString& path, bool replay) {
     }
     if (m_senderTailer) { m_senderTailer->stop(); delete m_senderTailer; m_senderTailer = nullptr; }
     if (m_receiverTailer) { m_receiverTailer->stop(); delete m_receiverTailer; m_receiverTailer = nullptr; }
+    if (m_receiver2Tailer) { m_receiver2Tailer->stop(); delete m_receiver2Tailer; m_receiver2Tailer = nullptr; }
 
     resetState();
 
@@ -53,6 +54,30 @@ void MonitorBackend::setStateDir(const QString& path, bool replay) {
     connect(m_receiverTailer, &LogTailer::newLine, this, [this](const QString& l){ onChatLine(false, l); });
     connect(m_receiverTailer, &LogTailer::fileReset, this, [this]{ resetState(); });
     m_receiverTailer->start();
+
+    // Receiver2 (optional — file may not exist)
+    m_receiver2Tailer = new LogTailer(QDir(path).filePath("chat_receiver2.log"), replay, this);
+    connect(m_receiver2Tailer, &LogTailer::newLine, this, [this](const QString& l){
+        auto ev = LogParser::parseChatLine(l);
+        auto& chat = m_receiver2;
+        switch (ev.type) {
+        case ParsedEvent::ChatInit: chat.phase = "init"; m_hasReceiver2 = true; break;
+        case ParsedEvent::ChatStart: chat.phase = "start"; break;
+        case ParsedEvent::ChatMembershipRequested: chat.phase = "request"; break;
+        case ParsedEvent::ChatMembershipGranted:
+            chat.phase = QStringLiteral("opt:%1").arg(ev.intVal); chat.optLeaf = ev.intVal; break;
+        case ParsedEvent::ChatMembershipConfirmed:
+            chat.phase = QStringLiteral("conf:%1").arg(ev.intVal); chat.authLeaf = ev.intVal; break;
+        case ParsedEvent::ChatNewMessage: ++chat.msgIn; break;
+        case ParsedEvent::ChatNewConversation: chat.phase = "intro_accepted"; break;
+        case ParsedEvent::ChatPeerStatus:
+            chat.peers = ev.intVal; chat.mixReady = ev.boolVal; chat.mixPool = ev.intVal2; break;
+        default: return;
+        }
+        emit stateChanged();
+    });
+    connect(m_receiver2Tailer, &LogTailer::fileReset, this, [this]{ resetState(); });
+    m_receiver2Tailer->start();
 }
 
 void MonitorBackend::resetState() {
@@ -63,6 +88,8 @@ void MonitorBackend::resetState() {
     for (auto& n : m_nodes) n = {};
     m_sender = {};
     m_receiver = {};
+    m_receiver2 = {};
+    m_hasReceiver2 = false;
     m_chainEvents.clear();
     emit stateChanged();
 }

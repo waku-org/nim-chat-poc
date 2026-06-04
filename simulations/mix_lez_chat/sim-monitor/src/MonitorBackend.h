@@ -45,6 +45,15 @@ class MonitorBackend : public QObject {
     Q_PROPERTY(int receiverMsgOut READ receiverMsgOut NOTIFY stateChanged)
     Q_PROPERTY(int receiverMsgIn READ receiverMsgIn NOTIFY stateChanged)
 
+    Q_PROPERTY(QString receiver2Phase READ receiver2Phase NOTIFY stateChanged)
+    Q_PROPERTY(int receiver2OptLeaf READ receiver2OptLeaf NOTIFY stateChanged)
+    Q_PROPERTY(int receiver2AuthLeaf READ receiver2AuthLeaf NOTIFY stateChanged)
+    Q_PROPERTY(int receiver2Peers READ receiver2Peers NOTIFY stateChanged)
+    Q_PROPERTY(bool receiver2MixReady READ receiver2MixReady NOTIFY stateChanged)
+    Q_PROPERTY(int receiver2MixPool READ receiver2MixPool NOTIFY stateChanged)
+    Q_PROPERTY(int receiver2MsgIn READ receiver2MsgIn NOTIFY stateChanged)
+    Q_PROPERTY(bool hasReceiver2 READ hasReceiver2 NOTIFY stateChanged)
+
 public:
     explicit MonitorBackend(QObject* parent = nullptr);
 
@@ -83,6 +92,15 @@ public:
     int receiverMixPool() const { return m_receiver.mixPool; }
     int receiverMsgOut() const { return m_receiver.msgOut; }
     int receiverMsgIn() const { return m_receiver.msgIn; }
+
+    QString receiver2Phase() const { return m_receiver2.phase; }
+    int receiver2OptLeaf() const { return m_receiver2.optLeaf; }
+    int receiver2AuthLeaf() const { return m_receiver2.authLeaf; }
+    int receiver2Peers() const { return m_receiver2.peers; }
+    bool receiver2MixReady() const { return m_receiver2.mixReady; }
+    int receiver2MixPool() const { return m_receiver2.mixPool; }
+    int receiver2MsgIn() const { return m_receiver2.msgIn; }
+    bool hasReceiver2() const { return m_hasReceiver2; }
 
     ChainEventModel* chainEventModel() { return &m_chainEvents; }
 
@@ -131,6 +149,8 @@ private:
     NodeState m_nodes[4];
     ChatState m_sender;
     ChatState m_receiver;
+    ChatState m_receiver2;
+    bool m_hasReceiver2 = false;
     ChainEventModel m_chainEvents;
     QTimer m_blockAgeTimer;
 
@@ -139,4 +159,5 @@ private:
     LogTailer* m_nodeTailers[4] = {};
     LogTailer* m_senderTailer = nullptr;
     LogTailer* m_receiverTailer = nullptr;
+    LogTailer* m_receiver2Tailer = nullptr;
 };
