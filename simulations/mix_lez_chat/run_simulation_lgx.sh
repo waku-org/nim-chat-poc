@@ -665,11 +665,13 @@ EOF
     # hop fails "Plugin not ready". setRlnConfig also can't be issued after
     # start() because start()'s async backend saturates Qt indefinitely,
     # blocking all subsequent RPCs to delivery_module.
-    if [ "$i" -ne 0 ]; then
-        PRE_START_CALLS=("delivery_module.setRlnConfig($CONFIG_ACCOUNT,0)")
-    else
-        PRE_START_CALLS=()
-    fi
+    # ALL mix nodes get pre-start setRlnConfig (placeholder leaf=0) so the
+    # C++ rln_fetcher trampoline is installed AND the gifter coroutine on
+    # node 0 unblocks its waitForRlnConfig loop. Each node's real leaf gets
+    # overwritten when on-chain registration completes. Previously node 0
+    # was excluded, but on testnet that left the gifter coroutine waiting
+    # forever → all gifter requests rejected with "RLN config not set".
+    PRE_START_CALLS=("delivery_module.setRlnConfig($CONFIG_ACCOUNT,0)")
     DYLD_PRELOAD_LIBS="$DELIVERY_EXTRA_LIB" \
     start_logoscore_instance "$LOG_FILE" "$MDIR" "$LOAD_ORDER" \
         "$WALLET_CALL" \
