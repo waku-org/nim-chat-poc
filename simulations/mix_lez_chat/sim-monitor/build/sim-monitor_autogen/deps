@@ -634,6 +634,31 @@ sim-monitor_autogen/timestamp: \
 	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6OpenGL/Qt6OpenGLTargets.cmake \
 	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6OpenGL/Qt6OpenGLTargetsPrecheck.cmake \
 	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6OpenGL/Qt6OpenGLVersionlessAliasTargets.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6QMacStylePluginAdditionalTargetInfo.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6QMacStylePluginConfig.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6QMacStylePluginTargets-release.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6QMacStylePluginTargets.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6QMacStylePluginTargetsPrecheck.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6WidgetsAdditionalTargetInfo.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6WidgetsConfig.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6WidgetsConfigVersion.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6WidgetsConfigVersionImpl.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6WidgetsDependencies.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6WidgetsMacros.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6WidgetsPlugins.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6WidgetsTargets-release.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6WidgetsTargets.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6WidgetsTargetsPrecheck.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6WidgetsVersionlessAliasTargets.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsAdditionalTargetInfo.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfig.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersion.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersionImpl.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsDependencies.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets-release.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargetsPrecheck.cmake \
+	/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsVersionlessTargets.cmake \
 	/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1/__algorithm/adjacent_find.h \
 	/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1/__algorithm/all_of.h \
 	/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1/__algorithm/any_of.h \

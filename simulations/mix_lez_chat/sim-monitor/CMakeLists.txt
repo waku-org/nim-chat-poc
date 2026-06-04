@@ -8,7 +8,7 @@ set(CMAKE_AUTORCC ON)
 
 option(ENABLE_HOST_MODE "Enable chat host mode (requires liblogos_core)" OFF)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Network)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Qml Quick Network)
 
 set(MONITOR_SOURCES
     src/main.cpp
@@ -33,18 +33,21 @@ qt_add_qml_module(sim-monitor
 )
 
 target_link_libraries(sim-monitor PRIVATE
-    Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::Network
+    Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Qml Qt6::Quick Qt6::Network
 )
 
 if(ENABLE_HOST_MODE)
     target_compile_definitions(sim-monitor PRIVATE ENABLE_HOST_MODE=1)
 
-    # liblogos_core — from LIBLOGOS_LIB / LIBLOGOS_INCLUDE env vars (set by nix flake)
-    if(DEFINED ENV{LIBLOGOS_LIB})
+    # liblogos_core — prefer BASECAMP_LIB (correct 2-arg API), fall back to LIBLOGOS_LIB
+    if(DEFINED ENV{BASECAMP_LIB})
+        target_link_directories(sim-monitor PRIVATE $ENV{BASECAMP_LIB})
+        target_link_libraries(sim-monitor PRIVATE logos_core)
+    elseif(DEFINED ENV{LIBLOGOS_LIB})
         target_link_directories(sim-monitor PRIVATE $ENV{LIBLOGOS_LIB})
         target_link_libraries(sim-monitor PRIVATE logos_core)
     else()
-        message(WARNING "LIBLOGOS_LIB not set — host mode will fail to link")
+        message(WARNING "BASECAMP_LIB/LIBLOGOS_LIB not set — host mode will fail to link")
     endif()
 
     if(DEFINED ENV{LIBLOGOS_INCLUDE})

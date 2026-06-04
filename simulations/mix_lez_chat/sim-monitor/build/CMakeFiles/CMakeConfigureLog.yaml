@@ -5456,8 +5456,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-3Xqz3J"
-      binary: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-3Xqz3J"
+      source: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-FJxzB1"
+      binary: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-FJxzB1"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/nix/store/cbsa0j0sqa44ls1wr2bgvbcx87k50j8h-clang-21.1.8/bin/clang-scan-deps"
       CMAKE_CXX_FLAGS: ""
@@ -5471,10 +5471,10 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-3Xqz3J'
+        Change Dir: '/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-FJxzB1'
         
-        Run Build Command(s): /nix/store/bqykhrblarkj4fl0hz2mf8ngwfv6x6bz-ninja-1.13.2/bin/ninja -v cmTC_0a6e2
-        [1/2] /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++   -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0   -v -Wl,-v -MD -MT CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o -c /nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2/share/cmake-4.1/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): /nix/store/bqykhrblarkj4fl0hz2mf8ngwfv6x6bz-ninja-1.13.2/bin/ninja -v cmTC_94c7c
+        [1/2] /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++   -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0   -v -Wl,-v -MD -MT CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o -c /nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2/share/cmake-4.1/Modules/CMakeCXXCompilerABI.cpp
         clang version 21.1.8
         Target: arm64-apple-darwin
         Thread model: posix
@@ -5483,7 +5483,7 @@ events:
         ignoring nonexistent directory "/nix/store/cbsa0j0sqa44ls1wr2bgvbcx87k50j8h-clang-21.1.8/bin/../include/c++/v1"
         ignoring nonexistent directory "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1"
          (in-process)
-         "/nix/store/cbsa0j0sqa44ls1wr2bgvbcx87k50j8h-clang-21.1.8/bin/clang++" -cc1 -triple arm64-apple-macosx14.0.0 -O2 -Wundef-prefix=TARGET_OS_ -Werror=undef-prefix -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=all -ffp-contract=on -fno-rounding-math -funwind-tables=1 -target-sdk-version=14.4 -fcompatibility-qualified-id-block-type-checking -fvisibility-inlines-hidden-static-local-var -fbuiltin-headers-in-system-modules -fdefine-target-os-macros -enable-tlsdesc -target-cpu apple-m1 -target-feature +v8.4a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +ccpp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +flagm -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-3Xqz3J -target-linker-version 956.6 -v -fcoverage-compilation-dir=/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-3Xqz3J -resource-dir /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/resource-root -dependency-file CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -idirafter /nix/store/y7k7r9xlbp370zxvrybafsp5j2y03b7s-libSystem-B/include -isystem /nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/include -isystem /nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev/include -isystem /nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/include -isystem /nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev/include -isystem /nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev/include -isystem /nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev/include -isystem /nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0/include -isystem /nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/include -isystem /nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev/include -isystem /nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev/include -isystem /nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev/include -isystem /nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev/include -isystem /nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev/include -isystem /nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev/include -isystem /nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/include -isystem /nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev/include -isystem /nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev/include -isystem /nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev/include -isystem /nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev/include -isystem /nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev/include -isystem /nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev/include -isystem /nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/include -isystem /nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/include -isystem /nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6/include -isystem /nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev/include -isystem /nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev/include -isystem /nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/include -isystem /nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/include -isystem /nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/include -isystem /nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0/include -isystem /nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include -isystem /nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev/include -isystem /nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev/include -isystem /nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev/include -isystem /nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/include -isystem /nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev/include -isystem /nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/include -isystem /nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev/include -isystem /nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev/include -isystem /nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev/include -isystem /nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0/include -isystem /nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/include -isystem /nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev/include -isystem /nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev/include -isystem /nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev/include -isystem /nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev/include -isystem /nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev/include -isystem /nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev/include -isystem /nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/include -isystem /nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev/include -isystem /nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev/include -isystem /nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev/include -isystem /nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev/include -isystem /nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev/include -isystem /nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev/include -isystem /nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/include -isystem /nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/include -isystem /nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6/include -isystem /nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev/include -isystem /nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev/include -isystem /nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/include -isystem /nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/include -isystem /nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/include -isystem /nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0/include -isystem /nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include -isystem /nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev/include -isystem /nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev/include -isystem /nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev/include -cxx-isystem /nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1 -D _LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_FAST -U _FORTIFY_SOURCE -U _FORTIFY_SOURCE -D _FORTIFY_SOURCE=2 -internal-isystem /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/resource-root/include -internal-externc-isystem /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-iframework /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -fmacro-prefix-map=/nix/store/y7k7r9xlbp370zxvrybafsp5j2y03b7s-libSystem-B/include=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libSystem-B/include -fmacro-prefix-map=/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxml2-2.15.2-dev -fmacro-prefix-map=/nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libiconv-113-dev -fmacro-prefix-map=/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxslt-1.1.45-dev -fmacro-prefix-map=/nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-openssl-3.6.2-dev -fmacro-prefix-map=/nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-sqlite-3.51.2-dev -fmacro-prefix-map=/nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zlib-1.3.2-dev -fmacro-prefix-map=/nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-vulkan-headers-1.4.341.0 -fmacro-prefix-map=/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-harfbuzz-13.2.1-dev -fmacro-prefix-map=/nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-graphite2-1.3.14-dev -fmacro-prefix-map=/nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-icu4c-76.1-dev -fmacro-prefix-map=/nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libjpeg-turbo-3.1.4-dev -fmacro-prefix-map=/nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libpng-apng-1.6.56-dev -fmacro-prefix-map=/nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-pcre2-10.46-dev -fmacro-prefix-map=/nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zstd-1.5.7-dev -fmacro-prefix-map=/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libb2-0.98.1 -fmacro-prefix-map=/nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-md4c-0.5.2-dev -fmacro-prefix-map=/nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-double-conversion-3.3.1-dev -fmacro-prefix-map=/nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libproxy-0.5.12-dev -fmacro-prefix-map=/nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-dbus-1.16.2-dev -fmacro-prefix-map=/nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-glib-2.88.1-dev -fmacro-prefix-map=/nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libffi-40-dev -fmacro-prefix-map=/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gettext-1.0 -fmacro-prefix-map=/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-unixodbc-2.3.14 -fmacro-prefix-map=/nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-mariadb-connector-odbc-3.2.6 -fmacro-prefix-map=/nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-cups-2.4.19-dev -fmacro-prefix-map=/nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gmp-with-cxx-6.3.0-dev -fmacro-prefix-map=/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtbase-6.11.0 -fmacro-prefix-map=/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtlanguageserver-6.11.0 -fmacro-prefix-map=/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtdeclarative-6.11.0 -fmacro-prefix-map=/nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtremoteobjects-6.11.0 -fmacro-prefix-map=/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-21.1.6+apple-sdk-26.4 -fmacro-prefix-map=/nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-compiler-rt-libc-21.1.8-dev -fmacro-prefix-map=/nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libresolv-93-dev -fmacro-prefix-map=/nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libsbuf-14.1.0-dev -fmacro-prefix-map=/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxml2-2.15.2-dev -fmacro-prefix-map=/nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libiconv-113-dev -fmacro-prefix-map=/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxslt-1.1.45-dev -fmacro-prefix-map=/nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-openssl-3.6.2-dev -fmacro-prefix-map=/nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-sqlite-3.51.2-dev -fmacro-prefix-map=/nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zlib-1.3.2-dev -fmacro-prefix-map=/nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-vulkan-headers-1.4.341.0 -fmacro-prefix-map=/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-harfbuzz-13.2.1-dev -fmacro-prefix-map=/nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-graphite2-1.3.14-dev -fmacro-prefix-map=/nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-icu4c-76.1-dev -fmacro-prefix-map=/nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libjpeg-turbo-3.1.4-dev -fmacro-prefix-map=/nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libpng-apng-1.6.56-dev -fmacro-prefix-map=/nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-pcre2-10.46-dev -fmacro-prefix-map=/nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zstd-1.5.7-dev -fmacro-prefix-map=/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libb2-0.98.1 -fmacro-prefix-map=/nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-md4c-0.5.2-dev -fmacro-prefix-map=/nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-double-conversion-3.3.1-dev -fmacro-prefix-map=/nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libproxy-0.5.12-dev -fmacro-prefix-map=/nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-dbus-1.16.2-dev -fmacro-prefix-map=/nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-glib-2.88.1-dev -fmacro-prefix-map=/nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libffi-40-dev -fmacro-prefix-map=/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gettext-1.0 -fmacro-prefix-map=/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-unixodbc-2.3.14 -fmacro-prefix-map=/nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-mariadb-connector-odbc-3.2.6 -fmacro-prefix-map=/nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-cups-2.4.19-dev -fmacro-prefix-map=/nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gmp-with-cxx-6.3.0-dev -fmacro-prefix-map=/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtbase-6.11.0 -fmacro-prefix-map=/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtlanguageserver-6.11.0 -fmacro-prefix-map=/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtdeclarative-6.11.0 -fmacro-prefix-map=/nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtremoteobjects-6.11.0 -fmacro-prefix-map=/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-21.1.6+apple-sdk-26.4 -fmacro-prefix-map=/nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-compiler-rt-libc-21.1.8-dev -fmacro-prefix-map=/nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libresolv-93-dev -fmacro-prefix-map=/nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libsbuf-14.1.0-dev -fmacro-prefix-map=/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1 -source-date-epoch 315532800 -Wformat -Wformat-security -Werror=format-security -Werror=unguarded-availability -fdeprecated-macro -ferror-limit 19 -fzero-call-used-regs=used-gpr -fwrapv -fstrict-flex-arrays=1 -stack-protector 2 -stack-protector-buffer-size 4 -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -vectorize-loops -vectorize-slp -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o -x c++ /nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2/share/cmake-4.1/Modules/CMakeCXXCompilerABI.cpp
+         "/nix/store/cbsa0j0sqa44ls1wr2bgvbcx87k50j8h-clang-21.1.8/bin/clang++" -cc1 -triple arm64-apple-macosx14.0.0 -O2 -Wundef-prefix=TARGET_OS_ -Werror=undef-prefix -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=all -ffp-contract=on -fno-rounding-math -funwind-tables=1 -target-sdk-version=14.4 -fcompatibility-qualified-id-block-type-checking -fvisibility-inlines-hidden-static-local-var -fbuiltin-headers-in-system-modules -fdefine-target-os-macros -enable-tlsdesc -target-cpu apple-m1 -target-feature +v8.4a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +ccpp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +flagm -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-FJxzB1 -target-linker-version 956.6 -v -fcoverage-compilation-dir=/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-FJxzB1 -resource-dir /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/resource-root -dependency-file CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -idirafter /nix/store/y7k7r9xlbp370zxvrybafsp5j2y03b7s-libSystem-B/include -isystem /nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/include -isystem /nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev/include -isystem /nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/include -isystem /nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev/include -isystem /nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev/include -isystem /nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev/include -isystem /nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0/include -isystem /nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/include -isystem /nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev/include -isystem /nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev/include -isystem /nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev/include -isystem /nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev/include -isystem /nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev/include -isystem /nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev/include -isystem /nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/include -isystem /nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev/include -isystem /nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev/include -isystem /nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev/include -isystem /nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev/include -isystem /nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev/include -isystem /nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev/include -isystem /nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/include -isystem /nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/include -isystem /nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6/include -isystem /nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev/include -isystem /nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev/include -isystem /nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/include -isystem /nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/include -isystem /nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/include -isystem /nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0/include -isystem /nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include -isystem /nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev/include -isystem /nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev/include -isystem /nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev/include -isystem /nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/include -isystem /nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev/include -isystem /nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/include -isystem /nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev/include -isystem /nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev/include -isystem /nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev/include -isystem /nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0/include -isystem /nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/include -isystem /nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev/include -isystem /nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev/include -isystem /nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev/include -isystem /nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev/include -isystem /nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev/include -isystem /nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev/include -isystem /nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/include -isystem /nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev/include -isystem /nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev/include -isystem /nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev/include -isystem /nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev/include -isystem /nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev/include -isystem /nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev/include -isystem /nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/include -isystem /nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/include -isystem /nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6/include -isystem /nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev/include -isystem /nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev/include -isystem /nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/include -isystem /nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/include -isystem /nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/include -isystem /nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0/include -isystem /nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include -isystem /nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev/include -isystem /nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev/include -isystem /nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev/include -cxx-isystem /nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1 -D _LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_FAST -U _FORTIFY_SOURCE -U _FORTIFY_SOURCE -D _FORTIFY_SOURCE=2 -internal-isystem /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/resource-root/include -internal-externc-isystem /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-iframework /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -fmacro-prefix-map=/nix/store/y7k7r9xlbp370zxvrybafsp5j2y03b7s-libSystem-B/include=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libSystem-B/include -fmacro-prefix-map=/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxml2-2.15.2-dev -fmacro-prefix-map=/nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libiconv-113-dev -fmacro-prefix-map=/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxslt-1.1.45-dev -fmacro-prefix-map=/nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-openssl-3.6.2-dev -fmacro-prefix-map=/nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-sqlite-3.51.2-dev -fmacro-prefix-map=/nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zlib-1.3.2-dev -fmacro-prefix-map=/nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-vulkan-headers-1.4.341.0 -fmacro-prefix-map=/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-harfbuzz-13.2.1-dev -fmacro-prefix-map=/nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-graphite2-1.3.14-dev -fmacro-prefix-map=/nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-icu4c-76.1-dev -fmacro-prefix-map=/nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libjpeg-turbo-3.1.4-dev -fmacro-prefix-map=/nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libpng-apng-1.6.56-dev -fmacro-prefix-map=/nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-pcre2-10.46-dev -fmacro-prefix-map=/nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zstd-1.5.7-dev -fmacro-prefix-map=/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libb2-0.98.1 -fmacro-prefix-map=/nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-md4c-0.5.2-dev -fmacro-prefix-map=/nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-double-conversion-3.3.1-dev -fmacro-prefix-map=/nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libproxy-0.5.12-dev -fmacro-prefix-map=/nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-dbus-1.16.2-dev -fmacro-prefix-map=/nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-glib-2.88.1-dev -fmacro-prefix-map=/nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libffi-40-dev -fmacro-prefix-map=/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gettext-1.0 -fmacro-prefix-map=/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-unixodbc-2.3.14 -fmacro-prefix-map=/nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-mariadb-connector-odbc-3.2.6 -fmacro-prefix-map=/nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-cups-2.4.19-dev -fmacro-prefix-map=/nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gmp-with-cxx-6.3.0-dev -fmacro-prefix-map=/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtbase-6.11.0 -fmacro-prefix-map=/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtlanguageserver-6.11.0 -fmacro-prefix-map=/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtdeclarative-6.11.0 -fmacro-prefix-map=/nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtremoteobjects-6.11.0 -fmacro-prefix-map=/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-21.1.6+apple-sdk-26.4 -fmacro-prefix-map=/nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-compiler-rt-libc-21.1.8-dev -fmacro-prefix-map=/nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libresolv-93-dev -fmacro-prefix-map=/nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libsbuf-14.1.0-dev -fmacro-prefix-map=/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxml2-2.15.2-dev -fmacro-prefix-map=/nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libiconv-113-dev -fmacro-prefix-map=/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxslt-1.1.45-dev -fmacro-prefix-map=/nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-openssl-3.6.2-dev -fmacro-prefix-map=/nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-sqlite-3.51.2-dev -fmacro-prefix-map=/nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zlib-1.3.2-dev -fmacro-prefix-map=/nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-vulkan-headers-1.4.341.0 -fmacro-prefix-map=/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-harfbuzz-13.2.1-dev -fmacro-prefix-map=/nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-graphite2-1.3.14-dev -fmacro-prefix-map=/nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-icu4c-76.1-dev -fmacro-prefix-map=/nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libjpeg-turbo-3.1.4-dev -fmacro-prefix-map=/nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libpng-apng-1.6.56-dev -fmacro-prefix-map=/nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-pcre2-10.46-dev -fmacro-prefix-map=/nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zstd-1.5.7-dev -fmacro-prefix-map=/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libb2-0.98.1 -fmacro-prefix-map=/nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-md4c-0.5.2-dev -fmacro-prefix-map=/nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-double-conversion-3.3.1-dev -fmacro-prefix-map=/nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libproxy-0.5.12-dev -fmacro-prefix-map=/nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-dbus-1.16.2-dev -fmacro-prefix-map=/nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-glib-2.88.1-dev -fmacro-prefix-map=/nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libffi-40-dev -fmacro-prefix-map=/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gettext-1.0 -fmacro-prefix-map=/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-unixodbc-2.3.14 -fmacro-prefix-map=/nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-mariadb-connector-odbc-3.2.6 -fmacro-prefix-map=/nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-cups-2.4.19-dev -fmacro-prefix-map=/nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gmp-with-cxx-6.3.0-dev -fmacro-prefix-map=/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtbase-6.11.0 -fmacro-prefix-map=/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtlanguageserver-6.11.0 -fmacro-prefix-map=/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtdeclarative-6.11.0 -fmacro-prefix-map=/nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtremoteobjects-6.11.0 -fmacro-prefix-map=/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-21.1.6+apple-sdk-26.4 -fmacro-prefix-map=/nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-compiler-rt-libc-21.1.8-dev -fmacro-prefix-map=/nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libresolv-93-dev -fmacro-prefix-map=/nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libsbuf-14.1.0-dev -fmacro-prefix-map=/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1 -source-date-epoch 315532800 -Wformat -Wformat-security -Werror=format-security -Werror=unguarded-availability -fdeprecated-macro -ferror-limit 19 -fzero-call-used-regs=used-gpr -fwrapv -fstrict-flex-arrays=1 -stack-protector 2 -stack-protector-buffer-size 4 -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -vectorize-loops -vectorize-slp -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o -x c++ /nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2/share/cmake-4.1/Modules/CMakeCXXCompilerABI.cpp
         clang -cc1 version 21.1.8 based upon LLVM 21.1.8 default target arm64-apple-darwin23.5.0
         ignoring nonexistent directory "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"
         ignoring nonexistent directory "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks"
@@ -5564,12 +5564,12 @@ events:
          /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)
          /nix/store/y7k7r9xlbp370zxvrybafsp5j2y03b7s-libSystem-B/include
         End of search list.
-        [2/2] : && /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++ -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0 -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_0a6e2   && :
+        [2/2] : && /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++ -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0 -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_94c7c   && :
         clang version 21.1.8
         Target: arm64-apple-darwin
         Thread model: posix
         InstalledDir: /nix/store/cbsa0j0sqa44ls1wr2bgvbcx87k50j8h-clang-21.1.8/bin
-         "/nix/store/apfz522rdhd9ik8chych1128l3b4qqm6-cctools-binutils-darwin-wrapper-1010.6/bin/ld" -demangle -lto_library /nix/store/mwmz2rvjjmhckhpis9il7qzphns6cqnj-llvm-21.1.8-lib/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 14.0.0 14.4 -syslibroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_0a6e2 -L/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/lib -L/nix/store/006xa3d3jpk1zfgra659c03ycf2mjgvf-libxml2-2.15.2/lib -L/nix/store/qmka3x5p55qqp139wp528a8q42sma87m-libxslt-1.1.45/lib -L/nix/store/a3hhkd5vzw97issax60xx47qfnkl6ddf-openssl-3.6.2/lib -L/nix/store/dv84ssvw208w1h2qmak900apymwggm5f-sqlite-3.51.2/lib -L/nix/store/7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2/lib -L/nix/store/7fsbspv9qdf8ci9rkqyhnpxsc8c7qj48-vulkan-loader-1.4.341.0/lib -L/nix/store/2qvv3xdpnpfhzjf69lnjds95qjdwmnd7-graphite2-1.3.14/lib -L/nix/store/qlnyhi8j8p0ks4hd8dlaxbjzx03mrq2n-harfbuzz-13.2.1/lib -L/nix/store/0qs8qciszgr7zzdq3zvanxcax1ml5qd0-icu4c-76.1/lib -L/nix/store/w2p4mqmibyga0ky3vc3gnc3cx8h1z71b-libjpeg-turbo-3.1.4/lib -L/nix/store/v3ikgn81d6y9rfbwh7d8zrhiydqzwcr1-libpng-apng-1.6.56/lib -L/nix/store/w80mvsvnh5i0c0kaj021fkip8jwxx59x-pcre2-10.46/lib -L/nix/store/ym2h5axmyxqkwmrrrz570gmkbmdlwvbv-zstd-1.5.7/lib -L/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/lib -L/nix/store/vrqsgwdqs11kvgisd9fayzwggprflnrn-md4c-0.5.2-lib/lib -L/nix/store/37amf2x51b2zzg08bzn49xva9kqli6zc-double-conversion-3.3.1/lib -L/nix/store/fljz5zip8yz47psa37rvlbrhswyfkfdz-libproxy-0.5.12/lib -L/nix/store/0nvjznq3lwj4khjlmx8viflkdvwvjdjw-dbus-1.16.2-lib/lib -L/nix/store/f0afx0r5bzvk3gdf8bdh4fssl0p75m1k-libffi-40/lib -L/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/lib -L/nix/store/ffz616wjbidqjfx5azbslfapzj8f0hc7-glib-2.88.1/lib -L/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/lib -L/nix/store/9p7m9cyy0dpcd76vz1cbicjbi26gldgr-sqlite-connector-odbc-0.99991/lib -L/nix/store/vbfjrppkj89nzlb861xsr5k5zfsq60xp-gmp-with-cxx-6.3.0/lib -L/nix/store/zwwrvpr9yd797f7ldgz2mimi4d52qym5-cups-2.4.19-lib/lib -L/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib -L/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/lib -L/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/lib -L/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/lib -L/nix/store/yxlbgn6b68633wi1y36gflf0qr5naz0v-compiler-rt-libc-21.1.8/lib -L/nix/store/p4lp3xq4imd1qzqh08x8vcq2zfhi7rca-libresolv-93/lib -L/nix/store/3r9in20wx4a44zsl9w4zrj0bvhbaylk8-libsbuf-14.1.0/lib -L/nix/store/rc9xga34lhavrc95lfbpmcvln61z2s7v-libutil-73/lib -L/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/lib -L/nix/store/006xa3d3jpk1zfgra659c03ycf2mjgvf-libxml2-2.15.2/lib -L/nix/store/qmka3x5p55qqp139wp528a8q42sma87m-libxslt-1.1.45/lib -L/nix/store/a3hhkd5vzw97issax60xx47qfnkl6ddf-openssl-3.6.2/lib -L/nix/store/dv84ssvw208w1h2qmak900apymwggm5f-sqlite-3.51.2/lib -L/nix/store/7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2/lib -L/nix/store/7fsbspv9qdf8ci9rkqyhnpxsc8c7qj48-vulkan-loader-1.4.341.0/lib -L/nix/store/2qvv3xdpnpfhzjf69lnjds95qjdwmnd7-graphite2-1.3.14/lib -L/nix/store/qlnyhi8j8p0ks4hd8dlaxbjzx03mrq2n-harfbuzz-13.2.1/lib -L/nix/store/0qs8qciszgr7zzdq3zvanxcax1ml5qd0-icu4c-76.1/lib -L/nix/store/w2p4mqmibyga0ky3vc3gnc3cx8h1z71b-libjpeg-turbo-3.1.4/lib -L/nix/store/v3ikgn81d6y9rfbwh7d8zrhiydqzwcr1-libpng-apng-1.6.56/lib -L/nix/store/w80mvsvnh5i0c0kaj021fkip8jwxx59x-pcre2-10.46/lib -L/nix/store/ym2h5axmyxqkwmrrrz570gmkbmdlwvbv-zstd-1.5.7/lib -L/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/lib -L/nix/store/vrqsgwdqs11kvgisd9fayzwggprflnrn-md4c-0.5.2-lib/lib -L/nix/store/37amf2x51b2zzg08bzn49xva9kqli6zc-double-conversion-3.3.1/lib -L/nix/store/fljz5zip8yz47psa37rvlbrhswyfkfdz-libproxy-0.5.12/lib -L/nix/store/0nvjznq3lwj4khjlmx8viflkdvwvjdjw-dbus-1.16.2-lib/lib -L/nix/store/f0afx0r5bzvk3gdf8bdh4fssl0p75m1k-libffi-40/lib -L/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/lib -L/nix/store/ffz616wjbidqjfx5azbslfapzj8f0hc7-glib-2.88.1/lib -L/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/lib -L/nix/store/9p7m9cyy0dpcd76vz1cbicjbi26gldgr-sqlite-connector-odbc-0.99991/lib -L/nix/store/vbfjrppkj89nzlb861xsr5k5zfsq60xp-gmp-with-cxx-6.3.0/lib -L/nix/store/zwwrvpr9yd797f7ldgz2mimi4d52qym5-cups-2.4.19-lib/lib -L/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib -L/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/lib -L/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/lib -L/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/lib -L/nix/store/yxlbgn6b68633wi1y36gflf0qr5naz0v-compiler-rt-libc-21.1.8/lib -L/nix/store/p4lp3xq4imd1qzqh08x8vcq2zfhi7rca-libresolv-93/lib -L/nix/store/3r9in20wx4a44zsl9w4zrj0bvhbaylk8-libsbuf-14.1.0/lib -L/nix/store/rc9xga34lhavrc95lfbpmcvln61z2s7v-libutil-73/lib -L/nix/store/y7k7r9xlbp370zxvrybafsp5j2y03b7s-libSystem-B/lib -L/nix/store/9gcfdl3yd942z2v6aszaqdkc5zq3fc5p-clang-21.1.8-lib/lib -L/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a
+         "/nix/store/apfz522rdhd9ik8chych1128l3b4qqm6-cctools-binutils-darwin-wrapper-1010.6/bin/ld" -demangle -lto_library /nix/store/mwmz2rvjjmhckhpis9il7qzphns6cqnj-llvm-21.1.8-lib/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 14.0.0 14.4 -syslibroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_94c7c -L/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/lib -L/nix/store/006xa3d3jpk1zfgra659c03ycf2mjgvf-libxml2-2.15.2/lib -L/nix/store/qmka3x5p55qqp139wp528a8q42sma87m-libxslt-1.1.45/lib -L/nix/store/a3hhkd5vzw97issax60xx47qfnkl6ddf-openssl-3.6.2/lib -L/nix/store/dv84ssvw208w1h2qmak900apymwggm5f-sqlite-3.51.2/lib -L/nix/store/7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2/lib -L/nix/store/7fsbspv9qdf8ci9rkqyhnpxsc8c7qj48-vulkan-loader-1.4.341.0/lib -L/nix/store/2qvv3xdpnpfhzjf69lnjds95qjdwmnd7-graphite2-1.3.14/lib -L/nix/store/qlnyhi8j8p0ks4hd8dlaxbjzx03mrq2n-harfbuzz-13.2.1/lib -L/nix/store/0qs8qciszgr7zzdq3zvanxcax1ml5qd0-icu4c-76.1/lib -L/nix/store/w2p4mqmibyga0ky3vc3gnc3cx8h1z71b-libjpeg-turbo-3.1.4/lib -L/nix/store/v3ikgn81d6y9rfbwh7d8zrhiydqzwcr1-libpng-apng-1.6.56/lib -L/nix/store/w80mvsvnh5i0c0kaj021fkip8jwxx59x-pcre2-10.46/lib -L/nix/store/ym2h5axmyxqkwmrrrz570gmkbmdlwvbv-zstd-1.5.7/lib -L/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/lib -L/nix/store/vrqsgwdqs11kvgisd9fayzwggprflnrn-md4c-0.5.2-lib/lib -L/nix/store/37amf2x51b2zzg08bzn49xva9kqli6zc-double-conversion-3.3.1/lib -L/nix/store/fljz5zip8yz47psa37rvlbrhswyfkfdz-libproxy-0.5.12/lib -L/nix/store/0nvjznq3lwj4khjlmx8viflkdvwvjdjw-dbus-1.16.2-lib/lib -L/nix/store/f0afx0r5bzvk3gdf8bdh4fssl0p75m1k-libffi-40/lib -L/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/lib -L/nix/store/ffz616wjbidqjfx5azbslfapzj8f0hc7-glib-2.88.1/lib -L/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/lib -L/nix/store/9p7m9cyy0dpcd76vz1cbicjbi26gldgr-sqlite-connector-odbc-0.99991/lib -L/nix/store/vbfjrppkj89nzlb861xsr5k5zfsq60xp-gmp-with-cxx-6.3.0/lib -L/nix/store/zwwrvpr9yd797f7ldgz2mimi4d52qym5-cups-2.4.19-lib/lib -L/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib -L/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/lib -L/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/lib -L/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/lib -L/nix/store/yxlbgn6b68633wi1y36gflf0qr5naz0v-compiler-rt-libc-21.1.8/lib -L/nix/store/p4lp3xq4imd1qzqh08x8vcq2zfhi7rca-libresolv-93/lib -L/nix/store/3r9in20wx4a44zsl9w4zrj0bvhbaylk8-libsbuf-14.1.0/lib -L/nix/store/rc9xga34lhavrc95lfbpmcvln61z2s7v-libutil-73/lib -L/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/lib -L/nix/store/006xa3d3jpk1zfgra659c03ycf2mjgvf-libxml2-2.15.2/lib -L/nix/store/qmka3x5p55qqp139wp528a8q42sma87m-libxslt-1.1.45/lib -L/nix/store/a3hhkd5vzw97issax60xx47qfnkl6ddf-openssl-3.6.2/lib -L/nix/store/dv84ssvw208w1h2qmak900apymwggm5f-sqlite-3.51.2/lib -L/nix/store/7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2/lib -L/nix/store/7fsbspv9qdf8ci9rkqyhnpxsc8c7qj48-vulkan-loader-1.4.341.0/lib -L/nix/store/2qvv3xdpnpfhzjf69lnjds95qjdwmnd7-graphite2-1.3.14/lib -L/nix/store/qlnyhi8j8p0ks4hd8dlaxbjzx03mrq2n-harfbuzz-13.2.1/lib -L/nix/store/0qs8qciszgr7zzdq3zvanxcax1ml5qd0-icu4c-76.1/lib -L/nix/store/w2p4mqmibyga0ky3vc3gnc3cx8h1z71b-libjpeg-turbo-3.1.4/lib -L/nix/store/v3ikgn81d6y9rfbwh7d8zrhiydqzwcr1-libpng-apng-1.6.56/lib -L/nix/store/w80mvsvnh5i0c0kaj021fkip8jwxx59x-pcre2-10.46/lib -L/nix/store/ym2h5axmyxqkwmrrrz570gmkbmdlwvbv-zstd-1.5.7/lib -L/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/lib -L/nix/store/vrqsgwdqs11kvgisd9fayzwggprflnrn-md4c-0.5.2-lib/lib -L/nix/store/37amf2x51b2zzg08bzn49xva9kqli6zc-double-conversion-3.3.1/lib -L/nix/store/fljz5zip8yz47psa37rvlbrhswyfkfdz-libproxy-0.5.12/lib -L/nix/store/0nvjznq3lwj4khjlmx8viflkdvwvjdjw-dbus-1.16.2-lib/lib -L/nix/store/f0afx0r5bzvk3gdf8bdh4fssl0p75m1k-libffi-40/lib -L/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/lib -L/nix/store/ffz616wjbidqjfx5azbslfapzj8f0hc7-glib-2.88.1/lib -L/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/lib -L/nix/store/9p7m9cyy0dpcd76vz1cbicjbi26gldgr-sqlite-connector-odbc-0.99991/lib -L/nix/store/vbfjrppkj89nzlb861xsr5k5zfsq60xp-gmp-with-cxx-6.3.0/lib -L/nix/store/zwwrvpr9yd797f7ldgz2mimi4d52qym5-cups-2.4.19-lib/lib -L/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib -L/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/lib -L/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/lib -L/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/lib -L/nix/store/yxlbgn6b68633wi1y36gflf0qr5naz0v-compiler-rt-libc-21.1.8/lib -L/nix/store/p4lp3xq4imd1qzqh08x8vcq2zfhi7rca-libresolv-93/lib -L/nix/store/3r9in20wx4a44zsl9w4zrj0bvhbaylk8-libsbuf-14.1.0/lib -L/nix/store/rc9xga34lhavrc95lfbpmcvln61z2s7v-libutil-73/lib -L/nix/store/y7k7r9xlbp370zxvrybafsp5j2y03b7s-libSystem-B/lib -L/nix/store/9gcfdl3yd942z2v6aszaqdkc5zq3fc5p-clang-21.1.8-lib/lib -L/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a
         @(#)PROGRAM:ld PROJECT:ld64-956.6
         BUILD 00:00:00 Jan  1 1980
         configured to support archs:  i386 x86_64 x86_64h armv6 armv7 armv7s armv7m armv7em armv7k arm64 arm64e arm64_32 armv8m.main armv8.1m.main
@@ -5759,10 +5759,10 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-3Xqz3J']
+        ignore line: [Change Dir: '/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-FJxzB1']
         ignore line: []
-        ignore line: [Run Build Command(s): /nix/store/bqykhrblarkj4fl0hz2mf8ngwfv6x6bz-ninja-1.13.2/bin/ninja -v cmTC_0a6e2]
-        ignore line: [[1/2] /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++   -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0   -v -Wl -v -MD -MT CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o -c /nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2/share/cmake-4.1/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): /nix/store/bqykhrblarkj4fl0hz2mf8ngwfv6x6bz-ninja-1.13.2/bin/ninja -v cmTC_94c7c]
+        ignore line: [[1/2] /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++   -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0   -v -Wl -v -MD -MT CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o -c /nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2/share/cmake-4.1/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [clang version 21.1.8]
         ignore line: [Target: arm64-apple-darwin]
         ignore line: [Thread model: posix]
@@ -5771,7 +5771,7 @@ events:
         ignore line: [ignoring nonexistent directory "/nix/store/cbsa0j0sqa44ls1wr2bgvbcx87k50j8h-clang-21.1.8/bin/../include/c++/v1"]
         ignore line: [ignoring nonexistent directory "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1"]
         ignore line: [ (in-process)]
-        ignore line: [ "/nix/store/cbsa0j0sqa44ls1wr2bgvbcx87k50j8h-clang-21.1.8/bin/clang++" -cc1 -triple arm64-apple-macosx14.0.0 -O2 -Wundef-prefix=TARGET_OS_ -Werror=undef-prefix -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=all -ffp-contract=on -fno-rounding-math -funwind-tables=1 -target-sdk-version=14.4 -fcompatibility-qualified-id-block-type-checking -fvisibility-inlines-hidden-static-local-var -fbuiltin-headers-in-system-modules -fdefine-target-os-macros -enable-tlsdesc -target-cpu apple-m1 -target-feature +v8.4a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +ccpp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +flagm -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-3Xqz3J -target-linker-version 956.6 -v -fcoverage-compilation-dir=/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-3Xqz3J -resource-dir /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/resource-root -dependency-file CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -idirafter /nix/store/y7k7r9xlbp370zxvrybafsp5j2y03b7s-libSystem-B/include -isystem /nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/include -isystem /nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev/include -isystem /nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/include -isystem /nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev/include -isystem /nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev/include -isystem /nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev/include -isystem /nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0/include -isystem /nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/include -isystem /nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev/include -isystem /nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev/include -isystem /nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev/include -isystem /nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev/include -isystem /nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev/include -isystem /nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev/include -isystem /nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/include -isystem /nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev/include -isystem /nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev/include -isystem /nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev/include -isystem /nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev/include -isystem /nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev/include -isystem /nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev/include -isystem /nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/include -isystem /nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/include -isystem /nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6/include -isystem /nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev/include -isystem /nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev/include -isystem /nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/include -isystem /nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/include -isystem /nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/include -isystem /nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0/include -isystem /nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include -isystem /nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev/include -isystem /nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev/include -isystem /nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev/include -isystem /nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/include -isystem /nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev/include -isystem /nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/include -isystem /nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev/include -isystem /nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev/include -isystem /nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev/include -isystem /nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0/include -isystem /nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/include -isystem /nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev/include -isystem /nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev/include -isystem /nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev/include -isystem /nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev/include -isystem /nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev/include -isystem /nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev/include -isystem /nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/include -isystem /nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev/include -isystem /nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev/include -isystem /nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev/include -isystem /nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev/include -isystem /nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev/include -isystem /nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev/include -isystem /nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/include -isystem /nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/include -isystem /nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6/include -isystem /nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev/include -isystem /nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev/include -isystem /nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/include -isystem /nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/include -isystem /nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/include -isystem /nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0/include -isystem /nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include -isystem /nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev/include -isystem /nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev/include -isystem /nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev/include -cxx-isystem /nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1 -D _LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_FAST -U _FORTIFY_SOURCE -U _FORTIFY_SOURCE -D _FORTIFY_SOURCE=2 -internal-isystem /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/resource-root/include -internal-externc-isystem /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-iframework /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -fmacro-prefix-map=/nix/store/y7k7r9xlbp370zxvrybafsp5j2y03b7s-libSystem-B/include=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libSystem-B/include -fmacro-prefix-map=/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxml2-2.15.2-dev -fmacro-prefix-map=/nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libiconv-113-dev -fmacro-prefix-map=/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxslt-1.1.45-dev -fmacro-prefix-map=/nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-openssl-3.6.2-dev -fmacro-prefix-map=/nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-sqlite-3.51.2-dev -fmacro-prefix-map=/nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zlib-1.3.2-dev -fmacro-prefix-map=/nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-vulkan-headers-1.4.341.0 -fmacro-prefix-map=/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-harfbuzz-13.2.1-dev -fmacro-prefix-map=/nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-graphite2-1.3.14-dev -fmacro-prefix-map=/nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-icu4c-76.1-dev -fmacro-prefix-map=/nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libjpeg-turbo-3.1.4-dev -fmacro-prefix-map=/nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libpng-apng-1.6.56-dev -fmacro-prefix-map=/nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-pcre2-10.46-dev -fmacro-prefix-map=/nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zstd-1.5.7-dev -fmacro-prefix-map=/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libb2-0.98.1 -fmacro-prefix-map=/nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-md4c-0.5.2-dev -fmacro-prefix-map=/nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-double-conversion-3.3.1-dev -fmacro-prefix-map=/nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libproxy-0.5.12-dev -fmacro-prefix-map=/nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-dbus-1.16.2-dev -fmacro-prefix-map=/nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-glib-2.88.1-dev -fmacro-prefix-map=/nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libffi-40-dev -fmacro-prefix-map=/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gettext-1.0 -fmacro-prefix-map=/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-unixodbc-2.3.14 -fmacro-prefix-map=/nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-mariadb-connector-odbc-3.2.6 -fmacro-prefix-map=/nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-cups-2.4.19-dev -fmacro-prefix-map=/nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gmp-with-cxx-6.3.0-dev -fmacro-prefix-map=/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtbase-6.11.0 -fmacro-prefix-map=/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtlanguageserver-6.11.0 -fmacro-prefix-map=/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtdeclarative-6.11.0 -fmacro-prefix-map=/nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtremoteobjects-6.11.0 -fmacro-prefix-map=/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-21.1.6+apple-sdk-26.4 -fmacro-prefix-map=/nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-compiler-rt-libc-21.1.8-dev -fmacro-prefix-map=/nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libresolv-93-dev -fmacro-prefix-map=/nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libsbuf-14.1.0-dev -fmacro-prefix-map=/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxml2-2.15.2-dev -fmacro-prefix-map=/nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libiconv-113-dev -fmacro-prefix-map=/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxslt-1.1.45-dev -fmacro-prefix-map=/nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-openssl-3.6.2-dev -fmacro-prefix-map=/nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-sqlite-3.51.2-dev -fmacro-prefix-map=/nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zlib-1.3.2-dev -fmacro-prefix-map=/nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-vulkan-headers-1.4.341.0 -fmacro-prefix-map=/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-harfbuzz-13.2.1-dev -fmacro-prefix-map=/nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-graphite2-1.3.14-dev -fmacro-prefix-map=/nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-icu4c-76.1-dev -fmacro-prefix-map=/nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libjpeg-turbo-3.1.4-dev -fmacro-prefix-map=/nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libpng-apng-1.6.56-dev -fmacro-prefix-map=/nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-pcre2-10.46-dev -fmacro-prefix-map=/nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zstd-1.5.7-dev -fmacro-prefix-map=/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libb2-0.98.1 -fmacro-prefix-map=/nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-md4c-0.5.2-dev -fmacro-prefix-map=/nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-double-conversion-3.3.1-dev -fmacro-prefix-map=/nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libproxy-0.5.12-dev -fmacro-prefix-map=/nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-dbus-1.16.2-dev -fmacro-prefix-map=/nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-glib-2.88.1-dev -fmacro-prefix-map=/nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libffi-40-dev -fmacro-prefix-map=/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gettext-1.0 -fmacro-prefix-map=/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-unixodbc-2.3.14 -fmacro-prefix-map=/nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-mariadb-connector-odbc-3.2.6 -fmacro-prefix-map=/nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-cups-2.4.19-dev -fmacro-prefix-map=/nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gmp-with-cxx-6.3.0-dev -fmacro-prefix-map=/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtbase-6.11.0 -fmacro-prefix-map=/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtlanguageserver-6.11.0 -fmacro-prefix-map=/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtdeclarative-6.11.0 -fmacro-prefix-map=/nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtremoteobjects-6.11.0 -fmacro-prefix-map=/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-21.1.6+apple-sdk-26.4 -fmacro-prefix-map=/nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-compiler-rt-libc-21.1.8-dev -fmacro-prefix-map=/nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libresolv-93-dev -fmacro-prefix-map=/nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libsbuf-14.1.0-dev -fmacro-prefix-map=/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1 -source-date-epoch 315532800 -Wformat -Wformat-security -Werror=format-security -Werror=unguarded-availability -fdeprecated-macro -ferror-limit 19 -fzero-call-used-regs=used-gpr -fwrapv -fstrict-flex-arrays=1 -stack-protector 2 -stack-protector-buffer-size 4 -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -vectorize-loops -vectorize-slp -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o -x c++ /nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2/share/cmake-4.1/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [ "/nix/store/cbsa0j0sqa44ls1wr2bgvbcx87k50j8h-clang-21.1.8/bin/clang++" -cc1 -triple arm64-apple-macosx14.0.0 -O2 -Wundef-prefix=TARGET_OS_ -Werror=undef-prefix -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=all -ffp-contract=on -fno-rounding-math -funwind-tables=1 -target-sdk-version=14.4 -fcompatibility-qualified-id-block-type-checking -fvisibility-inlines-hidden-static-local-var -fbuiltin-headers-in-system-modules -fdefine-target-os-macros -enable-tlsdesc -target-cpu apple-m1 -target-feature +v8.4a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +ccpp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +flagm -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-FJxzB1 -target-linker-version 956.6 -v -fcoverage-compilation-dir=/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-FJxzB1 -resource-dir /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/resource-root -dependency-file CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -idirafter /nix/store/y7k7r9xlbp370zxvrybafsp5j2y03b7s-libSystem-B/include -isystem /nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/include -isystem /nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev/include -isystem /nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/include -isystem /nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev/include -isystem /nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev/include -isystem /nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev/include -isystem /nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0/include -isystem /nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/include -isystem /nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev/include -isystem /nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev/include -isystem /nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev/include -isystem /nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev/include -isystem /nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev/include -isystem /nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev/include -isystem /nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/include -isystem /nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev/include -isystem /nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev/include -isystem /nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev/include -isystem /nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev/include -isystem /nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev/include -isystem /nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev/include -isystem /nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/include -isystem /nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/include -isystem /nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6/include -isystem /nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev/include -isystem /nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev/include -isystem /nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/include -isystem /nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/include -isystem /nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/include -isystem /nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0/include -isystem /nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include -isystem /nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev/include -isystem /nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev/include -isystem /nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev/include -isystem /nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/include -isystem /nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev/include -isystem /nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/include -isystem /nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev/include -isystem /nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev/include -isystem /nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev/include -isystem /nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0/include -isystem /nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/include -isystem /nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev/include -isystem /nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev/include -isystem /nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev/include -isystem /nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev/include -isystem /nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev/include -isystem /nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev/include -isystem /nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/include -isystem /nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev/include -isystem /nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev/include -isystem /nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev/include -isystem /nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev/include -isystem /nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev/include -isystem /nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev/include -isystem /nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/include -isystem /nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/include -isystem /nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6/include -isystem /nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev/include -isystem /nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev/include -isystem /nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/include -isystem /nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/include -isystem /nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/include -isystem /nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0/include -isystem /nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include -isystem /nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev/include -isystem /nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev/include -isystem /nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev/include -cxx-isystem /nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1 -D _LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_FAST -U _FORTIFY_SOURCE -U _FORTIFY_SOURCE -D _FORTIFY_SOURCE=2 -internal-isystem /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/resource-root/include -internal-externc-isystem /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-iframework /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -fmacro-prefix-map=/nix/store/y7k7r9xlbp370zxvrybafsp5j2y03b7s-libSystem-B/include=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libSystem-B/include -fmacro-prefix-map=/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxml2-2.15.2-dev -fmacro-prefix-map=/nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libiconv-113-dev -fmacro-prefix-map=/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxslt-1.1.45-dev -fmacro-prefix-map=/nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-openssl-3.6.2-dev -fmacro-prefix-map=/nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-sqlite-3.51.2-dev -fmacro-prefix-map=/nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zlib-1.3.2-dev -fmacro-prefix-map=/nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-vulkan-headers-1.4.341.0 -fmacro-prefix-map=/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-harfbuzz-13.2.1-dev -fmacro-prefix-map=/nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-graphite2-1.3.14-dev -fmacro-prefix-map=/nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-icu4c-76.1-dev -fmacro-prefix-map=/nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libjpeg-turbo-3.1.4-dev -fmacro-prefix-map=/nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libpng-apng-1.6.56-dev -fmacro-prefix-map=/nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-pcre2-10.46-dev -fmacro-prefix-map=/nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zstd-1.5.7-dev -fmacro-prefix-map=/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libb2-0.98.1 -fmacro-prefix-map=/nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-md4c-0.5.2-dev -fmacro-prefix-map=/nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-double-conversion-3.3.1-dev -fmacro-prefix-map=/nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libproxy-0.5.12-dev -fmacro-prefix-map=/nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-dbus-1.16.2-dev -fmacro-prefix-map=/nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-glib-2.88.1-dev -fmacro-prefix-map=/nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libffi-40-dev -fmacro-prefix-map=/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gettext-1.0 -fmacro-prefix-map=/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-unixodbc-2.3.14 -fmacro-prefix-map=/nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-mariadb-connector-odbc-3.2.6 -fmacro-prefix-map=/nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-cups-2.4.19-dev -fmacro-prefix-map=/nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gmp-with-cxx-6.3.0-dev -fmacro-prefix-map=/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtbase-6.11.0 -fmacro-prefix-map=/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtlanguageserver-6.11.0 -fmacro-prefix-map=/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtdeclarative-6.11.0 -fmacro-prefix-map=/nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtremoteobjects-6.11.0 -fmacro-prefix-map=/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-21.1.6+apple-sdk-26.4 -fmacro-prefix-map=/nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-compiler-rt-libc-21.1.8-dev -fmacro-prefix-map=/nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libresolv-93-dev -fmacro-prefix-map=/nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libsbuf-14.1.0-dev -fmacro-prefix-map=/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxml2-2.15.2-dev -fmacro-prefix-map=/nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libiconv-113-dev -fmacro-prefix-map=/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libxslt-1.1.45-dev -fmacro-prefix-map=/nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-openssl-3.6.2-dev -fmacro-prefix-map=/nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-sqlite-3.51.2-dev -fmacro-prefix-map=/nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zlib-1.3.2-dev -fmacro-prefix-map=/nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-vulkan-headers-1.4.341.0 -fmacro-prefix-map=/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-harfbuzz-13.2.1-dev -fmacro-prefix-map=/nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-graphite2-1.3.14-dev -fmacro-prefix-map=/nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-icu4c-76.1-dev -fmacro-prefix-map=/nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libjpeg-turbo-3.1.4-dev -fmacro-prefix-map=/nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libpng-apng-1.6.56-dev -fmacro-prefix-map=/nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-pcre2-10.46-dev -fmacro-prefix-map=/nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zstd-1.5.7-dev -fmacro-prefix-map=/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libb2-0.98.1 -fmacro-prefix-map=/nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-md4c-0.5.2-dev -fmacro-prefix-map=/nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-double-conversion-3.3.1-dev -fmacro-prefix-map=/nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libproxy-0.5.12-dev -fmacro-prefix-map=/nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-dbus-1.16.2-dev -fmacro-prefix-map=/nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-glib-2.88.1-dev -fmacro-prefix-map=/nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libffi-40-dev -fmacro-prefix-map=/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gettext-1.0 -fmacro-prefix-map=/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-unixodbc-2.3.14 -fmacro-prefix-map=/nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-mariadb-connector-odbc-3.2.6 -fmacro-prefix-map=/nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-cups-2.4.19-dev -fmacro-prefix-map=/nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gmp-with-cxx-6.3.0-dev -fmacro-prefix-map=/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtbase-6.11.0 -fmacro-prefix-map=/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtlanguageserver-6.11.0 -fmacro-prefix-map=/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtdeclarative-6.11.0 -fmacro-prefix-map=/nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-qtremoteobjects-6.11.0 -fmacro-prefix-map=/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-21.1.6+apple-sdk-26.4 -fmacro-prefix-map=/nix/store/qg5wnjpr27gvwwpcv5bi7ssc38p2nrf2-compiler-rt-libc-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-compiler-rt-libc-21.1.8-dev -fmacro-prefix-map=/nix/store/vcac1sln6n4qsf7a96758kr1y9r5nzf7-libresolv-93-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libresolv-93-dev -fmacro-prefix-map=/nix/store/395mclyn4inz8fip5ziajhbn3x9kp41i-libsbuf-14.1.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libsbuf-14.1.0-dev -fmacro-prefix-map=/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-21.1.6+apple-sdk-26.4/include/c++/v1 -source-date-epoch 315532800 -Wformat -Wformat-security -Werror=format-security -Werror=unguarded-availability -fdeprecated-macro -ferror-limit 19 -fzero-call-used-regs=used-gpr -fwrapv -fstrict-flex-arrays=1 -stack-protector 2 -stack-protector-buffer-size 4 -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -vectorize-loops -vectorize-slp -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o -x c++ /nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2/share/cmake-4.1/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [clang -cc1 version 21.1.8 based upon LLVM 21.1.8 default target arm64-apple-darwin23.5.0]
         ignore line: [ignoring nonexistent directory "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"]
         ignore line: [ignoring nonexistent directory "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks"]
@@ -5852,12 +5852,12 @@ events:
         ignore line: [ /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)]
         ignore line: [ /nix/store/y7k7r9xlbp370zxvrybafsp5j2y03b7s-libSystem-B/include]
         ignore line: [End of search list.]
-        ignore line: [[2/2] : && /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++ -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0 -Wl -search_paths_first -Wl -headerpad_max_install_names  -v -Wl -v CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_0a6e2   && :]
+        ignore line: [[2/2] : && /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++ -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0 -Wl -search_paths_first -Wl -headerpad_max_install_names  -v -Wl -v CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_94c7c   && :]
         ignore line: [clang version 21.1.8]
         ignore line: [Target: arm64-apple-darwin]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /nix/store/cbsa0j0sqa44ls1wr2bgvbcx87k50j8h-clang-21.1.8/bin]
-        link line: [ "/nix/store/apfz522rdhd9ik8chych1128l3b4qqm6-cctools-binutils-darwin-wrapper-1010.6/bin/ld" -demangle -lto_library /nix/store/mwmz2rvjjmhckhpis9il7qzphns6cqnj-llvm-21.1.8-lib/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 14.0.0 14.4 -syslibroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_0a6e2 -L/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/lib -L/nix/store/006xa3d3jpk1zfgra659c03ycf2mjgvf-libxml2-2.15.2/lib -L/nix/store/qmka3x5p55qqp139wp528a8q42sma87m-libxslt-1.1.45/lib -L/nix/store/a3hhkd5vzw97issax60xx47qfnkl6ddf-openssl-3.6.2/lib -L/nix/store/dv84ssvw208w1h2qmak900apymwggm5f-sqlite-3.51.2/lib -L/nix/store/7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2/lib -L/nix/store/7fsbspv9qdf8ci9rkqyhnpxsc8c7qj48-vulkan-loader-1.4.341.0/lib -L/nix/store/2qvv3xdpnpfhzjf69lnjds95qjdwmnd7-graphite2-1.3.14/lib -L/nix/store/qlnyhi8j8p0ks4hd8dlaxbjzx03mrq2n-harfbuzz-13.2.1/lib -L/nix/store/0qs8qciszgr7zzdq3zvanxcax1ml5qd0-icu4c-76.1/lib -L/nix/store/w2p4mqmibyga0ky3vc3gnc3cx8h1z71b-libjpeg-turbo-3.1.4/lib -L/nix/store/v3ikgn81d6y9rfbwh7d8zrhiydqzwcr1-libpng-apng-1.6.56/lib -L/nix/store/w80mvsvnh5i0c0kaj021fkip8jwxx59x-pcre2-10.46/lib -L/nix/store/ym2h5axmyxqkwmrrrz570gmkbmdlwvbv-zstd-1.5.7/lib -L/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/lib -L/nix/store/vrqsgwdqs11kvgisd9fayzwggprflnrn-md4c-0.5.2-lib/lib -L/nix/store/37amf2x51b2zzg08bzn49xva9kqli6zc-double-conversion-3.3.1/lib -L/nix/store/fljz5zip8yz47psa37rvlbrhswyfkfdz-libproxy-0.5.12/lib -L/nix/store/0nvjznq3lwj4khjlmx8viflkdvwvjdjw-dbus-1.16.2-lib/lib -L/nix/store/f0afx0r5bzvk3gdf8bdh4fssl0p75m1k-libffi-40/lib -L/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/lib -L/nix/store/ffz616wjbidqjfx5azbslfapzj8f0hc7-glib-2.88.1/lib -L/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/lib -L/nix/store/9p7m9cyy0dpcd76vz1cbicjbi26gldgr-sqlite-connector-odbc-0.99991/lib -L/nix/store/vbfjrppkj89nzlb861xsr5k5zfsq60xp-gmp-with-cxx-6.3.0/lib -L/nix/store/zwwrvpr9yd797f7ldgz2mimi4d52qym5-cups-2.4.19-lib/lib -L/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib -L/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/lib -L/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/lib -L/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/lib -L/nix/store/yxlbgn6b68633wi1y36gflf0qr5naz0v-compiler-rt-libc-21.1.8/lib -L/nix/store/p4lp3xq4imd1qzqh08x8vcq2zfhi7rca-libresolv-93/lib -L/nix/store/3r9in20wx4a44zsl9w4zrj0bvhbaylk8-libsbuf-14.1.0/lib -L/nix/store/rc9xga34lhavrc95lfbpmcvln61z2s7v-libutil-73/lib -L/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/lib -L/nix/store/006xa3d3jpk1zfgra659c03ycf2mjgvf-libxml2-2.15.2/lib -L/nix/store/qmka3x5p55qqp139wp528a8q42sma87m-libxslt-1.1.45/lib -L/nix/store/a3hhkd5vzw97issax60xx47qfnkl6ddf-openssl-3.6.2/lib -L/nix/store/dv84ssvw208w1h2qmak900apymwggm5f-sqlite-3.51.2/lib -L/nix/store/7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2/lib -L/nix/store/7fsbspv9qdf8ci9rkqyhnpxsc8c7qj48-vulkan-loader-1.4.341.0/lib -L/nix/store/2qvv3xdpnpfhzjf69lnjds95qjdwmnd7-graphite2-1.3.14/lib -L/nix/store/qlnyhi8j8p0ks4hd8dlaxbjzx03mrq2n-harfbuzz-13.2.1/lib -L/nix/store/0qs8qciszgr7zzdq3zvanxcax1ml5qd0-icu4c-76.1/lib -L/nix/store/w2p4mqmibyga0ky3vc3gnc3cx8h1z71b-libjpeg-turbo-3.1.4/lib -L/nix/store/v3ikgn81d6y9rfbwh7d8zrhiydqzwcr1-libpng-apng-1.6.56/lib -L/nix/store/w80mvsvnh5i0c0kaj021fkip8jwxx59x-pcre2-10.46/lib -L/nix/store/ym2h5axmyxqkwmrrrz570gmkbmdlwvbv-zstd-1.5.7/lib -L/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/lib -L/nix/store/vrqsgwdqs11kvgisd9fayzwggprflnrn-md4c-0.5.2-lib/lib -L/nix/store/37amf2x51b2zzg08bzn49xva9kqli6zc-double-conversion-3.3.1/lib -L/nix/store/fljz5zip8yz47psa37rvlbrhswyfkfdz-libproxy-0.5.12/lib -L/nix/store/0nvjznq3lwj4khjlmx8viflkdvwvjdjw-dbus-1.16.2-lib/lib -L/nix/store/f0afx0r5bzvk3gdf8bdh4fssl0p75m1k-libffi-40/lib -L/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/lib -L/nix/store/ffz616wjbidqjfx5azbslfapzj8f0hc7-glib-2.88.1/lib -L/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/lib -L/nix/store/9p7m9cyy0dpcd76vz1cbicjbi26gldgr-sqlite-connector-odbc-0.99991/lib -L/nix/store/vbfjrppkj89nzlb861xsr5k5zfsq60xp-gmp-with-cxx-6.3.0/lib -L/nix/store/zwwrvpr9yd797f7ldgz2mimi4d52qym5-cups-2.4.19-lib/lib -L/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib -L/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/lib -L/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/lib -L/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/lib -L/nix/store/yxlbgn6b68633wi1y36gflf0qr5naz0v-compiler-rt-libc-21.1.8/lib -L/nix/store/p4lp3xq4imd1qzqh08x8vcq2zfhi7rca-libresolv-93/lib -L/nix/store/3r9in20wx4a44zsl9w4zrj0bvhbaylk8-libsbuf-14.1.0/lib -L/nix/store/rc9xga34lhavrc95lfbpmcvln61z2s7v-libutil-73/lib -L/nix/store/y7k7r9xlbp370zxvrybafsp5j2y03b7s-libSystem-B/lib -L/nix/store/9gcfdl3yd942z2v6aszaqdkc5zq3fc5p-clang-21.1.8-lib/lib -L/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a]
+        link line: [ "/nix/store/apfz522rdhd9ik8chych1128l3b4qqm6-cctools-binutils-darwin-wrapper-1010.6/bin/ld" -demangle -lto_library /nix/store/mwmz2rvjjmhckhpis9il7qzphns6cqnj-llvm-21.1.8-lib/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 14.0.0 14.4 -syslibroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_94c7c -L/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/lib -L/nix/store/006xa3d3jpk1zfgra659c03ycf2mjgvf-libxml2-2.15.2/lib -L/nix/store/qmka3x5p55qqp139wp528a8q42sma87m-libxslt-1.1.45/lib -L/nix/store/a3hhkd5vzw97issax60xx47qfnkl6ddf-openssl-3.6.2/lib -L/nix/store/dv84ssvw208w1h2qmak900apymwggm5f-sqlite-3.51.2/lib -L/nix/store/7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2/lib -L/nix/store/7fsbspv9qdf8ci9rkqyhnpxsc8c7qj48-vulkan-loader-1.4.341.0/lib -L/nix/store/2qvv3xdpnpfhzjf69lnjds95qjdwmnd7-graphite2-1.3.14/lib -L/nix/store/qlnyhi8j8p0ks4hd8dlaxbjzx03mrq2n-harfbuzz-13.2.1/lib -L/nix/store/0qs8qciszgr7zzdq3zvanxcax1ml5qd0-icu4c-76.1/lib -L/nix/store/w2p4mqmibyga0ky3vc3gnc3cx8h1z71b-libjpeg-turbo-3.1.4/lib -L/nix/store/v3ikgn81d6y9rfbwh7d8zrhiydqzwcr1-libpng-apng-1.6.56/lib -L/nix/store/w80mvsvnh5i0c0kaj021fkip8jwxx59x-pcre2-10.46/lib -L/nix/store/ym2h5axmyxqkwmrrrz570gmkbmdlwvbv-zstd-1.5.7/lib -L/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/lib -L/nix/store/vrqsgwdqs11kvgisd9fayzwggprflnrn-md4c-0.5.2-lib/lib -L/nix/store/37amf2x51b2zzg08bzn49xva9kqli6zc-double-conversion-3.3.1/lib -L/nix/store/fljz5zip8yz47psa37rvlbrhswyfkfdz-libproxy-0.5.12/lib -L/nix/store/0nvjznq3lwj4khjlmx8viflkdvwvjdjw-dbus-1.16.2-lib/lib -L/nix/store/f0afx0r5bzvk3gdf8bdh4fssl0p75m1k-libffi-40/lib -L/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/lib -L/nix/store/ffz616wjbidqjfx5azbslfapzj8f0hc7-glib-2.88.1/lib -L/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/lib -L/nix/store/9p7m9cyy0dpcd76vz1cbicjbi26gldgr-sqlite-connector-odbc-0.99991/lib -L/nix/store/vbfjrppkj89nzlb861xsr5k5zfsq60xp-gmp-with-cxx-6.3.0/lib -L/nix/store/zwwrvpr9yd797f7ldgz2mimi4d52qym5-cups-2.4.19-lib/lib -L/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib -L/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/lib -L/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/lib -L/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/lib -L/nix/store/yxlbgn6b68633wi1y36gflf0qr5naz0v-compiler-rt-libc-21.1.8/lib -L/nix/store/p4lp3xq4imd1qzqh08x8vcq2zfhi7rca-libresolv-93/lib -L/nix/store/3r9in20wx4a44zsl9w4zrj0bvhbaylk8-libsbuf-14.1.0/lib -L/nix/store/rc9xga34lhavrc95lfbpmcvln61z2s7v-libutil-73/lib -L/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/lib -L/nix/store/006xa3d3jpk1zfgra659c03ycf2mjgvf-libxml2-2.15.2/lib -L/nix/store/qmka3x5p55qqp139wp528a8q42sma87m-libxslt-1.1.45/lib -L/nix/store/a3hhkd5vzw97issax60xx47qfnkl6ddf-openssl-3.6.2/lib -L/nix/store/dv84ssvw208w1h2qmak900apymwggm5f-sqlite-3.51.2/lib -L/nix/store/7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2/lib -L/nix/store/7fsbspv9qdf8ci9rkqyhnpxsc8c7qj48-vulkan-loader-1.4.341.0/lib -L/nix/store/2qvv3xdpnpfhzjf69lnjds95qjdwmnd7-graphite2-1.3.14/lib -L/nix/store/qlnyhi8j8p0ks4hd8dlaxbjzx03mrq2n-harfbuzz-13.2.1/lib -L/nix/store/0qs8qciszgr7zzdq3zvanxcax1ml5qd0-icu4c-76.1/lib -L/nix/store/w2p4mqmibyga0ky3vc3gnc3cx8h1z71b-libjpeg-turbo-3.1.4/lib -L/nix/store/v3ikgn81d6y9rfbwh7d8zrhiydqzwcr1-libpng-apng-1.6.56/lib -L/nix/store/w80mvsvnh5i0c0kaj021fkip8jwxx59x-pcre2-10.46/lib -L/nix/store/ym2h5axmyxqkwmrrrz570gmkbmdlwvbv-zstd-1.5.7/lib -L/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/lib -L/nix/store/vrqsgwdqs11kvgisd9fayzwggprflnrn-md4c-0.5.2-lib/lib -L/nix/store/37amf2x51b2zzg08bzn49xva9kqli6zc-double-conversion-3.3.1/lib -L/nix/store/fljz5zip8yz47psa37rvlbrhswyfkfdz-libproxy-0.5.12/lib -L/nix/store/0nvjznq3lwj4khjlmx8viflkdvwvjdjw-dbus-1.16.2-lib/lib -L/nix/store/f0afx0r5bzvk3gdf8bdh4fssl0p75m1k-libffi-40/lib -L/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/lib -L/nix/store/ffz616wjbidqjfx5azbslfapzj8f0hc7-glib-2.88.1/lib -L/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/lib -L/nix/store/9p7m9cyy0dpcd76vz1cbicjbi26gldgr-sqlite-connector-odbc-0.99991/lib -L/nix/store/vbfjrppkj89nzlb861xsr5k5zfsq60xp-gmp-with-cxx-6.3.0/lib -L/nix/store/zwwrvpr9yd797f7ldgz2mimi4d52qym5-cups-2.4.19-lib/lib -L/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib -L/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/lib -L/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/lib -L/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/lib -L/nix/store/yxlbgn6b68633wi1y36gflf0qr5naz0v-compiler-rt-libc-21.1.8/lib -L/nix/store/p4lp3xq4imd1qzqh08x8vcq2zfhi7rca-libresolv-93/lib -L/nix/store/3r9in20wx4a44zsl9w4zrj0bvhbaylk8-libsbuf-14.1.0/lib -L/nix/store/rc9xga34lhavrc95lfbpmcvln61z2s7v-libutil-73/lib -L/nix/store/y7k7r9xlbp370zxvrybafsp5j2y03b7s-libSystem-B/lib -L/nix/store/9gcfdl3yd942z2v6aszaqdkc5zq3fc5p-clang-21.1.8-lib/lib -L/nix/store/i37q3dpd0wqclijpx1wspig9nf8waj4x-libcxx-21.1.6+apple-sdk-26.4/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a]
           arg [/nix/store/apfz522rdhd9ik8chych1128l3b4qqm6-cctools-binutils-darwin-wrapper-1010.6/bin/ld] ==> ignore
           arg [-demangle] ==> ignore
           arg [-lto_library] ==> ignore, skip following value
@@ -5874,7 +5874,7 @@ events:
           arg [-mllvm] ==> ignore
           arg [-enable-linkonceodr-outlining] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_0a6e2] ==> ignore
+          arg [cmTC_94c7c] ==> ignore
           arg [-L/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/lib] ==> dir [/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/lib]
           arg [-L/nix/store/006xa3d3jpk1zfgra659c03ycf2mjgvf-libxml2-2.15.2/lib] ==> dir [/nix/store/006xa3d3jpk1zfgra659c03ycf2mjgvf-libxml2-2.15.2/lib]
           arg [-L/nix/store/qmka3x5p55qqp139wp528a8q42sma87m-libxslt-1.1.45/lib] ==> dir [/nix/store/qmka3x5p55qqp139wp528a8q42sma87m-libxslt-1.1.45/lib]
@@ -5949,7 +5949,7 @@ events:
           arg [-search_paths_first] ==> ignore
           arg [-headerpad_max_install_names] ==> ignore
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_0a6e2.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [CMakeFiles/cmTC_94c7c.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
           arg [-lc++] ==> lib [c++]
           arg [-lSystem] ==> lib [System]
           arg [/nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a] ==> lib [/nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a]
@@ -6212,8 +6212,8 @@ events:
     checks:
       - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
     directories:
-      source: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-8FOUvu"
-      binary: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-8FOUvu"
+      source: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-PbQZTu"
+      binary: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-PbQZTu"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/nix/store/cbsa0j0sqa44ls1wr2bgvbcx87k50j8h-clang-21.1.8/bin/clang-scan-deps"
       CMAKE_CXX_FLAGS: ""
@@ -6227,11 +6227,11 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: '/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-8FOUvu'
+        Change Dir: '/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-PbQZTu'
         
-        Run Build Command(s): /nix/store/bqykhrblarkj4fl0hz2mf8ngwfv6x6bz-ninja-1.13.2/bin/ninja -v cmTC_dce95
-        [1/2] /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++ -DCMAKE_HAVE_LIBC_PTHREAD  -std=gnu++17 -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0 -MD -MT CMakeFiles/cmTC_dce95.dir/src.cxx.o -MF CMakeFiles/cmTC_dce95.dir/src.cxx.o.d -o CMakeFiles/cmTC_dce95.dir/src.cxx.o -c /Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-8FOUvu/src.cxx
-        [2/2] : && /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++ -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_dce95.dir/src.cxx.o -o cmTC_dce95   && :
+        Run Build Command(s): /nix/store/bqykhrblarkj4fl0hz2mf8ngwfv6x6bz-ninja-1.13.2/bin/ninja -v cmTC_eebcd
+        [1/2] /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++ -DCMAKE_HAVE_LIBC_PTHREAD  -std=gnu++17 -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0 -MD -MT CMakeFiles/cmTC_eebcd.dir/src.cxx.o -MF CMakeFiles/cmTC_eebcd.dir/src.cxx.o.d -o CMakeFiles/cmTC_eebcd.dir/src.cxx.o -c /Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-PbQZTu/src.cxx
+        [2/2] : && /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++ -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_eebcd.dir/src.cxx.o -o cmTC_eebcd   && :
         
       exitCode: 0
   -
@@ -6249,8 +6249,8 @@ events:
     checks:
       - "Performing Test HAVE_STDATOMIC"
     directories:
-      source: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-ijnobB"
-      binary: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-ijnobB"
+      source: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-JUCEvj"
+      binary: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-JUCEvj"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/nix/store/cbsa0j0sqa44ls1wr2bgvbcx87k50j8h-clang-21.1.8/bin/clang-scan-deps"
       CMAKE_CXX_FLAGS: ""
@@ -6264,11 +6264,11 @@ events:
       variable: "HAVE_STDATOMIC"
       cached: true
       stdout: |
-        Change Dir: '/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-ijnobB'
+        Change Dir: '/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-JUCEvj'
         
-        Run Build Command(s): /nix/store/bqykhrblarkj4fl0hz2mf8ngwfv6x6bz-ninja-1.13.2/bin/ninja -v cmTC_91860
-        [1/2] /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++ -DHAVE_STDATOMIC  -std=gnu++17 -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0 -MD -MT CMakeFiles/cmTC_91860.dir/src.cxx.o -MF CMakeFiles/cmTC_91860.dir/src.cxx.o.d -o CMakeFiles/cmTC_91860.dir/src.cxx.o -c /Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-ijnobB/src.cxx
-        [2/2] : && /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++ -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_91860.dir/src.cxx.o -o cmTC_91860   && :
+        Run Build Command(s): /nix/store/bqykhrblarkj4fl0hz2mf8ngwfv6x6bz-ninja-1.13.2/bin/ninja -v cmTC_65bd8
+        [1/2] /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++ -DHAVE_STDATOMIC  -std=gnu++17 -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0 -MD -MT CMakeFiles/cmTC_65bd8.dir/src.cxx.o -MF CMakeFiles/cmTC_65bd8.dir/src.cxx.o.d -o CMakeFiles/cmTC_65bd8.dir/src.cxx.o -c /Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/CMakeScratch/TryCompile-JUCEvj/src.cxx
+        [2/2] : && /nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin/clang++ -arch arm64 -isysroot /nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mmacosx-version-min=14.0 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/cmTC_65bd8.dir/src.cxx.o -o cmTC_65bd8   && :
         
       exitCode: 0
   -
@@ -14988,6 +14988,1440 @@ events:
         reason: "no_exist"
     found:
       path: "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Gui/Qt6GuiConfig.cmake"
+      mode: "config"
+      version: "6.11.0"
+    search_context:
+      ENV{PATH}:
+        - "/nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2/bin"
+        - "/nix/store/bqykhrblarkj4fl0hz2mf8ngwfv6x6bz-ninja-1.13.2/bin"
+        - "/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/bin"
+        - "/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/bin"
+        - "/nix/store/v6v41dzykxhzqd25rg1zigrx4jjvcvpv-libxml2-2.15.2-bin/bin"
+        - "/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/bin"
+        - "/nix/store/hbxgbd098bpn8k960jr16wv5g9649i68-libxslt-1.1.45-bin/bin"
+        - "/nix/store/r51ad62j4z7xzqa2svcb6d1b443kphzr-openssl-3.6.2-bin/bin"
+        - "/nix/store/0hzmsbn5h50x7iyz1h5svbr68hppyicy-sqlite-3.51.2-bin/bin"
+        - "/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/bin"
+        - "/nix/store/2qvv3xdpnpfhzjf69lnjds95qjdwmnd7-graphite2-1.3.14/bin"
+        - "/nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev/bin"
+        - "/nix/store/2g9rnpa6zwbdakyir4q6dymmh3yy9cq5-libjpeg-turbo-3.1.4-bin/bin"
+        - "/nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev/bin"
+        - "/nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev/bin"
+        - "/nix/store/3ibiw5pwyh077w9kk52gzw2vq04qicnx-pcre2-10.46-bin/bin"
+        - "/nix/store/lj773k1dkd7rrnrf0f05v43kwwbzlv4j-zstd-1.5.7-bin/bin"
+        - "/nix/store/ym2h5axmyxqkwmrrrz570gmkbmdlwvbv-zstd-1.5.7/bin"
+        - "/nix/store/wnify8p2r28f4mqy3h5p5fqrs56q2pfy-md4c-0.5.2/bin"
+        - "/nix/store/fljz5zip8yz47psa37rvlbrhswyfkfdz-libproxy-0.5.12/bin"
+        - "/nix/store/0nvjznq3lwj4khjlmx8viflkdvwvjdjw-dbus-1.16.2-lib/bin"
+        - "/nix/store/y8m21z94jf2m7fhwq7cgmj4i3pqxrdj4-dbus-1.16.2/bin"
+        - "/nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev/bin"
+        - "/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/bin"
+        - "/nix/store/bn5al38x9rlkkzk9g3qgcc5bywfdrjvv-glib-2.88.1-bin/bin"
+        - "/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/bin"
+        - "/nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev/bin"
+        - "/nix/store/l4yk0fynzxkd1mxpq0kmky0a96safhlk-cups-2.4.19/bin"
+        - "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/bin"
+        - "/nix/store/8267km6x09vmsa90vaan76fadwq8007p-qtshadertools-6.11.0/bin"
+        - "/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/bin"
+        - "/nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin"
+        - "/nix/store/cbsa0j0sqa44ls1wr2bgvbcx87k50j8h-clang-21.1.8/bin"
+        - "/nix/store/y0ha8v4gh5vnwwmp2r0msfbdlvgwv2np-coreutils-9.11/bin"
+        - "/nix/store/apfz522rdhd9ik8chych1128l3b4qqm6-cctools-binutils-darwin-wrapper-1010.6/bin"
+        - "/nix/store/z61v8rpy6ammvikrpcihn3ij8rrqk0bz-cctools-binutils-darwin-1010.6/bin"
+        - "/nix/store/3kxj3awllmqgh4fl2rvpx142wm9h8xvm-xcbuild-0.1.1-unstable-2019-11-20-xcrun/bin"
+        - "/nix/store/y0ha8v4gh5vnwwmp2r0msfbdlvgwv2np-coreutils-9.11/bin"
+        - "/nix/store/3wz2j41nnr1badij6fcnip5vgrfpdd82-findutils-4.10.0/bin"
+        - "/nix/store/37rdk8zsdbqcp73l3nrmwilwb2ixkacv-diffutils-3.12/bin"
+        - "/nix/store/v1lxnb2804dgaf9sf60y6najgjs3wjsi-gnused-4.9/bin"
+        - "/nix/store/209wkryzwczs2nlvwfzkwf4fm8mpr922-gnugrep-3.12/bin"
+        - "/nix/store/af7n5cc4bzd9c6mwsgh7sfmcbasjr5kd-gawk-5.4.0/bin"
+        - "/nix/store/3aikbnf5fq99gvw1wb242wrjnbj7fcr9-gnutar-1.35/bin"
+        - "/nix/store/b7rf7jfkadwjajzfb5430l5k60gwfqa8-gzip-1.14/bin"
+        - "/nix/store/a6r9ryv9pqcvwv8ffmzi4ichd5br0vl6-bzip2-1.0.8-bin/bin"
+        - "/nix/store/8wwiw8pwyhrkzyq28hqzxfl4z84lks81-gnumake-4.4.1/bin"
+        - "/nix/store/55976waa157aqb1ncbwm6b8sa64b6m3h-bash-5.3p9/bin"
+        - "/nix/store/zn3jzk0zwhml7pgx8slyiwmk5zv0ylmh-patch-2.8/bin"
+        - "/nix/store/h7484di7imn15ihxmhzqrzbaszcaxyhw-xz-5.8.3-bin/bin"
+        - "/nix/store/dax63li7wwcbqxxkkgzc4g2rx7d4w86x-file-5.47/bin"
+        - "/opt/homebrew/Cellar/qt@5/5.15.13_1/bin"
+        - "/opt/homebrew/opt/go@1.21/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/Library/Apple/usr/bin"
+        - "/usr/local/MacGPG2/bin"
+        - "/usr/local/go/bin"
+        - "/Users/arseniy/Library/pnpm"
+        - "/Users/arseniy/.deno/bin"
+        - "/Users/arseniy/.local/bin"
+        - "/Applications/love.app/Contents/MacOS/love.app/Contents/MacOS"
+        - "/Users/arseniy/bin"
+        - "/Users/arseniy/.bun/bin"
+        - "/opt/homebrew/Cellar/qt@5/5.15.13/bin"
+        - "/opt/homebrew/opt/go@1.21/bin"
+        - "/Users/arseniy/.nix-profile/bin"
+        - "/nix/var/nix/profiles/default/bin"
+        - "/opt/homebrew/Cellar/qt@5/5.15.13_1/bin"
+        - "/Users/arseniy/.cargo/bin"
+        - "/Applications/Ghostty.app/Contents/MacOS"
+        - "/Users/arseniy/.foundry/bin"
+        - "/Users/arseniy/.radicle/bin"
+        - "/Users/arseniy/go/bin"
+        - "/Users/arseniy/.risc0/bin"
+        - "/Users/arseniy/go/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr"
+        - "/nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2"
+        - "/usr/local"
+      CMAKE_SYSTEM_FRAMEWORK_PATH:
+        - "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks"
+        - "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Network/Library/Frameworks"
+        - "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks"
+        - "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/Library/Frameworks"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:100 (find_package)"
+      - "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6WidgetsDependencies.cmake:41 (_qt_internal_find_tool_dependencies)"
+      - "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6WidgetsConfig.cmake:40 (include)"
+      - "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6/Qt6Config.cmake:246 (find_package)"
+      - "CMakeLists.txt:11 (find_package)"
+    name: "Qt6WidgetsTools"
+    configs:
+      -
+        filename: "Qt6WidgetsToolsConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "qt6widgetstools-config.cmake"
+        kind: "cmake"
+    version_request:
+      version: "6.11.0"
+      version_complete: "6.11.0"
+      exact: false
+    settings:
+      required: "optional"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "Qt6WidgetsTools"
+      search_paths:
+        - "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/.."
+        - "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake"
+        - "/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/lib/cmake"
+        - "/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/lib/cmake"
+        - "/nix/store/bz306s1jhh54lrrx5dpj18g2jn3lxcxd-vulkan-loader-1.4.341.0-dev/lib/cmake"
+        - "/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/lib/cmake"
+        - "/nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev/lib/cmake"
+        - "/nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev/lib/cmake"
+        - "/nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev/lib/cmake"
+        - "/nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev/lib/cmake"
+        - "/nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev/lib/cmake"
+        - "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake"
+        - "/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/lib/cmake"
+        - "/nix/store/8267km6x09vmsa90vaan76fadwq8007p-qtshadertools-6.11.0/lib/cmake"
+        - "/nix/store/5dxvpdls3qjrxwsnkw91wr8p4xlqgqis-qtsvg-6.11.0/lib/cmake"
+        - "/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/lib/cmake"
+        - "/nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0/lib/cmake"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/pkgRedirects/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/pkgRedirects/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/bqykhrblarkj4fl0hz2mf8ngwfv6x6bz-ninja-1.13.2/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/bqykhrblarkj4fl0hz2mf8ngwfv6x6bz-ninja-1.13.2/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ki4sda2kcivjsg8zhni1znc4sk900d5s-qtbase-6.11.0-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ki4sda2kcivjsg8zhni1znc4sk900d5s-qtbase-6.11.0-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/1w6c4g5dfb6gm4ap4wws5yhvvimln6y1-find-xml-catalogs-hook/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/1w6c4g5dfb6gm4ap4wws5yhvvimln6y1-find-xml-catalogs-hook/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/v6v41dzykxhzqd25rg1zigrx4jjvcvpv-libxml2-2.15.2-bin/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/v6v41dzykxhzqd25rg1zigrx4jjvcvpv-libxml2-2.15.2-bin/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/006xa3d3jpk1zfgra659c03ycf2mjgvf-libxml2-2.15.2/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/006xa3d3jpk1zfgra659c03ycf2mjgvf-libxml2-2.15.2/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/38iflsm1a0yl4siqw7b1s01cvzpjdn5x-find-xml-catalogs-hook/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/38iflsm1a0yl4siqw7b1s01cvzpjdn5x-find-xml-catalogs-hook/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hbxgbd098bpn8k960jr16wv5g9649i68-libxslt-1.1.45-bin/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hbxgbd098bpn8k960jr16wv5g9649i68-libxslt-1.1.45-bin/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/qmka3x5p55qqp139wp528a8q42sma87m-libxslt-1.1.45/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/qmka3x5p55qqp139wp528a8q42sma87m-libxslt-1.1.45/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/r51ad62j4z7xzqa2svcb6d1b443kphzr-openssl-3.6.2-bin/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/r51ad62j4z7xzqa2svcb6d1b443kphzr-openssl-3.6.2-bin/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/a3hhkd5vzw97issax60xx47qfnkl6ddf-openssl-3.6.2/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/a3hhkd5vzw97issax60xx47qfnkl6ddf-openssl-3.6.2/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0hzmsbn5h50x7iyz1h5svbr68hppyicy-sqlite-3.51.2-bin/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0hzmsbn5h50x7iyz1h5svbr68hppyicy-sqlite-3.51.2-bin/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/dv84ssvw208w1h2qmak900apymwggm5f-sqlite-3.51.2/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/dv84ssvw208w1h2qmak900apymwggm5f-sqlite-3.51.2/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/bz306s1jhh54lrrx5dpj18g2jn3lxcxd-vulkan-loader-1.4.341.0-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/bz306s1jhh54lrrx5dpj18g2jn3lxcxd-vulkan-loader-1.4.341.0-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/7fsbspv9qdf8ci9rkqyhnpxsc8c7qj48-vulkan-loader-1.4.341.0/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/7fsbspv9qdf8ci9rkqyhnpxsc8c7qj48-vulkan-loader-1.4.341.0/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/2qvv3xdpnpfhzjf69lnjds95qjdwmnd7-graphite2-1.3.14/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/2qvv3xdpnpfhzjf69lnjds95qjdwmnd7-graphite2-1.3.14/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/qlnyhi8j8p0ks4hd8dlaxbjzx03mrq2n-harfbuzz-13.2.1/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/qlnyhi8j8p0ks4hd8dlaxbjzx03mrq2n-harfbuzz-13.2.1/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0qs8qciszgr7zzdq3zvanxcax1ml5qd0-icu4c-76.1/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0qs8qciszgr7zzdq3zvanxcax1ml5qd0-icu4c-76.1/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/2g9rnpa6zwbdakyir4q6dymmh3yy9cq5-libjpeg-turbo-3.1.4-bin/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/2g9rnpa6zwbdakyir4q6dymmh3yy9cq5-libjpeg-turbo-3.1.4-bin/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/w2p4mqmibyga0ky3vc3gnc3cx8h1z71b-libjpeg-turbo-3.1.4/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/w2p4mqmibyga0ky3vc3gnc3cx8h1z71b-libjpeg-turbo-3.1.4/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/v3ikgn81d6y9rfbwh7d8zrhiydqzwcr1-libpng-apng-1.6.56/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/v3ikgn81d6y9rfbwh7d8zrhiydqzwcr1-libpng-apng-1.6.56/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/3ibiw5pwyh077w9kk52gzw2vq04qicnx-pcre2-10.46-bin/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/3ibiw5pwyh077w9kk52gzw2vq04qicnx-pcre2-10.46-bin/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/w80mvsvnh5i0c0kaj021fkip8jwxx59x-pcre2-10.46/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/w80mvsvnh5i0c0kaj021fkip8jwxx59x-pcre2-10.46/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/lj773k1dkd7rrnrf0f05v43kwwbzlv4j-zstd-1.5.7-bin/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/lj773k1dkd7rrnrf0f05v43kwwbzlv4j-zstd-1.5.7-bin/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ym2h5axmyxqkwmrrrz570gmkbmdlwvbv-zstd-1.5.7/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ym2h5axmyxqkwmrrrz570gmkbmdlwvbv-zstd-1.5.7/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/vrqsgwdqs11kvgisd9fayzwggprflnrn-md4c-0.5.2-lib/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/vrqsgwdqs11kvgisd9fayzwggprflnrn-md4c-0.5.2-lib/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/wnify8p2r28f4mqy3h5p5fqrs56q2pfy-md4c-0.5.2/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/wnify8p2r28f4mqy3h5p5fqrs56q2pfy-md4c-0.5.2/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/37amf2x51b2zzg08bzn49xva9kqli6zc-double-conversion-3.3.1/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/37amf2x51b2zzg08bzn49xva9kqli6zc-double-conversion-3.3.1/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/fljz5zip8yz47psa37rvlbrhswyfkfdz-libproxy-0.5.12/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/fljz5zip8yz47psa37rvlbrhswyfkfdz-libproxy-0.5.12/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0nvjznq3lwj4khjlmx8viflkdvwvjdjw-dbus-1.16.2-lib/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0nvjznq3lwj4khjlmx8viflkdvwvjdjw-dbus-1.16.2-lib/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/y8m21z94jf2m7fhwq7cgmj4i3pqxrdj4-dbus-1.16.2/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/y8m21z94jf2m7fhwq7cgmj4i3pqxrdj4-dbus-1.16.2/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/f0afx0r5bzvk3gdf8bdh4fssl0p75m1k-libffi-40/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/f0afx0r5bzvk3gdf8bdh4fssl0p75m1k-libffi-40/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/bn5al38x9rlkkzk9g3qgcc5bywfdrjvv-glib-2.88.1-bin/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/bn5al38x9rlkkzk9g3qgcc5bywfdrjvv-glib-2.88.1-bin/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ffz616wjbidqjfx5azbslfapzj8f0hc7-glib-2.88.1/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ffz616wjbidqjfx5azbslfapzj8f0hc7-glib-2.88.1/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/k6fkbw3m9bdi3pygdn9wwsyv9xn4r0n7-psqlodbc-18.00.0001/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/k6fkbw3m9bdi3pygdn9wwsyv9xn4r0n7-psqlodbc-18.00.0001/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/9p7m9cyy0dpcd76vz1cbicjbi26gldgr-sqlite-connector-odbc-0.99991/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/9p7m9cyy0dpcd76vz1cbicjbi26gldgr-sqlite-connector-odbc-0.99991/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/vbfjrppkj89nzlb861xsr5k5zfsq60xp-gmp-with-cxx-6.3.0/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/vbfjrppkj89nzlb861xsr5k5zfsq60xp-gmp-with-cxx-6.3.0/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/zwwrvpr9yd797f7ldgz2mimi4d52qym5-cups-2.4.19-lib/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/zwwrvpr9yd797f7ldgz2mimi4d52qym5-cups-2.4.19-lib/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/l4yk0fynzxkd1mxpq0kmky0a96safhlk-cups-2.4.19/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/l4yk0fynzxkd1mxpq0kmky0a96safhlk-cups-2.4.19/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/Qt6WidgetsToolsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/qt6widgetstools-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfig.cmake"
+      mode: "config"
+      version: "6.11.0"
+    search_context:
+      ENV{PATH}:
+        - "/nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2/bin"
+        - "/nix/store/bqykhrblarkj4fl0hz2mf8ngwfv6x6bz-ninja-1.13.2/bin"
+        - "/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/bin"
+        - "/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/bin"
+        - "/nix/store/v6v41dzykxhzqd25rg1zigrx4jjvcvpv-libxml2-2.15.2-bin/bin"
+        - "/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/bin"
+        - "/nix/store/hbxgbd098bpn8k960jr16wv5g9649i68-libxslt-1.1.45-bin/bin"
+        - "/nix/store/r51ad62j4z7xzqa2svcb6d1b443kphzr-openssl-3.6.2-bin/bin"
+        - "/nix/store/0hzmsbn5h50x7iyz1h5svbr68hppyicy-sqlite-3.51.2-bin/bin"
+        - "/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/bin"
+        - "/nix/store/2qvv3xdpnpfhzjf69lnjds95qjdwmnd7-graphite2-1.3.14/bin"
+        - "/nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev/bin"
+        - "/nix/store/2g9rnpa6zwbdakyir4q6dymmh3yy9cq5-libjpeg-turbo-3.1.4-bin/bin"
+        - "/nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev/bin"
+        - "/nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev/bin"
+        - "/nix/store/3ibiw5pwyh077w9kk52gzw2vq04qicnx-pcre2-10.46-bin/bin"
+        - "/nix/store/lj773k1dkd7rrnrf0f05v43kwwbzlv4j-zstd-1.5.7-bin/bin"
+        - "/nix/store/ym2h5axmyxqkwmrrrz570gmkbmdlwvbv-zstd-1.5.7/bin"
+        - "/nix/store/wnify8p2r28f4mqy3h5p5fqrs56q2pfy-md4c-0.5.2/bin"
+        - "/nix/store/fljz5zip8yz47psa37rvlbrhswyfkfdz-libproxy-0.5.12/bin"
+        - "/nix/store/0nvjznq3lwj4khjlmx8viflkdvwvjdjw-dbus-1.16.2-lib/bin"
+        - "/nix/store/y8m21z94jf2m7fhwq7cgmj4i3pqxrdj4-dbus-1.16.2/bin"
+        - "/nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev/bin"
+        - "/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/bin"
+        - "/nix/store/bn5al38x9rlkkzk9g3qgcc5bywfdrjvv-glib-2.88.1-bin/bin"
+        - "/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/bin"
+        - "/nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev/bin"
+        - "/nix/store/l4yk0fynzxkd1mxpq0kmky0a96safhlk-cups-2.4.19/bin"
+        - "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/bin"
+        - "/nix/store/8267km6x09vmsa90vaan76fadwq8007p-qtshadertools-6.11.0/bin"
+        - "/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/bin"
+        - "/nix/store/l32bv33wqwkj2l1y8dp5x6h9r3q9im77-clang-wrapper-21.1.8/bin"
+        - "/nix/store/cbsa0j0sqa44ls1wr2bgvbcx87k50j8h-clang-21.1.8/bin"
+        - "/nix/store/y0ha8v4gh5vnwwmp2r0msfbdlvgwv2np-coreutils-9.11/bin"
+        - "/nix/store/apfz522rdhd9ik8chych1128l3b4qqm6-cctools-binutils-darwin-wrapper-1010.6/bin"
+        - "/nix/store/z61v8rpy6ammvikrpcihn3ij8rrqk0bz-cctools-binutils-darwin-1010.6/bin"
+        - "/nix/store/3kxj3awllmqgh4fl2rvpx142wm9h8xvm-xcbuild-0.1.1-unstable-2019-11-20-xcrun/bin"
+        - "/nix/store/y0ha8v4gh5vnwwmp2r0msfbdlvgwv2np-coreutils-9.11/bin"
+        - "/nix/store/3wz2j41nnr1badij6fcnip5vgrfpdd82-findutils-4.10.0/bin"
+        - "/nix/store/37rdk8zsdbqcp73l3nrmwilwb2ixkacv-diffutils-3.12/bin"
+        - "/nix/store/v1lxnb2804dgaf9sf60y6najgjs3wjsi-gnused-4.9/bin"
+        - "/nix/store/209wkryzwczs2nlvwfzkwf4fm8mpr922-gnugrep-3.12/bin"
+        - "/nix/store/af7n5cc4bzd9c6mwsgh7sfmcbasjr5kd-gawk-5.4.0/bin"
+        - "/nix/store/3aikbnf5fq99gvw1wb242wrjnbj7fcr9-gnutar-1.35/bin"
+        - "/nix/store/b7rf7jfkadwjajzfb5430l5k60gwfqa8-gzip-1.14/bin"
+        - "/nix/store/a6r9ryv9pqcvwv8ffmzi4ichd5br0vl6-bzip2-1.0.8-bin/bin"
+        - "/nix/store/8wwiw8pwyhrkzyq28hqzxfl4z84lks81-gnumake-4.4.1/bin"
+        - "/nix/store/55976waa157aqb1ncbwm6b8sa64b6m3h-bash-5.3p9/bin"
+        - "/nix/store/zn3jzk0zwhml7pgx8slyiwmk5zv0ylmh-patch-2.8/bin"
+        - "/nix/store/h7484di7imn15ihxmhzqrzbaszcaxyhw-xz-5.8.3-bin/bin"
+        - "/nix/store/dax63li7wwcbqxxkkgzc4g2rx7d4w86x-file-5.47/bin"
+        - "/opt/homebrew/Cellar/qt@5/5.15.13_1/bin"
+        - "/opt/homebrew/opt/go@1.21/bin"
+        - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
+        - "/usr/local/bin"
+        - "/System/Cryptexes/App/usr/bin"
+        - "/usr/bin"
+        - "/bin"
+        - "/usr/sbin"
+        - "/sbin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
+        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
+        - "/Library/Apple/usr/bin"
+        - "/usr/local/MacGPG2/bin"
+        - "/usr/local/go/bin"
+        - "/Users/arseniy/Library/pnpm"
+        - "/Users/arseniy/.deno/bin"
+        - "/Users/arseniy/.local/bin"
+        - "/Applications/love.app/Contents/MacOS/love.app/Contents/MacOS"
+        - "/Users/arseniy/bin"
+        - "/Users/arseniy/.bun/bin"
+        - "/opt/homebrew/Cellar/qt@5/5.15.13/bin"
+        - "/opt/homebrew/opt/go@1.21/bin"
+        - "/Users/arseniy/.nix-profile/bin"
+        - "/nix/var/nix/profiles/default/bin"
+        - "/opt/homebrew/Cellar/qt@5/5.15.13_1/bin"
+        - "/Users/arseniy/.cargo/bin"
+        - "/Applications/Ghostty.app/Contents/MacOS"
+        - "/Users/arseniy/.foundry/bin"
+        - "/Users/arseniy/.radicle/bin"
+        - "/Users/arseniy/go/bin"
+        - "/Users/arseniy/.risc0/bin"
+        - "/Users/arseniy/go/bin"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr"
+        - "/nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2"
+        - "/usr/local"
+      CMAKE_SYSTEM_FRAMEWORK_PATH:
+        - "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks"
+        - "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Network/Library/Frameworks"
+        - "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks"
+        - "/nix/store/0p9q77zfnr32pmql2j2qb1had4wkq06m-apple-sdk-14.4/Platforms/MacOSX.platform/Developer/Library/Frameworks"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6/Qt6Config.cmake:246 (find_package)"
+      - "CMakeLists.txt:11 (find_package)"
+    name: "Qt6Widgets"
+    configs:
+      -
+        filename: "Qt6WidgetsConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "qt6widgets-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "optional"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "Qt6Widgets"
+      search_paths:
+        - "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake"
+        - "/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/lib/cmake"
+        - "/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/lib/cmake"
+        - "/nix/store/bz306s1jhh54lrrx5dpj18g2jn3lxcxd-vulkan-loader-1.4.341.0-dev/lib/cmake"
+        - "/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/lib/cmake"
+        - "/nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev/lib/cmake"
+        - "/nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev/lib/cmake"
+        - "/nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev/lib/cmake"
+        - "/nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev/lib/cmake"
+        - "/nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev/lib/cmake"
+        - "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake"
+        - "/nix/store/9kid4xb9a2vw60hz0y3y2zp1jdp1fh55-qtlanguageserver-6.11.0/lib/cmake"
+        - "/nix/store/8267km6x09vmsa90vaan76fadwq8007p-qtshadertools-6.11.0/lib/cmake"
+        - "/nix/store/5dxvpdls3qjrxwsnkw91wr8p4xlqgqis-qtsvg-6.11.0/lib/cmake"
+        - "/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/lib/cmake"
+        - "/nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0/lib/cmake"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/pkgRedirects/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/CMakeFiles/pkgRedirects/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/gvabsb4yqb5xsqzqph54rijnn4zpihnp-cmake-4.1.2/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/bqykhrblarkj4fl0hz2mf8ngwfv6x6bz-ninja-1.13.2/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/bqykhrblarkj4fl0hz2mf8ngwfv6x6bz-ninja-1.13.2/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ki4sda2kcivjsg8zhni1znc4sk900d5s-qtbase-6.11.0-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ki4sda2kcivjsg8zhni1znc4sk900d5s-qtbase-6.11.0-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/vz3g2lkiyjwpj0xw9sm3qq5lxwqr24xq-libxml2-2.15.2-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/1w6c4g5dfb6gm4ap4wws5yhvvimln6y1-find-xml-catalogs-hook/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/1w6c4g5dfb6gm4ap4wws5yhvvimln6y1-find-xml-catalogs-hook/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/zy85gk6dd29slqgs1i7xclvkgvhydgxg-libiconv-113-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/wjb6smwmv8cynnr776j01kjjzdks1863-libiconv-113/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/v6v41dzykxhzqd25rg1zigrx4jjvcvpv-libxml2-2.15.2-bin/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/v6v41dzykxhzqd25rg1zigrx4jjvcvpv-libxml2-2.15.2-bin/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/006xa3d3jpk1zfgra659c03ycf2mjgvf-libxml2-2.15.2/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/006xa3d3jpk1zfgra659c03ycf2mjgvf-libxml2-2.15.2/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/dnyd1wpjid0mgrh086hqb4swc39s6cm2-libxslt-1.1.45-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/38iflsm1a0yl4siqw7b1s01cvzpjdn5x-find-xml-catalogs-hook/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/38iflsm1a0yl4siqw7b1s01cvzpjdn5x-find-xml-catalogs-hook/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hbxgbd098bpn8k960jr16wv5g9649i68-libxslt-1.1.45-bin/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hbxgbd098bpn8k960jr16wv5g9649i68-libxslt-1.1.45-bin/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/qmka3x5p55qqp139wp528a8q42sma87m-libxslt-1.1.45/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/qmka3x5p55qqp139wp528a8q42sma87m-libxslt-1.1.45/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/8g69q86jfk5rpa34gny4rh057h5yb1nw-openssl-3.6.2-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/r51ad62j4z7xzqa2svcb6d1b443kphzr-openssl-3.6.2-bin/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/r51ad62j4z7xzqa2svcb6d1b443kphzr-openssl-3.6.2-bin/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/a3hhkd5vzw97issax60xx47qfnkl6ddf-openssl-3.6.2/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/a3hhkd5vzw97issax60xx47qfnkl6ddf-openssl-3.6.2/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hkyi5gi52z06hyfpcr73pc0wxdm2hx22-sqlite-3.51.2-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0hzmsbn5h50x7iyz1h5svbr68hppyicy-sqlite-3.51.2-bin/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0hzmsbn5h50x7iyz1h5svbr68hppyicy-sqlite-3.51.2-bin/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/dv84ssvw208w1h2qmak900apymwggm5f-sqlite-3.51.2/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/dv84ssvw208w1h2qmak900apymwggm5f-sqlite-3.51.2/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/qa3fdfbs0ypr76higqa87rc169fnq2gx-zlib-1.3.2-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/7fd0wqc1740i2aarz17d32q27df3kzz4-zlib-1.3.2/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/xr71hjxjz6ws2dwd8b1n5lqs3755sbva-vulkan-headers-1.4.341.0/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/bz306s1jhh54lrrx5dpj18g2jn3lxcxd-vulkan-loader-1.4.341.0-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/bz306s1jhh54lrrx5dpj18g2jn3lxcxd-vulkan-loader-1.4.341.0-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/7fsbspv9qdf8ci9rkqyhnpxsc8c7qj48-vulkan-loader-1.4.341.0/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/7fsbspv9qdf8ci9rkqyhnpxsc8c7qj48-vulkan-loader-1.4.341.0/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/i3hsha2findbrbvyx8hl50iwvj5r4vcp-harfbuzz-13.2.1-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/p9f8v9jg8k55xsh6nhdahrhgpaddpb9y-graphite2-1.3.14-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/2qvv3xdpnpfhzjf69lnjds95qjdwmnd7-graphite2-1.3.14/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/2qvv3xdpnpfhzjf69lnjds95qjdwmnd7-graphite2-1.3.14/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/qlnyhi8j8p0ks4hd8dlaxbjzx03mrq2n-harfbuzz-13.2.1/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/qlnyhi8j8p0ks4hd8dlaxbjzx03mrq2n-harfbuzz-13.2.1/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/a8dnk8virxxrrpzw5wdx69jqf1cvs97f-icu4c-76.1-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0qs8qciszgr7zzdq3zvanxcax1ml5qd0-icu4c-76.1/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0qs8qciszgr7zzdq3zvanxcax1ml5qd0-icu4c-76.1/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0a7s99l4wvk54r4fr1fglcb3qdg4nd4s-libjpeg-turbo-3.1.4-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/2g9rnpa6zwbdakyir4q6dymmh3yy9cq5-libjpeg-turbo-3.1.4-bin/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/2g9rnpa6zwbdakyir4q6dymmh3yy9cq5-libjpeg-turbo-3.1.4-bin/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/w2p4mqmibyga0ky3vc3gnc3cx8h1z71b-libjpeg-turbo-3.1.4/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/w2p4mqmibyga0ky3vc3gnc3cx8h1z71b-libjpeg-turbo-3.1.4/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/sldd0cg3kzn33r0n3apl4ia03b3a1f1w-libpng-apng-1.6.56-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/v3ikgn81d6y9rfbwh7d8zrhiydqzwcr1-libpng-apng-1.6.56/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/v3ikgn81d6y9rfbwh7d8zrhiydqzwcr1-libpng-apng-1.6.56/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ncf4wav0rymr01cxhdlg9c5w46zxdk5b-pcre2-10.46-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/3ibiw5pwyh077w9kk52gzw2vq04qicnx-pcre2-10.46-bin/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/3ibiw5pwyh077w9kk52gzw2vq04qicnx-pcre2-10.46-bin/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/w80mvsvnh5i0c0kaj021fkip8jwxx59x-pcre2-10.46/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/w80mvsvnh5i0c0kaj021fkip8jwxx59x-pcre2-10.46/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/jg2ki5fvwby45jdv5qmwmn6808gfvvks-zstd-1.5.7-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/lj773k1dkd7rrnrf0f05v43kwwbzlv4j-zstd-1.5.7-bin/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/lj773k1dkd7rrnrf0f05v43kwwbzlv4j-zstd-1.5.7-bin/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ym2h5axmyxqkwmrrrz570gmkbmdlwvbv-zstd-1.5.7/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ym2h5axmyxqkwmrrrz570gmkbmdlwvbv-zstd-1.5.7/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/cnnmvi2n1wy3rd0dni7vxywcc6dgyzz4-libb2-0.98.1/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hd5xmn13ngvd310v5ilddjxc2f3q34p5-md4c-0.5.2-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/vrqsgwdqs11kvgisd9fayzwggprflnrn-md4c-0.5.2-lib/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/vrqsgwdqs11kvgisd9fayzwggprflnrn-md4c-0.5.2-lib/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/wnify8p2r28f4mqy3h5p5fqrs56q2pfy-md4c-0.5.2/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/wnify8p2r28f4mqy3h5p5fqrs56q2pfy-md4c-0.5.2/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0kg39naxfnj9jm6b2ldl1gzjhihi7n9r-double-conversion-3.3.1-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/37amf2x51b2zzg08bzn49xva9kqli6zc-double-conversion-3.3.1/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/37amf2x51b2zzg08bzn49xva9kqli6zc-double-conversion-3.3.1/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/3xmddmdab006hnj0hpcw5y6r3dgbpaa9-libproxy-0.5.12-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/fljz5zip8yz47psa37rvlbrhswyfkfdz-libproxy-0.5.12/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/fljz5zip8yz47psa37rvlbrhswyfkfdz-libproxy-0.5.12/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/zrmh3gp3k26jzwmqhf1ppzk67ingala6-dbus-1.16.2-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0nvjznq3lwj4khjlmx8viflkdvwvjdjw-dbus-1.16.2-lib/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0nvjznq3lwj4khjlmx8viflkdvwvjdjw-dbus-1.16.2-lib/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/y8m21z94jf2m7fhwq7cgmj4i3pqxrdj4-dbus-1.16.2/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/y8m21z94jf2m7fhwq7cgmj4i3pqxrdj4-dbus-1.16.2/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/285c41x52g9p1bc6sljq0vhk4hr5ill8-glib-2.88.1-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/w7dzmiqzvyi34aw6xxpa4jbwpgni41h7-libffi-40-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/f0afx0r5bzvk3gdf8bdh4fssl0p75m1k-libffi-40/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/f0afx0r5bzvk3gdf8bdh4fssl0p75m1k-libffi-40/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/i5aw4v15lklq5r5w5clvcy8dxc2igjck-gettext-1.0/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/bn5al38x9rlkkzk9g3qgcc5bywfdrjvv-glib-2.88.1-bin/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/bn5al38x9rlkkzk9g3qgcc5bywfdrjvv-glib-2.88.1-bin/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ffz616wjbidqjfx5azbslfapzj8f0hc7-glib-2.88.1/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/ffz616wjbidqjfx5azbslfapzj8f0hc7-glib-2.88.1/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/gilbwbx8lzk7c920kai68v79d6p8klxh-unixodbc-2.3.14/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/k6fkbw3m9bdi3pygdn9wwsyv9xn4r0n7-psqlodbc-18.00.0001/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/k6fkbw3m9bdi3pygdn9wwsyv9xn4r0n7-psqlodbc-18.00.0001/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/9p7m9cyy0dpcd76vz1cbicjbi26gldgr-sqlite-connector-odbc-0.99991/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/9p7m9cyy0dpcd76vz1cbicjbi26gldgr-sqlite-connector-odbc-0.99991/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/cz6gxd2ipmb2h38k560qwpqbs4nzibix-mariadb-connector-odbc-3.2.6/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/0jzwgnhzgnpgjjphfbi4jbcca7wyla21-cups-2.4.19-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/j5djc8kipzj2ycdm9lmad61ngbxccb1j-gmp-with-cxx-6.3.0-dev/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/vbfjrppkj89nzlb861xsr5k5zfsq60xp-gmp-with-cxx-6.3.0/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/vbfjrppkj89nzlb861xsr5k5zfsq60xp-gmp-with-cxx-6.3.0/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/zwwrvpr9yd797f7ldgz2mimi4d52qym5-cups-2.4.19-lib/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/zwwrvpr9yd797f7ldgz2mimi4d52qym5-cups-2.4.19-lib/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/l4yk0fynzxkd1mxpq0kmky0a96safhlk-cups-2.4.19/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/l4yk0fynzxkd1mxpq0kmky0a96safhlk-cups-2.4.19/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6WidgetsPrivate/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6WidgetsPrivate/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6WidgetsTools/Qt6WidgetsConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6WidgetsTools/qt6widgets-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6Widgets/Qt6WidgetsConfig.cmake"
       mode: "config"
       version: "6.11.0"
     search_context:
@@ -24262,6 +25696,10 @@ events:
         required: true
         found: false
       -
+        name: "Widgets"
+        required: true
+        found: false
+      -
         name: "Qml"
         required: true
         found: false
@@ -25127,7 +26565,7 @@ events:
       - "/nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0/lib/cmake/Qt6RemoteObjects/Qt6RemoteObjectsDependencies.cmake:41 (_qt_internal_find_tool_dependencies)"
       - "/nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0/lib/cmake/Qt6RemoteObjects/Qt6RemoteObjectsConfig.cmake:40 (include)"
       - "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6/Qt6Config.cmake:246 (find_package)"
-      - "CMakeLists.txt:56 (find_package)"
+      - "CMakeLists.txt:59 (find_package)"
     name: "Qt6RemoteObjectsTools"
     configs:
       -
@@ -25916,7 +27354,7 @@ events:
     kind: "find_package-v1"
     backtrace:
       - "/nix/store/hf3xciirv7m7j08jbxsbi0ayrarfvy1y-qtbase-6.11.0/lib/cmake/Qt6/Qt6Config.cmake:246 (find_package)"
-      - "CMakeLists.txt:56 (find_package)"
+      - "CMakeLists.txt:59 (find_package)"
     name: "Qt6RemoteObjects"
     configs:
       -
