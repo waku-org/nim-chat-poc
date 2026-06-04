@@ -1,0 +1,17 @@
+-rootPath
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor
+-cmake-output
+-output-file
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/.qt/qml_imports/sim-monitor_conf.cmake
+-importPath
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build
+-importPath
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/SimMonitor
+-importPath
+/nix/store/q630n6yn0sd00hmk3yxbdfh47yrp5vir-qtdeclarative-6.11.0/lib/qt-6/qml
+-importPath
+/nix/store/vaznnkzhh9gyb7qjr2aiv858g9pbfm9n-qtremoteobjects-6.11.0/lib/qt-6/qml
+-qrcFiles
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/.qt/rcc/qmake_SimMonitor.qrc
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/.qt/rcc/qmake_SimMonitor_copy.qrc
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/.qt/rcc/sim-monitor_raw_qml_0.qrc

@@ -1,0 +1,7 @@
+--resource
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/.qt/rcc/qmake_SimMonitor.qrc
+--resource
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/.qt/rcc/qmake_SimMonitor_copy.qrc
+--resource
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/.qt/rcc/sim-monitor_raw_qml_0.qrc
+/src/qml/MonitorView.qml

@@ -1,0 +1,6 @@
+module SimMonitor
+typeinfo sim-monitor.qmltypes
+prefer :/
+MonitorView 1.0 src/qml/MonitorView.qml
+depends QtQuick
+

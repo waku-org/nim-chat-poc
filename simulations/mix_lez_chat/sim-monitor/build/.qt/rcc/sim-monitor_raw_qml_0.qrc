@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="src/qml/MonitorView.qml">/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/src/qml/MonitorView.qml</file>
+  </qresource>
+</RCC>
+

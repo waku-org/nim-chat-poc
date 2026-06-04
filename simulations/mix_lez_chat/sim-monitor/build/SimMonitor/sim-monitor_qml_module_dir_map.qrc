@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="/">/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/SimMonitor</file>
+
+  </qresource>
+</RCC>

@@ -25,9 +25,13 @@ ChatHost::~ChatHost() {
 
 bool ChatHost::loadModules(const QString& modulesDir, const QString& dataDir) {
 #ifdef ENABLE_HOST_MODE
+    qDebug() << "ChatHost: add_modules_dir" << modulesDir;
     logos_core_add_modules_dir(modulesDir.toUtf8().constData());
+    qDebug() << "ChatHost: set_persistence_base_path" << dataDir;
     logos_core_set_persistence_base_path(dataDir.toUtf8().constData());
+    qDebug() << "ChatHost: calling logos_core_start()...";
     logos_core_start();
+    qDebug() << "ChatHost: logos_core_start() returned";
 
     const char* modules[] = {
         "capability_module",
@@ -37,14 +41,15 @@ bool ChatHost::loadModules(const QString& modulesDir, const QString& dataDir) {
     };
 
     for (const char* mod : modules) {
-        emit logLine(QStringLiteral("Loading module: %1").arg(QString::fromUtf8(mod)));
-        int rc = logos_core_load_module_with_dependencies(mod);
+        qDebug() << "ChatHost: loading" << mod;
+        logos_core_process_events();
+        int rc = logos_core_load_module(mod);
+        qDebug() << "ChatHost: load_module" << mod << "rc=" << rc;
         if (rc != 1) {
-            emit logLine(QStringLiteral("ERROR: Failed to load module: %1 (rc=%2)")
-                .arg(QString::fromUtf8(mod)).arg(rc));
+            qDebug() << "ChatHost: FAILED to load" << mod << "rc=" << rc;
             return false;
         }
-        emit logLine(QStringLiteral("Loaded: %1").arg(QString::fromUtf8(mod)));
+        logos_core_process_events();
     }
 
     m_modulesLoaded = true;

@@ -1,0 +1,49 @@
+{
+    "classes": [
+        {
+            "className": "LogTailer",
+            "lineNumber": 7,
+            "object": true,
+            "qualifiedClassName": "LogTailer",
+            "signals": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "line",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 0,
+                    "lineNumber": 16,
+                    "name": "newLine",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 1,
+                    "lineNumber": 17,
+                    "name": "fileReset",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "private",
+                    "index": 2,
+                    "lineNumber": 20,
+                    "name": "poll",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "LogTailer.h",
+    "outputRevision": 69
+}

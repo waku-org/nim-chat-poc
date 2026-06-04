@@ -3,6 +3,8 @@
 #include <QQmlContext>
 #include <QCommandLineParser>
 #include <QDir>
+#include <QTimer>
+#include <QThread>
 #include "MonitorBackend.h"
 
 #ifdef ENABLE_HOST_MODE
@@ -37,20 +39,6 @@ int main(int argc, char* argv[]) {
 
     if (hostMode) {
         chatHost = new ChatHost(&backend);
-
-        QString userDir = qEnvironmentVariable("LOGOS_USER_DIR");
-        if (userDir.isEmpty()) {
-            qWarning() << "LOGOS_USER_DIR not set — chat host mode needs staged modules";
-        } else {
-            QString modulesDir = QDir(userDir).filePath("modules");
-            QString dataDir = QDir(userDir).filePath("module_data");
-            QDir().mkpath(dataDir);
-
-            if (!chatHost->loadModules(modulesDir, dataDir)) {
-                qWarning() << "Failed to load chat modules — host mode disabled";
-                hostMode = false;
-            }
-        }
     }
 #endif
 
@@ -76,6 +64,27 @@ int main(int argc, char* argv[]) {
     QString rpcUrl = parser.value("rpc-url");
     if (rpcUrl.isEmpty()) rpcUrl = qEnvironmentVariable("SIM_SEQ_RPC");
     if (!rpcUrl.isEmpty()) backend.setRpcUrl(rpcUrl);
+
+#ifdef ENABLE_HOST_MODE
+    if (hostMode && chatHost) {
+        // logos_core_start() blocks on QtRO registry setup. It must run on a
+        // worker thread so the main event loop can process QtRO connections.
+        QString userDir = qEnvironmentVariable("LOGOS_USER_DIR");
+        if (!userDir.isEmpty()) {
+            QString modulesDir = QDir(userDir).filePath("modules");
+            QString dataDir = QDir(userDir).filePath("module_data");
+            QDir().mkpath(dataDir);
+            auto* loadThread = QThread::create([chatHost, modulesDir, dataDir]() {
+                qDebug() << "ChatHost: loading modules on worker thread...";
+                chatHost->loadModules(modulesDir, dataDir);
+            });
+            QObject::connect(loadThread, &QThread::finished, loadThread, &QThread::deleteLater);
+            loadThread->start();
+        } else {
+            qWarning() << "LOGOS_USER_DIR not set — chat host mode needs staged modules";
+        }
+    }
+#endif
 
     qDebug() << "Starting event loop...";
     int rc = app.exec();

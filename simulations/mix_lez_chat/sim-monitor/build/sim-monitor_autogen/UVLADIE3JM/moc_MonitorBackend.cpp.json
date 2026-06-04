@@ -1,0 +1,623 @@
+{
+    "classes": [
+        {
+            "className": "MonitorBackend",
+            "lineNumber": 11,
+            "methods": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "replay",
+                            "type": "bool"
+                        }
+                    ],
+                    "index": 5,
+                    "lineNumber": 51,
+                    "name": "setStateDir",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 6,
+                    "isCloned": true,
+                    "lineNumber": 51,
+                    "name": "setStateDir",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "url",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 7,
+                    "lineNumber": 52,
+                    "name": "setRpcUrl",
+                    "returnType": "void"
+                }
+            ],
+            "object": true,
+            "properties": [
+                {
+                    "constant": true,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "lineNumber": 14,
+                    "name": "stateDir",
+                    "override": false,
+                    "read": "stateDir",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 1,
+                    "lineNumber": 15,
+                    "name": "blockId",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "blockId",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 2,
+                    "lineNumber": 16,
+                    "name": "blockAgeSecs",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "blockAgeSecs",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 3,
+                    "lineNumber": 17,
+                    "name": "txValidated",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "txValidated",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 4,
+                    "lineNumber": 18,
+                    "name": "txFailed",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "txFailed",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 5,
+                    "lineNumber": 19,
+                    "name": "rpcBlockId",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "rpcBlockId",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 6,
+                    "lineNumber": 20,
+                    "name": "rpcReachable",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "rpcReachable",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 7,
+                    "lineNumber": 22,
+                    "name": "mixNodeStates",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "mixNodeStates",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 8,
+                    "lineNumber": 24,
+                    "name": "gifterMounted",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "gifterMounted",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 9,
+                    "lineNumber": 25,
+                    "name": "gifterQueueDepth",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "gifterQueueDepth",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 10,
+                    "lineNumber": 26,
+                    "name": "gifterStatus",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "gifterStatus",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 11,
+                    "lineNumber": 28,
+                    "name": "senderPhase",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "senderPhase",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 12,
+                    "lineNumber": 29,
+                    "name": "senderOptLeaf",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "senderOptLeaf",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 13,
+                    "lineNumber": 30,
+                    "name": "senderAuthLeaf",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "senderAuthLeaf",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 14,
+                    "lineNumber": 31,
+                    "name": "senderLeafCorrected",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "senderLeafCorrected",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 15,
+                    "lineNumber": 32,
+                    "name": "senderPeers",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "senderPeers",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 16,
+                    "lineNumber": 33,
+                    "name": "senderMixReady",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "senderMixReady",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 17,
+                    "lineNumber": 34,
+                    "name": "senderMixPool",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "senderMixPool",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 18,
+                    "lineNumber": 35,
+                    "name": "senderMsgOut",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "senderMsgOut",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 19,
+                    "lineNumber": 36,
+                    "name": "senderMsgIn",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "senderMsgIn",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 20,
+                    "lineNumber": 38,
+                    "name": "receiverPhase",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "receiverPhase",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 21,
+                    "lineNumber": 39,
+                    "name": "receiverOptLeaf",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "receiverOptLeaf",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 22,
+                    "lineNumber": 40,
+                    "name": "receiverAuthLeaf",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "receiverAuthLeaf",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 23,
+                    "lineNumber": 41,
+                    "name": "receiverLeafCorrected",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "receiverLeafCorrected",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 24,
+                    "lineNumber": 42,
+                    "name": "receiverPeers",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "receiverPeers",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 25,
+                    "lineNumber": 43,
+                    "name": "receiverMixReady",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "receiverMixReady",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 26,
+                    "lineNumber": 44,
+                    "name": "receiverMixPool",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "receiverMixPool",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 27,
+                    "lineNumber": 45,
+                    "name": "receiverMsgOut",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "receiverMsgOut",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 28,
+                    "lineNumber": 46,
+                    "name": "receiverMsgIn",
+                    "notify": "stateChanged",
+                    "override": false,
+                    "read": "receiverMsgIn",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                }
+            ],
+            "qualifiedClassName": "MonitorBackend",
+            "signals": [
+                {
+                    "access": "public",
+                    "index": 0,
+                    "lineNumber": 90,
+                    "name": "stateChanged",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "private",
+                    "arguments": [
+                        {
+                            "name": "line",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 1,
+                    "lineNumber": 93,
+                    "name": "onSequencerLine",
+                    "returnType": "void"
+                },
+                {
+                    "access": "private",
+                    "arguments": [
+                        {
+                            "name": "idx",
+                            "type": "int"
+                        },
+                        {
+                            "name": "line",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 2,
+                    "lineNumber": 94,
+                    "name": "onNodeLine",
+                    "returnType": "void"
+                },
+                {
+                    "access": "private",
+                    "arguments": [
+                        {
+                            "name": "isSender",
+                            "type": "bool"
+                        },
+                        {
+                            "name": "line",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 3,
+                    "lineNumber": 95,
+                    "name": "onChatLine",
+                    "returnType": "void"
+                },
+                {
+                    "access": "private",
+                    "index": 4,
+                    "lineNumber": 96,
+                    "name": "onBlockAgeTick",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "MonitorBackend.h",
+    "outputRevision": 69
+}

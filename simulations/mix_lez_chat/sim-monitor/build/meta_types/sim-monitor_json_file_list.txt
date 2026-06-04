@@ -1,0 +1,5 @@
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/sim-monitor_autogen/include/../UVLADIE3JM/moc_ChainEventModel.cpp.json
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/sim-monitor_autogen/include/../UVLADIE3JM/moc_ChatHost.cpp.json
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/sim-monitor_autogen/include/../UVLADIE3JM/moc_LogTailer.cpp.json
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/sim-monitor_autogen/include/../UVLADIE3JM/moc_MonitorBackend.cpp.json
+/Users/arseniy/Waku/Logos/logos-chat/simulations/mix_lez_chat/sim-monitor/build/sim-monitor_autogen/include/../UVLADIE3JM/moc_RpcClient.cpp.json

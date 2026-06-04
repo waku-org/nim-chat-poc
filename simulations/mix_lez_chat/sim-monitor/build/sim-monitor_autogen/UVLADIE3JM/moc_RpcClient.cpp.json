@@ -1,0 +1,49 @@
+{
+    "classes": [
+        {
+            "className": "RpcClient",
+            "lineNumber": 7,
+            "object": true,
+            "qualifiedClassName": "RpcClient",
+            "signals": [
+                {
+                    "access": "public",
+                    "index": 0,
+                    "lineNumber": 18,
+                    "name": "updated",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "private",
+                    "index": 1,
+                    "lineNumber": 21,
+                    "name": "poll",
+                    "returnType": "void"
+                },
+                {
+                    "access": "private",
+                    "arguments": [
+                        {
+                            "name": "reply",
+                            "type": "QNetworkReply*"
+                        }
+                    ],
+                    "index": 2,
+                    "lineNumber": 22,
+                    "name": "onReply",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "RpcClient.h",
+    "outputRevision": 69
+}
