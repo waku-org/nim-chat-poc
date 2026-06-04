@@ -302,72 +302,61 @@ ApplicationWindow {
                         text: "NET " + parent.parent.peers + " peers" + (parent.parent.mixRdy ? " · mix ✓ pool " + parent.parent.pool : "") }
 
                     Item { Layout.fillHeight: true }
-
-                    // MSG badges
-                    RowLayout {
-                        spacing: 12
-                        Repeater {
-                            model: [{ label: "MSG OUT", val: parent.parent.parent.parent.out_, c: root.accent },
-                                    { label: "MSG IN", val: parent.parent.parent.parent.in_, c: root.blue }]
-                            Row {
-                                spacing: 4
-                                Text { font.family: root.monoFont; font.pixelSize: 9; color: root.textSecond; text: modelData.label }
-                                Rectangle {
-                                    width: 32; height: 20; radius: 4
-                                    color: modelData.val > 0 ? modelData.c : root.bgPanel
-                                    border.color: modelData.val > 0 ? modelData.c : root.border
-                                    Text { anchors.centerIn: parent; font.family: root.monoFont; font.pixelSize: 12; font.bold: true
-                                        color: modelData.val > 0 ? "#000" : root.textTertiary; text: modelData.val }
-                                }
-                            }
-                        }
-                    }
                 }
             }
 
-            // ── Message flow arrows ──
+            // ── Message flow arrows (large, central) ──
             Item {
-                Layout.preferredWidth: 60
+                Layout.preferredWidth: 80
                 Layout.fillHeight: true
 
                 ColumnLayout {
                     anchors.centerIn: parent
-                    spacing: 8
+                    spacing: 4
 
-                    // Forward arrow (sender → receiver)
+                    // Sent count (large)
+                    Text {
+                        font.family: root.monoFont; font.pixelSize: 24; font.bold: true
+                        color: monitor.senderMsgOut > 0 ? root.accent : root.textTertiary
+                        text: monitor.senderMsgOut > 0 ? String(monitor.senderMsgOut) : "0"
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+                    Text {
+                        font.family: root.monoFont; font.pixelSize: 10; color: root.textSecond
+                        text: "SENT →"
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+
+                    // Separator
+                    Rectangle { width: 40; height: 1; color: root.border; Layout.alignment: Qt.AlignHCenter }
+
+                    // Received count (large)
+                    Text {
+                        font.family: root.monoFont; font.pixelSize: 24; font.bold: true
+                        color: monitor.receiverMsgIn > 0 ? root.accent : root.textTertiary
+                        text: monitor.receiverMsgIn > 0 ? String(monitor.receiverMsgIn) : "0"
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+                    Text {
+                        font.family: root.monoFont; font.pixelSize: 10; color: root.textSecond
+                        text: "← RECV"
+                        Layout.alignment: Qt.AlignHCenter
+                    }
+
+                    // Separator
+                    Rectangle { width: 40; height: 1; color: root.border; Layout.alignment: Qt.AlignHCenter }
+
+                    // Reply count
                     Text {
                         font.family: root.monoFont; font.pixelSize: 16; font.bold: true
-                        color: monitor.senderMsgOut > 0 ? root.accent : root.border
-                        text: "→"
-                        horizontalAlignment: Text.AlignHCenter
+                        color: monitor.senderMsgIn > 0 ? root.blue : root.textTertiary
+                        text: monitor.senderMsgIn > 0 ? String(monitor.senderMsgIn) : "0"
                         Layout.alignment: Qt.AlignHCenter
-
-                        SequentialAnimation on opacity {
-                            id: fwdArrowAnim; loops: 1; running: false
-                            NumberAnimation { to: 1.0; duration: 100 }
-                            NumberAnimation { to: 0.5; duration: 400 }
-                        }
-                        opacity: monitor.senderMsgOut > 0 ? 1.0 : 0.3
                     }
                     Text {
                         font.family: root.monoFont; font.pixelSize: 9; color: root.textSecond
-                        text: monitor.senderMsgOut > 0 ? monitor.senderMsgOut + " sent" : ""
+                        text: "← REPLY"
                         Layout.alignment: Qt.AlignHCenter
-                    }
-                    Text {
-                        font.family: root.monoFont; font.pixelSize: 9; color: root.textSecond
-                        text: monitor.receiverMsgIn > 0 ? monitor.receiverMsgIn + " recv" : ""
-                        Layout.alignment: Qt.AlignHCenter
-                    }
-
-                    // Reverse arrow (receiver → sender)
-                    Text {
-                        font.family: root.monoFont; font.pixelSize: 16; font.bold: true
-                        color: monitor.senderMsgIn > 0 ? root.blue : root.border
-                        text: "←"
-                        horizontalAlignment: Text.AlignHCenter
-                        Layout.alignment: Qt.AlignHCenter
-                        opacity: monitor.senderMsgIn > 0 ? 1.0 : 0.3
                     }
                 }
             }
@@ -439,25 +428,6 @@ ApplicationWindow {
                         text: "NET " + parent.parent.peers + " peers" + (parent.parent.mixRdy ? " · mix ✓ pool " + parent.parent.pool : "") }
 
                     Item { Layout.fillHeight: true }
-
-                    RowLayout {
-                        spacing: 12
-                        Repeater {
-                            model: [{ label: "MSG OUT", val: parent.parent.parent.parent.out_, c: root.accent },
-                                    { label: "MSG IN", val: parent.parent.parent.parent.in_, c: root.blue }]
-                            Row {
-                                spacing: 4
-                                Text { font.family: root.monoFont; font.pixelSize: 9; color: root.textSecond; text: modelData.label }
-                                Rectangle {
-                                    width: 32; height: 20; radius: 4
-                                    color: modelData.val > 0 ? modelData.c : root.bgPanel
-                                    border.color: modelData.val > 0 ? modelData.c : root.border
-                                    Text { anchors.centerIn: parent; font.family: root.monoFont; font.pixelSize: 12; font.bold: true
-                                        color: modelData.val > 0 ? "#000" : root.textTertiary; text: modelData.val }
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }

@@ -621,9 +621,18 @@ EOF
         # alone leaves last_synced_block=0 even though storage.json knows about
         # accounts at higher chain_index values. Query sequencer for current
         # head and pass as the sync target.
-        CHAIN_HEAD=$(curl -sS -m 5 -X POST -H 'Content-Type: application/json' \
-            --data '{"jsonrpc":"2.0","method":"getLastBlockId","params":[],"id":1}' \
-            http://127.0.0.1:3040/ 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["result"])' 2>/dev/null)
+        # Probe sequencer for current head. On testnet there's no local
+        # server on 3040; use the testnet RPC URL instead. Wrap in || true
+        # to defuse set -e under pipefail when curl returns connection-refused.
+        if [ "$SIM_NETWORK" = "local" ]; then
+            CHAIN_HEAD=$(curl -sS -m 5 -X POST -H 'Content-Type: application/json' \
+                --data '{"jsonrpc":"2.0","method":"getLastBlockId","params":[],"id":1}' \
+                http://127.0.0.1:3040/ 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["result"])' 2>/dev/null || true)
+        else
+            CHAIN_HEAD=$(curl -sS -m 10 -X POST -H 'Content-Type: application/json' \
+                --data '{"jsonrpc":"2.0","method":"getLastBlockId","params":[],"id":1}' \
+                "$TESTNET_RPC_URL" 2>/dev/null | python3 -c 'import json,sys; print(json.load(sys.stdin)["result"])' 2>/dev/null || true)
+        fi
         : "${CHAIN_HEAD:=10000}"
         log "    chain head=$CHAIN_HEAD (for wallet sync)"
         # selfRegisterRln args go via @file JSON object — logoscore-cli's `call`
