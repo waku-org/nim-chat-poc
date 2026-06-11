@@ -93,3 +93,6 @@ result
 .savedkeys/
 
 AGENTS.md
+
+# GitNexus index (local only)
+.gitnexus/
