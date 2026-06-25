@@ -50,7 +50,23 @@ proc createChatClient(
       wakuCfg.staticPeers = @[]
       for peer in config["staticPeers"]:
         wakuCfg.staticPeers.add(peer.getStr())
-    
+
+    if config.hasKey("mixEnabled"):
+      wakuCfg.mixEnabled = config["mixEnabled"].getBool(false)
+    if config.hasKey("mixNodes"):
+      wakuCfg.mixNodes = @[]
+      for node in config["mixNodes"]:
+        wakuCfg.mixNodes.add(node.getStr())
+    if config.hasKey("minMixPoolSize"):
+      wakuCfg.minMixPoolSize = config["minMixPoolSize"].getInt(4)
+    # Adopt a fixed identity (e.g. a provisioned mix-sim chat credential) so the
+    # peer-ID-derived RLN keystore (rln_keystore_<peerId>.json) resolves.
+    if config.hasKey("nodekey"):
+      let hex = config["nodekey"].getStr()
+      if hex.len > 0:
+        wakuCfg.nodekey = parseNodeKey(hex).valueOr:
+          return err("invalid nodekey: " & error)
+
     # Create Waku client
     let wakuClient = initWakuClient(wakuCfg)
     
@@ -116,6 +132,28 @@ proc chat_get_id(
   ## Get the client's identifier
   let clientId = ctx.myLib[].getId()
   return ok(clientId)
+
+#################################################
+# Mix Protocol Status
+#################################################
+
+proc chat_get_mix_status(
+    ctx: ptr FFIContext[ChatClient],
+    callback: FFICallBack,
+    userData: pointer
+) {.ffi.} =
+  let client = ctx.myLib[]
+  let mixEnabled = client.ds.cfg.mixEnabled
+  var poolSize = 0
+  if mixEnabled:
+    poolSize = client.ds.getMixPoolSize()
+  let status = %*{
+    "mixEnabled": mixEnabled,
+    "mixReady": client.ds.mixReady,
+    "mixPoolSize": poolSize,
+    "minPoolSize": client.ds.cfg.minMixPoolSize
+  }
+  return ok($status)
 
 #################################################
 # Conversation List Operations

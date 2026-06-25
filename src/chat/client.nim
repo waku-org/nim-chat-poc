@@ -145,10 +145,14 @@ proc createIntroBundle*(self: ChatClient): seq[byte] =
   notice "IntroBundleCreated", client = self.getId(),
       bundle = result
 
-proc sendPayloads(ds: WakuClient, payloads: seq[PayloadResult]) =
+proc sendPayloads(
+    ds: WakuClient, payloads: seq[PayloadResult]
+): Future[Result[void, string]] {.async.} =
   for payload in payloads:
-   # TODO: (P2) surface errors
-    discard ds.sendBytes(payload.address, payload.data)
+    let res = await ds.sendBytes(payload.address, payload.data)
+    if res.isErr:
+      return err(res.error)
+  return ok()
 
 
 #################################################
@@ -168,8 +172,10 @@ proc newPrivateConversation*(client: ChatClient,
     return some(ChatError(code: errLibChat, context:fmt"got: {error}" ))
   
 
-  client.ds.sendPayloads(payloads);
-
+  let sendRes = await client.ds.sendPayloads(payloads)
+  if sendRes.isErr:
+    error "newPrivateConversation failed to deliver", err = sendRes.error
+    return some(ChatError(code: errLibChat, context: sendRes.error))
 
   client.notifyNewConversation(Conversation(ctx: client.libchatCtx,
     convoId : convoId, ds: client.ds, convo_type: ConvoType.PrivateV1
@@ -212,7 +218,10 @@ proc sendMessage*(convo: Conversation, content: Content) : Future[MessageId] {.a
     error "SendMessage", e=error
     return "error"
 
-  convo.ds.sendPayloads(payloads);
+  let sendRes = await convo.ds.sendPayloads(payloads)
+  if sendRes.isErr:
+    error "SendMessage failed to deliver", err = sendRes.error
+    raise newException(CatchableError, sendRes.error)
 
 
 #################################################
@@ -237,7 +246,7 @@ proc messageQueueConsumer(client: ChatClient) {.async.} =
 proc start*(client: ChatClient) {.async.} =
   ## Start `ChatClient` and listens for incoming messages.
   client.ds.addDispatchQueue(client.inboundQueue)
-  asyncSpawn client.ds.start()
+  await client.ds.start()
 
   client.isRunning = true
 

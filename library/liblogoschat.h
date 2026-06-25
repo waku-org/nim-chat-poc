@@ -30,6 +30,10 @@ typedef void (*FFICallBack)(int callerRet, const char *msg, size_t len,
 //   - "clusterId": int - Waku cluster ID (optional)
 //   - "shardId": int - Waku shard ID (optional)
 //   - "staticPeers": array of strings - static peer multiaddrs (optional)
+//   - "mixEnabled": bool - enable mix protocol for sender anonymity (default: false)
+//   - "mixNodes": array of strings - mix bootstrap nodes as "multiaddr:mixPubKeyHex"
+//   - "destPeerAddr": string - lightpush destination peer "multiaddr/p2p/peerId"
+//   - "minMixPoolSize": int - minimum mix pool size before sending via mix (default: 4)
 void *chat_new(const char *configJson, FFICallBack callback, void *userData);
 
 // Start the chat client and begin listening for messages
@@ -96,6 +100,14 @@ int chat_get_identity(void *ctx, FFICallBack callback, void *userData);
 // Create an IntroBundle for initiating private conversations
 // Returns the intro bundle as an ASCII string (format: logos_chatintro_<version>_<base64url payload>)
 int chat_create_intro_bundle(void *ctx, FFICallBack callback, void *userData);
+
+//////////////////////////////////////////////////////////////////////////////
+// Mix Protocol Status
+//////////////////////////////////////////////////////////////////////////////
+
+// Get mix protocol status
+// Returns JSON: {"mixEnabled":bool,"mixReady":bool,"mixPoolSize":int,"minPoolSize":int}
+int chat_get_mix_status(void *ctx, FFICallBack callback, void *userData);
 
 #ifdef __cplusplus
 }

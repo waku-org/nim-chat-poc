@@ -1,4 +1,4 @@
-import waku/waku_core
+import logos_delivery/waku/waku_core
 import std/[macros, times]
 import blake2
 import strutils

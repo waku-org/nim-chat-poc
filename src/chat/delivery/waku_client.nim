@@ -2,24 +2,39 @@ import
   chronicles,
   chronos,
   confutils,
+  eth/common/addresses as eth_addresses,
+  eth/common/keys as eth_keys,
   eth/p2p/discoveryv5/enr as eth_enr,
+  bearssl/rand,
   libp2p/crypto/crypto,
+  libp2p/crypto/secp,
+  libp2p/crypto/curve25519,
+  libp2p/crypto/rng as libp2p_rng,
   libp2p/peerid,
-  std/random,
+  libp2p_mix,
+  libp2p_mix/curve25519 as mix_curve25519,
+  libp2p_mix/entry_connection,
+  libp2p_mix/mix_protocol as mix_proto,
+  nimcrypto/utils as ncrutils,
+  std/[random, strutils],
   stew/byteutils,
   strformat,
-  waku/[
+  logos_delivery/waku/[
     common/logging,
     common/enr as common_enr,
     node/peer_manager,
     waku_core,
+    waku_core/codecs,
     waku_node,
     waku_enr,
+    waku_mix/protocol as waku_mix_protocol,
+    waku_lightpush/client as lightpush_client,
     discovery/waku_discv5,
     discovery/waku_dnsdisc,
     factory/builder,
     waku_filter_v2/client,
-  ]
+  ],
+  mix_rln_spam_protection/spam_protection
 
 
 logScope:
@@ -40,6 +55,7 @@ proc toChatPayload*(msg: WakuMessage, pubsubTopic: PubsubTopic): ChatPayload =
 const
   # Placeholder
   FilterContentTopic = ContentTopic("/chatsdk/test/proto")
+  LibchatDeliveryAddress = ContentTopic("delivery_address")
 
   ## Logos.dev Fleet ENRs
 
@@ -77,12 +93,15 @@ type QueueRef* = ref object
 
 
 type WakuConfig* = object
-  nodekey*: crypto.PrivateKey  # TODO: protect key exposure 
+  nodekey*: crypto.PrivateKey  # TODO: protect key exposure
   port*: uint16
   clusterId*: uint16
   shardId*: seq[uint16]
   pubsubTopic*: string
   staticPeers*: seq[string]
+  mixEnabled*: bool
+  mixNodes*: seq[string]
+  minMixPoolSize*: int
 
 type
   WakuClient* = ref object
@@ -90,27 +109,89 @@ type
     node*: WakuNode
     dispatchQueues: seq[QueueRef]
     staticPeerList: seq[RemotePeerInfo]
+    mixReady*: bool
 
 
 proc DefaultConfig*(): WakuConfig =
-  let nodeKey = crypto.PrivateKey.random(Secp256k1, crypto.newRng()[])[]
+  # libp2p 1.15.3+: PrivateKey.random expects a libp2p Rng (ref object
+  # wrapping a HmacDrbgContext); wrap BearSSL's rng accordingly.
+  let drbg = HmacDrbgContext.new()
+  let nodeKey = crypto.PrivateKey.random(
+    Secp256k1, libp2p_rng.newBearSslRng(drbg)
+  ).valueOr:
+    raise newException(ValueError, "failed to generate nodeKey: " & $error)
   let clusterId = 2'u16
   let shardId = 1'u16
   var port: uint16 = 50000'u16 + uint16(rand(200))
 
   result = WakuConfig(nodeKey: nodeKey, port: port, clusterId: clusterId,
       shardId: @[shardId], pubsubTopic: &"/waku/2/rs/{clusterId}/{shardId}",
-          staticPeers: LogosDevStaticPeers)
+          staticPeers: LogosDevStaticPeers,
+          mixEnabled: false, mixNodes: @[], minMixPoolSize: 4)
 
 
-proc sendBytes*(client: WakuClient, contentTopic: string,
-    bytes: seq[byte]) {.async.} =
+proc parseNodeKey*(hex: string): Result[crypto.PrivateKey, string] =
+  ## Parse a 64-char hex secp256k1 private key (e.g. to adopt a provisioned
+  ## identity whose RLN keystore the mix node pool already knows).
+  let sk = SkPrivateKey.init(ncrutils.fromHex(hex)).valueOr:
+    return err("invalid nodekey hex: " & $error)
+  ok(crypto.PrivateKey(scheme: Secp256k1, skkey: sk))
 
+
+proc sendBytes*(
+    client: WakuClient, contentTopic: string, bytes: seq[byte]
+): Future[Result[void, string]] {.async.} =
   let msg = WakuMessage(contentTopic: contentTopic, payload: bytes)
+
+  if client.cfg.mixEnabled:
+    # Required (mix) mode: never fall back to relay. Fail fast if the mix pool is
+    # below the minimum so the caller/UI can surface "can't send anonymously"
+    # instead of blocking indefinitely or silently relaying.
+    if not client.mixReady:
+      warn "Mix not ready: not enough mix peers",
+        poolSize = client.node.getMixNodePoolSize(),
+        required = client.cfg.minMixPoolSize
+      return err("not enough mix peers available")
+
+    # Bounded wait for RLN spam-protection readiness so the first send right after
+    # startup doesn't race RLN init. Membership is STATIC: every mix node loads the
+    # same immutable rln_tree.db at startup, so the Merkle root is identical across
+    # nodes from t=0 and never changes. There is no root to "converge", so no
+    # per-send wait is needed (that only mattered for dynamic on-chain membership).
+    if not client.node.wakuMix.isNil:
+      var attempts = 0
+      while not client.node.wakuMix.mixRlnSpamProtection.isReady() and attempts < 300:
+        if attempts mod 5 == 0:
+          info "Waiting for RLN spam protection readiness...", attempt = attempts
+        await sleepAsync(2.seconds)
+        attempts += 1
+      if not client.node.wakuMix.mixRlnSpamProtection.isReady():
+        warn "RLN spam protection not ready after timeout, sending anyway"
+
+    info "Sending via mix (lightpushPublish)",
+      contentTopic = contentTopic, mixPoolSize = client.node.getMixNodePoolSize()
+    let publishFut = client.node.lightpushPublish(
+      some(PubsubTopic(client.cfg.pubsubTopic)), msg, none(RemotePeerInfo), mixify = true
+    )
+    # Forward delivery is independent of the SURB reply, so a SURB-reply timeout
+    # is a warning (message may still have been delivered), not a failure.
+    if not await publishFut.withTimeout(60.seconds):
+      await publishFut.cancelAndWait()
+      warn "Mix lightpush: no SURB reply within 60s (forward path independent of SURB reply)"
+      return ok()
+    let res = publishFut.read()
+    if res.isErr:
+      error "Failed to publish via mix", err = $res.error
+      return err("mix send failed")
+    info "Message sent via mix successfully"
+    return ok()
+
+  # None mode: normal relay publish.
   let res = await client.node.publish(some(PubsubTopic(client.cfg.pubsubTopic)), msg)
   if res.isErr:
-    error "Failed to Publish", err = res.error,
-        pubsubTopic = client.cfg.pubsubTopic
+    error "Failed to Publish", err = res.error, pubsubTopic = client.cfg.pubsubTopic
+    return err("relay send failed")
+  return ok()
 
 proc buildWakuNode(cfg: WakuConfig): WakuNode =
   let
@@ -145,89 +226,60 @@ proc buildWakuNode(cfg: WakuConfig): WakuNode =
   result = node
 
 
+proc splitPeerIdAndAddr(maddr: string): (string, string) =
+  let parts = maddr.split("/p2p/")
+  if parts.len != 2:
+    error "Invalid multiaddress format", maddr = maddr
+    return ("", "")
+  return (parts[0], parts[1])
+
+proc parseMixNodes(nodeStrs: seq[string]): seq[MixNodePubInfo] =
+  for nodeStr in nodeStrs:
+    let elements = nodeStr.split(":")
+    if elements.len != 2:
+      error "Invalid mixnode format, expected multiaddr:mixPubKeyHex", node = nodeStr
+      continue
+    result.add(MixNodePubInfo(
+      multiAddr: elements[0],
+      pubKey: intoCurve25519Key(ncrutils.fromHex(elements[1]))
+    ))
+
+proc waitForMixPool(client: WakuClient) {.async.} =
+  while client.node.getMixNodePoolSize() < client.cfg.minMixPoolSize:
+    info "Waiting for mix node pool",
+      current = client.node.getMixNodePoolSize(),
+      required = client.cfg.minMixPoolSize
+    await sleepAsync(1000.milliseconds)
+  client.mixReady = true
+  notice "Mix node pool ready", poolSize = client.node.getMixNodePoolSize()
+
+proc getMixPoolSize*(client: WakuClient): int =
+  if client.cfg.mixEnabled:
+    return client.node.getMixNodePoolSize()
+  return 0
+
+proc subscribeAllStaticPeers(client: WakuClient) {.async.} =
+  ## Issues a fresh filter subscribe to every static peer for both
+  ## FilterContentTopic and LibchatDeliveryAddress. Idempotent on the relay
+  ## side. Called from start() (so the receiver is ready before any sender
+  ## activity) and from taskKeepAlive (so subscriptions don't silently lapse
+  ## on long-running clients — ping-then-subscribe was unreliable because
+  ## a successful ping doesn't guarantee the content-topic subscription
+  ## state is still live on the relay).
+  for peerInfo in client.staticPeerList:
+    let subscribeRes = await client.node.wakuFilterClient.subscribe(
+      peerInfo, client.cfg.pubsubTopic, @[FilterContentTopic, LibchatDeliveryAddress]
+    )
+    if subscribeRes.isErr():
+      warn "filter subscribe failed",
+        peerId = $peerInfo.peerId, err = subscribeRes.error
+    else:
+      debug "filter subscribe ok", peerId = $peerInfo.peerId
+
 proc taskKeepAlive(client: WakuClient) {.async.} =
   while true:
-    for peerInfo in client.staticPeerList:
-      debug "maintaining subscription", peerId = $peerInfo.peerId
-      # First use filter-ping to check if we have an active subscription
-      let pingRes = await client.node.wakuFilterClient.ping(peerInfo)
-      if pingRes.isErr():
-        # No subscription found. Let's subscribe.
-        warn "no subscription found. Sending subscribe request"
-
-        # TODO: Use filter. Removing this stops relay from working so keeping for now
-        let subscribeRes = await client.node.wakuFilterClient.subscribe(
-          peerInfo, client.cfg.pubsubTopic, @[FilterContentTopic]
-        )
-
-        if subscribeRes.isErr():
-          error "subscribe request failed. Skipping.", err = subscribeRes.error
-          continue
-        else:
-          debug "subscribe request successful."
-      else:
-        debug "subscription found."
-
     await sleepAsync(60.seconds) # Subscription maintenance interval
-
-proc start*(client: WakuClient) {.async.} =
-  setupLog(logging.LogLevel.NOTICE, logging.LogFormat.TEXT)
-  await client.node.mountFilter()
-  await client.node.mountFilterClient()
-
-  await client.node.start()
-  (await client.node.mountRelay()).isOkOr:
-    error "failed to mount relay", error = error
-    quit(1)
-
-  client.node.peerManager.start()
-
-  # Connect to all configured static peers
-  if client.staticPeerList.len > 0:
-    info "Connecting to static peers", peerCount = client.staticPeerList.len
-    asyncSpawn client.node.connectToNodes(client.staticPeerList)
-  else:
-    warn "No valid static peers configured"
-
-  let subscription: SubscriptionEvent = (kind: PubsubSub, topic:
-    client.cfg.pubsubTopic)
-
-  proc handler(topic: PubsubTopic, msg: WakuMessage): Future[void] {.async, gcsafe.} =
-    let payloadStr = string.fromBytes(msg.payload)
-    debug "message received",
-      pubsubTopic = topic,
-      contentTopic = msg.contentTopic
-
-    let payload = msg.toChatPayload(topic)
-
-    for queueRef in client.dispatchQueues:
-      await queueRef.queue.put(payload)
-
-  let res = subscribe(client.node, subscription, handler)
-  if res.isErr:
-    error "Subscribe failed", err = res.error
-
-  await allFutures(taskKeepAlive(client))
-
-proc initWakuClient*(cfg: WakuConfig): WakuClient =
-  # Parse ENRs from static peers configuration
-  var peerInfos: seq[RemotePeerInfo] = @[]
-  for enrStr in cfg.staticPeers:
-    let enrRecord = eth_enr.Record.fromURI(enrStr).valueOr:
-      error "Failed to parse ENR in initWakuClient", enr = enrStr, err = error
-      continue
-
-    let peerInfo = enrRecord.toRemotePeerInfo().valueOr:
-      error "Failed to convert ENR to PeerInfo in initWakuClient", enr = enrStr, err = error
-      continue
-
-    peerInfos.add(peerInfo)
-
-  result = WakuClient(cfg: cfg, node: buildWakuNode(cfg), dispatchQueues: @[],
-      staticPeerList: peerInfos)
-
-proc addDispatchQueue*(client: var WakuClient, queue: QueueRef) =
-  client.dispatchQueues.add(queue)
+    await client.subscribeAllStaticPeers()
 
 proc getConnectedPeerCount*(client: WakuClient): int =
   var count = 0
@@ -235,6 +287,98 @@ proc getConnectedPeerCount*(client: WakuClient): int =
     if peerInfo.connectedness == Connected:
       inc count
   return count
+
+proc start*(client: WakuClient) {.async.} =
+  setupLog(logging.LogLevel.NOTICE, logging.LogFormat.TEXT)
+  await client.node.mountFilter()
+  await client.node.mountFilterClient()
+
+  client.node.mountAutoSharding(client.cfg.clusterId, uint32(client.cfg.shardId.len)).isOkOr:
+    error "failed to mount auto sharding", error = error
+
+  if client.cfg.mixEnabled:
+    let (mixPrivKey, mixPubKey) = mix_curve25519.generateKeyPair().valueOr:
+      error "Failed to generate mix key pair", error = error
+      quit(QuitFailure)
+    let mixNodeInfos = parseMixNodes(client.cfg.mixNodes)
+    client.node.mountLightPushClient()
+    (await client.node.mountMix(client.cfg.clusterId, mixPrivKey, mixNodeInfos,
+                                disableSpamProtection = false)).isOkOr:
+      error "Failed to mount mix protocol", error = $error
+      quit(QuitFailure)
+    asyncSpawn client.waitForMixPool()
+
+  await client.node.start()
+
+  client.node.peerManager.start()
+
+  # Register filter push handler for incoming messages (no relay/gossipsub needed)
+  proc filterHandler(pubsubTopic: PubsubTopic, msg: WakuMessage) {.async, gcsafe.} =
+    debug "filter message received",
+      pubsubTopic = pubsubTopic,
+      contentTopic = msg.contentTopic
+
+    let payload = msg.toChatPayload(pubsubTopic)
+    for queueRef in client.dispatchQueues:
+      await queueRef.queue.put(payload)
+
+  client.node.wakuFilterClient.registerPushHandler(filterHandler)
+
+  # Connect to all configured static peers
+  if client.staticPeerList.len > 0:
+    info "Connecting to static peers", peerCount = client.staticPeerList.len
+    await client.node.connectToNodes(client.staticPeerList)
+    info "Connected to static peers"
+  else:
+    warn "No valid static peers configured"
+
+  # Subscribe to every static peer SYNCHRONOUSLY before start() returns so
+  # the receiver has live content-topic subscriptions in place before any
+  # sender mix-publish fires. taskKeepAlive then re-subscribes every 60s
+  # to defend against silent server-side subscription expiry.
+  await client.subscribeAllStaticPeers()
+  asyncSpawn taskKeepAlive(client)
+
+  info "Waku client started",
+    relayMounted = not client.node.wakuRelay.isNil,
+    mixMounted = not client.node.wakuMix.isNil,
+    connectedPeers = client.getConnectedPeerCount()
+
+  # Debug: periodically log relay/mesh status
+  proc meshStatusTask(client: WakuClient) {.async.} =
+    while true:
+      await sleepAsync(15.seconds)
+      let connPeers = client.getConnectedPeerCount()
+      info "Peer status",
+        pubsubTopic = client.cfg.pubsubTopic,
+        connectedPeers = connPeers,
+        mixReady = client.mixReady,
+        mixPoolSize = (if client.cfg.mixEnabled and not client.node.wakuMix.isNil: client.node.getMixNodePoolSize() else: 0)
+
+  asyncSpawn meshStatusTask(client)
+
+proc initWakuClient*(cfg: WakuConfig): WakuClient =
+  var peerInfos: seq[RemotePeerInfo] = @[]
+  for peerStr in cfg.staticPeers:
+    if peerStr.startsWith("/"):
+      let peerInfo = parsePeerInfo(peerStr).valueOr:
+        error "Failed to parse multiaddr peer", peer = peerStr, err = error
+        continue
+      peerInfos.add(peerInfo)
+    else:
+      let enrRecord = eth_enr.Record.fromURI(peerStr).valueOr:
+        error "Failed to parse ENR", enr = peerStr, err = error
+        continue
+      let peerInfo = enrRecord.toRemotePeerInfo().valueOr:
+        error "Failed to convert ENR to PeerInfo", enr = peerStr, err = error
+        continue
+      peerInfos.add(peerInfo)
+
+  result = WakuClient(cfg: cfg, node: buildWakuNode(cfg), dispatchQueues: @[],
+      staticPeerList: peerInfos)
+
+proc addDispatchQueue*(client: var WakuClient, queue: QueueRef) =
+  client.dispatchQueues.add(queue)
 
 proc stop*(client: WakuClient) {.async.} =
   await client.node.stop()
