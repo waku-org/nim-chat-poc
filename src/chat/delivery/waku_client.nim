@@ -42,6 +42,7 @@ import
   ],
   mix_rln_spam_protection/spam_protection
 
+from std/os import copyFile
 
 logScope:
   topics = "chat waku"
@@ -108,6 +109,7 @@ type WakuConfig* = object
   mixEnabled*: bool
   mixNodes*: seq[string]
   kadBootstrapNodes*: seq[string]
+  rlnKeystoreSource*: string
   minMixPoolSize*: int
 
 type
@@ -316,6 +318,22 @@ proc start*(client: WakuClient) {.async.} =
       quit(QuitFailure)
     let mixNodeInfos = parseMixNodes(client.cfg.mixNodes)
     client.node.mountLightPushClient()
+
+    # Decouple the libp2p peerId from the RLN membership: the node keeps its own
+    # (random) peerId, but loads the SELECTED membership credential. The mix-RLN
+    # plugin looks up rln_keystore_<peerId>.json in cwd, so stage the chosen
+    # credential under THIS node's peerId. The credential is peerId-independent (only
+    # the filename is peerId-keyed), so many nodes can share a membership without
+    # colliding on a peerId.
+    if client.cfg.rlnKeystoreSource.len > 0:
+      let pid = $client.node.peerManager.switch.peerInfo.peerId
+      try:
+        copyFile(client.cfg.rlnKeystoreSource, "rln_keystore_" & pid & ".json")
+        info "Staged RLN membership under node peerId", peerId = pid
+      except CatchableError as e:
+        error "Failed to stage RLN credential",
+          source = client.cfg.rlnKeystoreSource, err = e.msg
+
     (await client.node.mountMix(client.cfg.clusterId, mixPrivKey, mixNodeInfos,
                                 disableSpamProtection = false)).isOkOr:
       error "Failed to mount mix protocol", error = $error

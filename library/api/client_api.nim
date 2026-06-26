@@ -64,6 +64,10 @@ proc createChatClient(
       wakuCfg.kadBootstrapNodes = @[]
       for node in config["kadBootstrapNodes"]:
         wakuCfg.kadBootstrapNodes.add(node.getStr())
+    # Path to the chosen RLN membership keystore. The node loads this credential under
+    # its OWN (random) peerId, decoupling the libp2p identity from the membership.
+    if config.hasKey("rlnKeystoreSource"):
+      wakuCfg.rlnKeystoreSource = config["rlnKeystoreSource"].getStr()
     if config.hasKey("minMixPoolSize"):
       wakuCfg.minMixPoolSize = config["minMixPoolSize"].getInt(4)
     # Adopt a fixed identity (e.g. a provisioned mix-sim chat credential) so the
