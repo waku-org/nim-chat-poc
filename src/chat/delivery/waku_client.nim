@@ -358,8 +358,8 @@ proc start*(client: WakuClient) {.async.} =
           KademliaDiscoveryConf(
             bootstrapNodes: kadBootstrapPeers,
             servicesToDiscover: toHashSet(@[mix_proto.MixProtocolID]),
-            randomLookupInterval: chronos.seconds(60),
-            serviceLookupInterval: chronos.seconds(60),
+            randomLookupInterval: chronos.seconds(15),
+            serviceLookupInterval: chronos.seconds(15),
             kadDhtConfig: KadDHTConfig.new(),
             discoConfig: sd_types.ServiceDiscoveryConfig.new(),
             clientMode: false,
