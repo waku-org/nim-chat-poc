@@ -360,7 +360,13 @@ proc start*(client: WakuClient) {.async.} =
             servicesToDiscover: toHashSet(@[mix_proto.MixProtocolID]),
             randomLookupInterval: chronos.seconds(15),
             serviceLookupInterval: chronos.seconds(15),
-            kadDhtConfig: KadDHTConfig.new(),
+            # Don't block node startup on the initial DHT bootstrap (an iterative
+            # self-lookup + per-bucket refresh). With it on, KadDHT.start() ->
+            # await bootstrap() runs inside switch.start(), so the whole node start
+            # (and the UI "Starting...") waits for discovery to converge. Disabled,
+            # the node comes up immediately and the mix pool fills in the background
+            # via maintainBuckets + runServiceLookupLoop + runServicePeerTopUp.
+            kadDhtConfig: KadDHTConfig.new(disableBootstrapping = true),
             discoConfig: sd_types.ServiceDiscoveryConfig.new(),
             clientMode: false,
             xprPublishing: true,
