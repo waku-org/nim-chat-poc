@@ -11,12 +11,16 @@ import
   libp2p/crypto/curve25519,
   libp2p/crypto/rng as libp2p_rng,
   libp2p/peerid,
+  libp2p/multiaddress,
+  libp2p/nameresolving/dnsresolver,
+  libp2p/protocols/kademlia/types,
+  libp2p/protocols/service_discovery/types as sd_types,
   libp2p_mix,
   libp2p_mix/curve25519 as mix_curve25519,
   libp2p_mix/entry_connection,
   libp2p_mix/mix_protocol as mix_proto,
   nimcrypto/utils as ncrutils,
-  std/[random, strutils],
+  std/[random, sets, strutils],
   stew/byteutils,
   strformat,
   logos_delivery/waku/[
@@ -25,12 +29,14 @@ import
     node/peer_manager,
     waku_core,
     waku_core/codecs,
+    waku_core/peers,
     waku_node,
     waku_enr,
     waku_mix/protocol as waku_mix_protocol,
     waku_lightpush/client as lightpush_client,
     discovery/waku_discv5,
     discovery/waku_dnsdisc,
+    discovery/waku_kademlia,
     factory/builder,
     waku_filter_v2/client,
   ],
@@ -43,7 +49,7 @@ logScope:
 type ChatPayload* = object
   pubsubTopic*: PubsubTopic
   contentTopic*: string
-  timestamp*: Timestamp
+  timestamp*: waku_core.Timestamp
   bytes*: seq[byte]
 
 proc toChatPayload*(msg: WakuMessage, pubsubTopic: PubsubTopic): ChatPayload =
@@ -101,6 +107,7 @@ type WakuConfig* = object
   staticPeers*: seq[string]
   mixEnabled*: bool
   mixNodes*: seq[string]
+  kadBootstrapNodes*: seq[string]
   minMixPoolSize*: int
 
 type
@@ -219,6 +226,13 @@ proc buildWakuNode(cfg: WakuConfig): WakuNode =
   builder.withNodeKey(cfg.nodeKey)
   builder.withRecord(record)
   builder.withNetworkConfigurationDetails(ip, Port(cfg.port)).tryGet()
+  # DNS resolver so /dns4/ fleet bootstrap addrs (kad discovery) resolve and dial;
+  # without it libp2p logs "Can't resolve DNSADDR without NameResolver".
+  builder.withSwitchConfiguration(
+    nameResolver = DnsResolver.new(
+      @[initTAddress("1.1.1.1", Port(53)), initTAddress("8.8.8.8", Port(53))]
+    )
+  )
   let node = builder.build().tryGet()
 
   node.mountMetadata(cfg.clusterId, cfg.shardId).expect("failed to mount waku metadata protocol")
@@ -306,6 +320,39 @@ proc start*(client: WakuClient) {.async.} =
                                 disableSpamProtection = false)).isOkOr:
       error "Failed to mount mix protocol", error = $error
       quit(QuitFailure)
+
+    # Fleet mode: discover the mix nodes (and their curve25519 pubkeys) via libp2p
+    # Kademlia service discovery instead of a static mixNodes list. The discovery
+    # logic lives in nwaku (waku_kademlia) — we only mount it with the bootstrap
+    # nodes, because the chat builds its WakuNode by hand and bypasses the
+    # conf-driven factory that would otherwise auto-mount it (mirrors apps/chat2mix).
+    # Discovered mix peers land in the peerManager and fill the pool waitForMixPool
+    # waits on.
+    if client.cfg.kadBootstrapNodes.len > 0:
+      var kadBootstrapPeers: seq[(PeerId, seq[MultiAddress])]
+      for nodeStr in client.cfg.kadBootstrapNodes:
+        let pInfo = parsePeerInfo(nodeStr).valueOr:
+          warn "Failed to parse kad bootstrap node", node = nodeStr, err = error
+          continue
+        kadBootstrapPeers.add((pInfo.peerId, pInfo.addrs))
+      if kadBootstrapPeers.len > 0:
+        client.node.mountKademlia(
+          KademliaDiscoveryConf(
+            bootstrapNodes: kadBootstrapPeers,
+            servicesToDiscover: toHashSet(@[mix_proto.MixProtocolID]),
+            randomLookupInterval: chronos.seconds(60),
+            serviceLookupInterval: chronos.seconds(60),
+            kadDhtConfig: KadDHTConfig.new(),
+            discoConfig: sd_types.ServiceDiscoveryConfig.new(),
+            clientMode: false,
+            xprPublishing: true,
+          )
+        ).isOkOr:
+          error "Failed to mount kademlia mix discovery", error = error
+          quit(QuitFailure)
+        info "Kademlia mix discovery mounted",
+          bootstrapPeers = kadBootstrapPeers.len
+
     asyncSpawn client.waitForMixPool()
 
   await client.node.start()

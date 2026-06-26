@@ -57,6 +57,13 @@ proc createChatClient(
       wakuCfg.mixNodes = @[]
       for node in config["mixNodes"]:
         wakuCfg.mixNodes.add(node.getStr())
+    # Fleet mode: kad bootstrap nodes for mix-node service discovery (instead of a
+    # static mixNodes list with pubkeys). The chat discovers the fleet mix nodes +
+    # their curve25519 pubkeys via these.
+    if config.hasKey("kadBootstrapNodes"):
+      wakuCfg.kadBootstrapNodes = @[]
+      for node in config["kadBootstrapNodes"]:
+        wakuCfg.kadBootstrapNodes.add(node.getStr())
     if config.hasKey("minMixPoolSize"):
       wakuCfg.minMixPoolSize = config["minMixPoolSize"].getInt(4)
     # Adopt a fixed identity (e.g. a provisioned mix-sim chat credential) so the
