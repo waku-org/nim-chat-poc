@@ -41,6 +41,9 @@ let
   }.${stdenv.hostPlatform.system} or (throw "no stateless librln triplet for ${stdenv.hostPlatform.system}");
   rlnHash = {
     aarch64-darwin = "sha256-f2YppkPsKFdN00j+IY8fpvsebWTIb9lW/V1/vOTiVKU=";
+    x86_64-darwin = "sha256-ZaHP5CApN66FYY7jxwOmGcF9kJR78Fng3k1qE2W08Mk=";
+    x86_64-linux = "sha256-qbrUdaetYKFhjzxUP/QcwD3JHWJ8qk/tCMK3yXceIAk=";
+    aarch64-linux = "sha256-s4bWrmCcNTWHNyJwV73ilWNp58ZdAVG+TAgtWN1cTQs=";
   }.${stdenv.hostPlatform.system} or (throw "add stateless librln hash for ${stdenv.hostPlatform.system}");
   rlnTarball = fetchurl {
     url = "https://github.com/vacp2p/zerokit/releases/download/v2.0.2/${rlnTriplet}-stateless-rln.tar.gz";
