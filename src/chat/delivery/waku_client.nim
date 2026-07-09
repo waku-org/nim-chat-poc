@@ -346,6 +346,13 @@ proc start*(client: WakuClient) {.async.} =
     # conf-driven factory that would otherwise auto-mount it (mirrors apps/chat2mix).
     # Discovered mix peers land in the peerManager and fill the pool waitForMixPool
     # waits on.
+    #
+    # Light-client mix discovery: LOOK UP mix providers only.
+    # - servicesToDiscover = MixProtocolID (find fleet mix nodes)
+    # - servicesToAdvertise = empty (do NOT advertise as mix)
+    # - xprPublishing = false (do NOT publish self-signed XPR into the DHT)
+    # - clientMode = true (no inbound DHT handler / codec; logos-delivery
+    #   mountKademlia skips switch.mount for clientMode as of 4a3db364)
     if client.cfg.kadBootstrapNodes.len > 0:
       var kadBootstrapPeers: seq[(PeerId, seq[MultiAddress])]
       for nodeStr in client.cfg.kadBootstrapNodes:
@@ -368,13 +375,13 @@ proc start*(client: WakuClient) {.async.} =
             # via maintainBuckets + runServiceLookupLoop + runServicePeerTopUp.
             kadDhtConfig: KadDHTConfig.new(disableBootstrapping = true),
             discoConfig: sd_types.ServiceDiscoveryConfig.new(),
-            clientMode: false,
-            xprPublishing: true,
+            clientMode: true,
+            xprPublishing: false,
           )
         ).isOkOr:
           error "Failed to mount kademlia mix discovery", error = error
           quit(QuitFailure)
-        info "Kademlia mix discovery mounted",
+        info "Kademlia mix discovery mounted (clientMode, no XPR/advertise)",
           bootstrapPeers = kadBootstrapPeers.len
 
     asyncSpawn client.waitForMixPool()

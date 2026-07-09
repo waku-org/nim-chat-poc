@@ -136,9 +136,11 @@ build-waku-nat:
 	@echo "Completed building nat-libs"
 
 .PHONY: tests
-tests: | build-rust-bundle build-waku-nat logos_chat.nims
+# smoke_test / all_tests pull mix + RLN symbols via waku_client; link mix librln
+# the same way liblogoschat / examples do (cdylib on Darwin).
+tests: | build-rust-bundle build-waku-nat mix-librln logos_chat.nims
 	echo -e $(BUILD_MSG) "build/$@" && \
-		$(ENV_SCRIPT) nim tests $(NIM_PARAMS) \
+		$(ENV_SCRIPT) nim tests $(NIM_PARAMS) $(MIX_LIBRLN_NIM_PARAMS) \
 		--passL:$(RUST_BUNDLE_LIB) --passL:-lm \
 		logos_chat.nims
 

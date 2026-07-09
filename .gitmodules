@@ -5,7 +5,7 @@
 	path = vendor/nwaku
 	url = https://github.com/logos-messaging/logos-delivery.git
 	ignore = untracked
-	branch = feat/cover-traffic
+	branch = feat/logos-testnetv02-mix
 [submodule "vendor/nim-protobuf-serialization"]
 	path = vendor/nim-protobuf-serialization
 	url = https://github.com/status-im/nim-protobuf-serialization.git

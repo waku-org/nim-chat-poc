@@ -1,7 +1,7 @@
 { lib, stdenv, nim, which, pkg-config, writeScriptBin, fetchurl,
   openssl, miniupnpc, libnatpmp, rustPlatform, fetchFromGitHub, darwin ? {},
   src,         # logos-chat source (self from flake, with submodules=1)
-  nwakuDeps,   # efafdfdc2 nim deps from vendor/nwaku/nix/deps.nix
+  nwakuDeps,   # nim deps from vendor/nwaku/nix/deps.nix (logos-delivery pin)
   rustBundleDrv }:  # result of rust_bundle.nix
 
 # NOTE: this build requires git submodules to be present in src.
@@ -15,8 +15,8 @@ assert lib.assertMsg ((src.submodules or false) == true)
 let
   revision = lib.substring 0 8 (src.rev or "dirty");
 
-  # nwaku (efafdfdc2) nim deps on the path. Drop `ffi` — the chat ships its own
-  # vendor/nim-ffi (1-arg declareLibrary); nwaku's ffi (2-arg) would clash.
+  # nwaku (logos-delivery pin) nim deps on the path. Drop `ffi` — the chat ships
+  # its own vendor/nim-ffi (1-arg declareLibrary); nwaku's ffi (2-arg) would clash.
   nwakuDepPaths = lib.concatStringsSep " " (builtins.concatMap
     (p: [ "--path:${p}" "--path:${p}/src" ])
     (builtins.attrValues (builtins.removeAttrs nwakuDeps [ "ffi" ])));
