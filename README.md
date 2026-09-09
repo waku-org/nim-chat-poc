@@ -1,10 +1,21 @@
+
+> [!IMPORTANT]
+> **This repository is no longer maintained.**
+>
+> Development has moved to [logos-chat](https://github.com/logos-messaging/libchat).
+> This repository is left for historical context only. 
+
+
 # Logos Chat
 
 [![Tests](https://github.com/logos-messaging/logos-chat/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/logos-messaging/logos-chat/actions/workflows/ci.yml)
 ![ProjectStatus]( https://img.shields.io/badge/Project_Status-Preview-orange)
 
+
+
 A privacy focused decentralized messaging SDK, built on the Logos Stack. Logos Chat provides permission-less, censorship-resistant communication for humans and clankers.
 
+## 
 
 ## Quick Start
 
